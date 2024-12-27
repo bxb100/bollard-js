@@ -4,8 +4,6 @@ extern crate napi_derive;
 use bollard::API_DEFAULT_VERSION;
 use napi::bindgen_prelude::*;
 use std::path::Path;
-use napi::JsObject;
-use serde_json::Serializer;
 
 #[napi]
 pub struct Docker(bollard::Docker);
@@ -61,20 +59,17 @@ impl Docker {
             bollard::Docker::connect_with_defaults().map_err(format_err)?
         };
 
-        // bollard::Docker::connect_with_http();
-        // bollard::Docker::connect_with_local();
-        // bollard::Docker::connect_with_socket();
-        // bollard::Docker::connect_with_ssl();
         Ok(Self(docker))
     }
 
     #[napi]
     pub async fn version(&self) -> Result<Buffer> {
         let v = self.0.version().await.map_err(format_err)?;
-        serde_json::to_string(&v).map(|s| s.into()).map_err(format_err)
+        serde_json::to_string(&v)
+            .map(|s| s.into())
+            .map_err(format_err)
     }
 }
-
 
 fn format_err(error: impl std::error::Error) -> Error {
     Error::from_reason(format!("{}", error))
