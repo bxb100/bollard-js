@@ -1,7 +1,10 @@
 import test from 'ava'
 
-import { sum } from '../index.js'
+import { Docker } from '../index.js'
 
-test('sum from native', (t) => {
-  t.is(sum(1, 2), 3)
+test('version', async (t) => {
+  const docker = new Docker()
+  const version = await docker.version()
+  const v = JSON.parse(version.toString())
+  t.is(typeof v, 'object')
 })

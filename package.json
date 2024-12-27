@@ -17,7 +17,9 @@
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
-    "ava": "^6.0.1"
+    "@types/node": "^22.10.2",
+    "ava": "^6.0.1",
+    "prettier": "^2.8.4"
   },
   "ava": {
     "timeout": "3m"
@@ -32,7 +34,24 @@
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
     "universal": "napi universal",
-    "version": "napi version"
+    "version": "napi version",
+    "format": "prettier --write ."
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "./**/*.{js,ts,mjs,jsx,tsx}",
+        "options": {
+          "arrowParens": "always",
+          "parser": "typescript",
+          "printWidth": 120,
+          "semi": false,
+          "singleQuote": true,
+          "tabWidth": 2,
+          "trailingComma": "all"
+        }
+      }
+    ]
   },
   "packageManager": "yarn@4.5.3"
 }
