@@ -144,8 +144,9 @@
 - [ ] volume.inspect() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/VolumeInspect)
 - [ ] volume.remove(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/VolumeDelete)
 
-### Test
+### Other
 
-- [ ] using mock
+- [ ] test using mock
+- [ ] fix CI
 
 [^1]: https://github.com/apocas/dockerode
