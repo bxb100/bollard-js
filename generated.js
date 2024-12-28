@@ -310,7 +310,49 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { AttachOutput, Docker } = nativeBinding
+const { BuildCacheTypeEnum, ChangeType, ClusterVolumePublishStatusStateEnum, ClusterVolumeSpecAccessModeScopeEnum, ClusterVolumeSpecAccessModeSharingEnum, ClusterVolumeSpecAccessModeAvailabilityEnum, ContainerStateStatusEnum, EndpointPortConfigProtocolEnum, EndpointPortConfigPublishModeEnum, EndpointSpecModeEnum, EventMessageTypeEnum, EventMessageScopeEnum, HealthStatusEnum, HostConfigCgroupnsModeEnum, HostConfigIsolationEnum, ImageManifestSummaryKindEnum, LocalNodeState, MountTypeEnum, MountBindOptionsPropagationEnum, MountPointTypeEnum, NodeSpecRoleEnum, NodeSpecAvailabilityEnum, NodeState, PluginConfigInterfaceProtocolSchemeEnum, PortTypeEnum, Reachability, RestartPolicyNameEnum, ServiceSpecRollbackConfigFailureActionEnum, ServiceSpecRollbackConfigOrderEnum, ServiceSpecUpdateConfigFailureActionEnum, ServiceSpecUpdateConfigOrderEnum, ServiceUpdateStatusStateEnum, SwarmSpecCaConfigExternalCasProtocolEnum, SystemInfoCgroupDriverEnum, SystemInfoCgroupVersionEnum, SystemInfoIsolationEnum, TaskSpecContainerSpecIsolationEnum, TaskSpecContainerSpecPrivilegesAppArmorModeEnum, TaskSpecContainerSpecPrivilegesSeccompModeEnum, TaskSpecRestartPolicyConditionEnum, TaskState, VolumeScopeEnum, AttachOutput, Docker } = nativeBinding
 
+module.exports.BuildCacheTypeEnum = BuildCacheTypeEnum
+module.exports.ChangeType = ChangeType
+module.exports.ClusterVolumePublishStatusStateEnum = ClusterVolumePublishStatusStateEnum
+module.exports.ClusterVolumeSpecAccessModeScopeEnum = ClusterVolumeSpecAccessModeScopeEnum
+module.exports.ClusterVolumeSpecAccessModeSharingEnum = ClusterVolumeSpecAccessModeSharingEnum
+module.exports.ClusterVolumeSpecAccessModeAvailabilityEnum = ClusterVolumeSpecAccessModeAvailabilityEnum
+module.exports.ContainerStateStatusEnum = ContainerStateStatusEnum
+module.exports.EndpointPortConfigProtocolEnum = EndpointPortConfigProtocolEnum
+module.exports.EndpointPortConfigPublishModeEnum = EndpointPortConfigPublishModeEnum
+module.exports.EndpointSpecModeEnum = EndpointSpecModeEnum
+module.exports.EventMessageTypeEnum = EventMessageTypeEnum
+module.exports.EventMessageScopeEnum = EventMessageScopeEnum
+module.exports.HealthStatusEnum = HealthStatusEnum
+module.exports.HostConfigCgroupnsModeEnum = HostConfigCgroupnsModeEnum
+module.exports.HostConfigIsolationEnum = HostConfigIsolationEnum
+module.exports.ImageManifestSummaryKindEnum = ImageManifestSummaryKindEnum
+module.exports.LocalNodeState = LocalNodeState
+module.exports.MountTypeEnum = MountTypeEnum
+module.exports.MountBindOptionsPropagationEnum = MountBindOptionsPropagationEnum
+module.exports.MountPointTypeEnum = MountPointTypeEnum
+module.exports.NodeSpecRoleEnum = NodeSpecRoleEnum
+module.exports.NodeSpecAvailabilityEnum = NodeSpecAvailabilityEnum
+module.exports.NodeState = NodeState
+module.exports.PluginConfigInterfaceProtocolSchemeEnum = PluginConfigInterfaceProtocolSchemeEnum
+module.exports.PortTypeEnum = PortTypeEnum
+module.exports.Reachability = Reachability
+module.exports.RestartPolicyNameEnum = RestartPolicyNameEnum
+module.exports.ServiceSpecRollbackConfigFailureActionEnum = ServiceSpecRollbackConfigFailureActionEnum
+module.exports.ServiceSpecRollbackConfigOrderEnum = ServiceSpecRollbackConfigOrderEnum
+module.exports.ServiceSpecUpdateConfigFailureActionEnum = ServiceSpecUpdateConfigFailureActionEnum
+module.exports.ServiceSpecUpdateConfigOrderEnum = ServiceSpecUpdateConfigOrderEnum
+module.exports.ServiceUpdateStatusStateEnum = ServiceUpdateStatusStateEnum
+module.exports.SwarmSpecCaConfigExternalCasProtocolEnum = SwarmSpecCaConfigExternalCasProtocolEnum
+module.exports.SystemInfoCgroupDriverEnum = SystemInfoCgroupDriverEnum
+module.exports.SystemInfoCgroupVersionEnum = SystemInfoCgroupVersionEnum
+module.exports.SystemInfoIsolationEnum = SystemInfoIsolationEnum
+module.exports.TaskSpecContainerSpecIsolationEnum = TaskSpecContainerSpecIsolationEnum
+module.exports.TaskSpecContainerSpecPrivilegesAppArmorModeEnum = TaskSpecContainerSpecPrivilegesAppArmorModeEnum
+module.exports.TaskSpecContainerSpecPrivilegesSeccompModeEnum = TaskSpecContainerSpecPrivilegesSeccompModeEnum
+module.exports.TaskSpecRestartPolicyConditionEnum = TaskSpecRestartPolicyConditionEnum
+module.exports.TaskState = TaskState
+module.exports.VolumeScopeEnum = VolumeScopeEnum
 module.exports.AttachOutput = AttachOutput
 module.exports.Docker = Docker

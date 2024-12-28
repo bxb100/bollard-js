@@ -1,13 +1,11 @@
-import { Readable, ReadableOptions, Writable, WritableOptions } from "node:stream";
+import { Readable, ReadableOptions, Writable, WritableOptions } from 'node:stream'
 
-declare module "./generated" {
-
+declare module './generated' {
   interface AttachOutput {
+    createReadStream(options?: ReadableOptions): Readable
 
-    createReadStream(options?: ReadableOptions): Readable;
-
-    createWriteStream(options?: WritableOptions): Writable;
+    createWriteStream(options?: WritableOptions): Writable
   }
 }
 
-export * from "./generated";
+export * from './generated'

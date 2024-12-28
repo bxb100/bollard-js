@@ -1,7 +1,11 @@
 #[macro_use]
 extern crate napi_derive;
+mod container;
+mod stubs;
 mod types;
 
+use crate::container::*;
+use crate::stubs::ContainerCreateResponse;
 use crate::types::*;
 use bollard::container::AttachContainerResults;
 use bollard::API_DEFAULT_VERSION;
@@ -48,7 +52,7 @@ impl Docker {
                         .map_err(format_err)?
                 }
             } else {
-                unimplemented!("")
+                unreachable!()
             }
         } else {
             bollard::Docker::connect_with_defaults().map_err(format_err)?
@@ -83,6 +87,20 @@ impl Docker {
             .map_err(format_err)?;
 
         Ok(AttachOutput::new(output, input))
+    }
+
+    pub async fn create_container(
+        &self,
+        options: Option<CreateContainerOptions>,
+        config: Config,
+    ) -> Result<ContainerCreateResponse> {
+        let res = self
+            .0
+            .create_container(options.map(|o| o.into()), config.into())
+            .await
+            .map_err(format_err)?;
+
+        Ok(res.into())
     }
 }
 
