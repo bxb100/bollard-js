@@ -1,21 +1,15 @@
 #[macro_use]
 extern crate napi_derive;
+mod types;
 
+use crate::types::*;
+use bollard::container::AttachContainerResults;
 use bollard::API_DEFAULT_VERSION;
 use napi::bindgen_prelude::*;
 use std::path::Path;
 
 #[napi]
 pub struct Docker(bollard::Docker);
-
-#[napi(object)]
-pub struct DockerOptions {
-    pub socket_path: Option<String>,
-    pub url: Option<String>,
-    pub ssl_key: Option<String>,
-    pub ssl_cert: Option<String>,
-    pub ssl_ca: Option<String>,
-}
 
 const DEFAULT_TIMEOUT: u64 = 120;
 
@@ -68,6 +62,26 @@ impl Docker {
         serde_json::to_string(&v)
             .map(|s| s.into())
             .map_err(format_err)
+    }
+
+    #[napi]
+    pub async fn attach(&self, id: String, option: Option<AttachOptions>) -> Result<AttachOutput> {
+        let option = option.map(|opt| bollard::container::AttachContainerOptions::<String> {
+            stdin: opt.stdin,
+            stderr: opt.stderr,
+            stdout: opt.stdout,
+            stream: opt.stream,
+            logs: opt.logs,
+            detach_keys: None,
+        });
+
+        let AttachContainerResults { output, input } = self
+            .0
+            .attach_container(&id, option)
+            .await
+            .map_err(format_err)?;
+
+        Ok(AttachOutput::new(output, input))
     }
 }
 

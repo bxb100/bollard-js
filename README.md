@@ -72,7 +72,7 @@
 - [ ] container.restart(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerRestart)
 - [ ] container.kill(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerKill)
 - [ ] container.resize(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerResize)
-- [ ] container.attach(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerAttach)
+- [x] container.attach(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerAttach)
 - [ ] container.wait(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerWait)
 - [ ] container.remove(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerDelete)
 - [ ] container.getArchive(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerArchive)
@@ -147,6 +147,11 @@
 ### Other
 
 - [ ] test using mock
+- [ ] test with ssl
+- [ ] test with http
+- [ ] test with socket in windows
+- [ ] test attach
+- [ ] attach write only work with enable `stream`
 - [ ] fix CI
 
 [^1]: https://github.com/apocas/dockerode

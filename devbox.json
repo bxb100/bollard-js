@@ -11,6 +11,7 @@
   "env": {},
   "shell": {
     "init_hook": [
+      "direnv allow",
       "pnpm install"
     ],
     "scripts": {
