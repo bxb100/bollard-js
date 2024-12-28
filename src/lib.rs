@@ -13,6 +13,7 @@ pub struct Docker(bollard::Docker);
 
 const DEFAULT_TIMEOUT: u64 = 120;
 
+//noinspection RsCompileErrorMacro
 #[napi]
 impl Docker {
     #[napi(constructor)]
