@@ -90,6 +90,7 @@ impl Docker {
         Ok(AttachOutput::new(output, input))
     }
 
+    #[napi]
     pub async fn create_container(
         &self,
         options: Option<CreateContainerOptions>,

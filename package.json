@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "generated.d.ts",
+    "generated.js",
+    "index.d.ts",
+    "index.js"
+  ],
   "napi": {
     "name": "bollard-js",
     "triples": {
@@ -19,10 +25,17 @@
     "@napi-rs/cli": "^2.18.4",
     "@types/node": "^22.10.2",
     "ava": "^6.2.0",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typescript": "^5.7.2",
+    "@ava/typescript": "^5.0.0"
   },
   "ava": {
-    "timeout": "3m"
+    "typescript": {
+      "compile": "tsc",
+      "rewritePaths": {
+        "__test__/": "dist/"
+      }
+    }
   },
   "engines": {
     "node": ">= 10"

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "ES2018",
     "strict": true,
     "moduleResolution": "node",

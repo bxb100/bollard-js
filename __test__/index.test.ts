@@ -1,4 +1,8 @@
-import test from 'ava'
+import anyTest, {TestFn} from 'ava';
+import { Docker } from '../index.js'
+
+const test = anyTest as TestFn<{ docker: Docker; containerId: string }>;
+
 
 test('version', async (t) => {
   // const docker = new Docker()
@@ -30,6 +34,26 @@ test('attach', async (t) => {
   t.pass()
 })
 
-test('create_container', async (t) => {
-  t.pass()
+test.before('create_container', async (t) => {
+  const docker = new Docker()
+  // docker container create -i -t --name mycontainer alpine
+  const { Id } = await docker.createContainer(
+    {
+      name: 'mycontainer',
+    },
+    {
+      Image: 'alpine',
+      OpenStdin: true,
+      Tty: true,
+    },
+  )
+  t.context = {
+    docker,
+    containerId: Id,
+  }
+})
+
+test.after('remove_container', async (t) => {
+  const { containerId } = t.context
+  console.log(containerId)
 })

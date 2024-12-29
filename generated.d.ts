@@ -2723,4 +2723,5 @@ export declare class Docker {
   constructor(options?: DockerOptions | undefined | null)
   version(): Promise<Buffer>
   attach(id: string, option?: AttachOptions | undefined | null): Promise<AttachOutput>
+  createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<ContainerCreateResponse>
 }
