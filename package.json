@@ -1,10 +1,10 @@
 {
-  "name": "bollard",
+  "name": "bollard-js",
   "version": "0.0.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "bollard",
+    "name": "bollard-js",
     "triples": {
       "additional": [
         "aarch64-apple-darwin",

@@ -1,3 +1,3 @@
-# `bollard-darwin-x64`
+# `bollard-js-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `bollard`
+This is the **x86_64-apple-darwin** binary for `bollard-js`

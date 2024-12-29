@@ -1,5 +1,5 @@
 {
-  "name": "bollard-darwin-arm64",
+  "name": "bollard-js-darwin-arm64",
   "version": "0.0.0",
   "os": [
     "darwin"
@@ -7,9 +7,9 @@
   "cpu": [
     "arm64"
   ],
-  "main": "bollard.darwin-arm64.node",
+  "main": "bollard-js.darwin-arm64.node",
   "files": [
-    "bollard.darwin-arm64.node"
+    "bollard-js.darwin-arm64.node"
   ],
   "license": "MIT",
   "engines": {

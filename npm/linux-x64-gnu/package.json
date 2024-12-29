@@ -1,5 +1,5 @@
 {
-  "name": "bollard-linux-x64-gnu",
+  "name": "bollard-js-linux-x64-gnu",
   "version": "0.0.0",
   "os": [
     "linux"
@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "bollard.linux-x64-gnu.node",
+  "main": "bollard-js.linux-x64-gnu.node",
   "files": [
-    "bollard.linux-x64-gnu.node"
+    "bollard-js.linux-x64-gnu.node"
   ],
   "license": "MIT",
   "engines": {

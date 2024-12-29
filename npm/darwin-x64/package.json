@@ -1,5 +1,5 @@
 {
-  "name": "bollard-darwin-x64",
+  "name": "bollard-js-darwin-x64",
   "version": "0.0.0",
   "os": [
     "darwin"
@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "bollard.darwin-x64.node",
+  "main": "bollard-js.darwin-x64.node",
   "files": [
-    "bollard.darwin-x64.node"
+    "bollard-js.darwin-x64.node"
   ],
   "license": "MIT",
   "engines": {
