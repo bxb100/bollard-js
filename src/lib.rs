@@ -5,10 +5,7 @@ mod converts;
 mod stubs;
 mod types;
 
-use crate::container::*;
-use crate::stubs::ContainerCreateResponse;
 use crate::types::*;
-use bollard::container::AttachContainerResults;
 use bollard::API_DEFAULT_VERSION;
 use napi::bindgen_prelude::*;
 use std::path::Path;
@@ -68,41 +65,6 @@ impl Docker {
         serde_json::to_string(&v)
             .map(|s| s.into())
             .map_err(format_err)
-    }
-
-    #[napi]
-    pub async fn attach(&self, id: String, option: Option<AttachOptions>) -> Result<AttachOutput> {
-        let option = option.map(|opt| bollard::container::AttachContainerOptions::<String> {
-            stdin: opt.stdin,
-            stderr: opt.stderr,
-            stdout: opt.stdout,
-            stream: opt.stream,
-            logs: opt.logs,
-            detach_keys: None,
-        });
-
-        let AttachContainerResults { output, input } = self
-            .0
-            .attach_container(&id, option)
-            .await
-            .map_err(format_err)?;
-
-        Ok(AttachOutput::new(output, input))
-    }
-
-    #[napi]
-    pub async fn create_container(
-        &self,
-        options: Option<CreateContainerOptions>,
-        config: Config,
-    ) -> Result<ContainerCreateResponse> {
-        let res = self
-            .0
-            .create_container(options.map(|o| o.into()), config.into())
-            .await
-            .map_err(format_err)?;
-
-        Ok(res.into())
     }
 }
 

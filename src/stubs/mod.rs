@@ -522,19 +522,15 @@ pub struct ContainerConfig {
     pub shell: Option<Vec<String>>,
 }
 
-/// OK response to ContainerCreate operation
-#[derive(o2o)]
-#[map_owned(bollard::secret::ContainerCreateResponse)]
-#[napi(object)]
-pub struct ContainerCreateResponse {
-    /// The ID of the created container
-    #[napi(js_name = "Id")]
-    pub id: String,
-
-    /// Warnings encountered when creating the container
-    #[napi(js_name = "Warnings")]
-    pub warnings: Vec<String>,
-}
+// todo: remove it
+// /// OK response to ContainerCreate operation
+// pub struct ContainerCreateResponse {
+//     /// The ID of the created container
+//     pub id: String,
+//
+//     /// Warnings encountered when creating the container
+//     pub warnings: Vec<String>,
+// }
 
 #[napi(object)]
 pub struct ContainerInspectResponse {

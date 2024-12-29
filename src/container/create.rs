@@ -1,4 +1,7 @@
+use crate::container::Container;
 use crate::stubs::{EndpointSettings, HealthConfig, HostConfig};
+use crate::{format_err, Docker};
+use napi::bindgen_prelude::*;
 use o2o::o2o;
 use std::collections::HashMap;
 
@@ -134,4 +137,55 @@ pub struct Config {
 pub struct NetworkingConfig {
     #[map(~.into_iter().map(|(k, v)| (k, v.into())).collect())]
     pub endpoints_config: HashMap<String, EndpointSettings>,
+}
+
+#[napi]
+pub struct CreateContainerResponse {
+    container: Container,
+    warnings: Vec<String>,
+}
+
+#[napi]
+impl CreateContainerResponse {
+    #[napi(getter)]
+    pub fn container(&self) -> Container {
+        self.container.clone()
+    }
+
+    #[napi(getter)]
+    pub fn warnings(&self) -> Vec<String> {
+        self.warnings.clone()
+    }
+}
+
+#[napi]
+impl Docker {
+    #[napi]
+    pub async fn create_container(
+        &self,
+        options: Option<CreateContainerOptions>,
+        config: Config,
+    ) -> Result<CreateContainerResponse> {
+        let res = self
+            .0
+            .create_container(options.map(|o| o.into()), config.into())
+            .await
+            .map_err(format_err)?;
+
+        Ok(CreateContainerResponse {
+            container: Container {
+                id: res.id,
+                docker: self.0.clone(),
+            },
+            warnings: res.warnings,
+        })
+    }
+
+    #[napi]
+    pub fn get_container(&self, id: String) -> Container {
+        Container {
+            docker: self.0.clone(),
+            id,
+        }
+    }
 }

@@ -68,6 +68,21 @@ export interface Config {
 export interface NetworkingConfig {
   endpointsConfig: Record<string, EndpointSettings>
 }
+export interface RemoveContainerOptions {
+  /** Remove the volumes associated with the container. */
+  v: boolean
+  /** If the container is running, kill it before removing it. */
+  force: boolean
+  /** Remove the specified link associated with the container. */
+  link: boolean
+}
+export interface AttachOptions {
+  stdin?: boolean
+  stdout?: boolean
+  stderr?: boolean
+  stream?: boolean
+  logs?: boolean
+}
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
   /** IP address. */
@@ -342,13 +357,6 @@ export interface ContainerConfig {
   StopTimeout?: number
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
   Shell?: Array<string>
-}
-/** OK response to ContainerCreate operation */
-export interface ContainerCreateResponse {
-  /** The ID of the created container */
-  Id: string
-  /** Warnings encountered when creating the container */
-  Warnings: Array<string>
 }
 export interface ContainerInspectResponse {
   /** The ID of the container */
@@ -2707,21 +2715,23 @@ export interface DockerOptions {
   sslCert?: string
   sslCa?: string
 }
-export interface AttachOptions {
-  stdin?: boolean
-  stdout?: boolean
-  stderr?: boolean
-  stream?: boolean
-  logs?: boolean
+export declare class CreateContainerResponse {
+  get container(): Container
+  get warnings(): Array<string>
 }
 export declare class AttachOutput {
   write(buf: Buffer): Promise<bigint>
   close(): Promise<void>
   read(buf: Buffer): Promise<bigint>
 }
+export declare class Container {
+  id: string
+  remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
+  attach(option?: AttachOptions | undefined | null): Promise<AttachOutput>
+}
 export declare class Docker {
+  createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<CreateContainerResponse>
+  getContainer(id: string): Container
   constructor(options?: DockerOptions | undefined | null)
   version(): Promise<Buffer>
-  attach(id: string, option?: AttachOptions | undefined | null): Promise<AttachOutput>
-  createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<ContainerCreateResponse>
 }
