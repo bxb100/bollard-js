@@ -3,7 +3,17 @@
   "packages": {
     "darwin.apple_sdk.frameworks.Security": {
       "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#darwin.apple_sdk.frameworks.Security",
-      "source": "nixpkg"
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/9jbhn62ld50znjqxll0q5gq9i4disc1s-apple-framework-Security-11.0.0",
+              "default": true
+            }
+          ]
+        }
+      }
     },
     "libiconv@latest": {
       "last_modified": "2024-12-03T12:40:06Z",
@@ -11,6 +21,14 @@
       "source": "devbox-search",
       "version": "2.40",
       "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/dka6i6yj8sgws93wc6m0lmqzhk21kq87-libiconv-107",
+              "default": true
+            }
+          ]
+        },
         "aarch64-linux": {
           "outputs": [
             {
@@ -30,54 +48,6 @@
             }
           ],
           "store_path": "/nix/store/al7p4vfb2hw0y273mqm3cglgkfhfiqs1-glibc-iconv-2.40"
-        }
-      }
-    },
-    "nodePackages.pnpm@8.14.0": {
-      "last_modified": "2024-01-27T14:55:31Z",
-      "resolved": "github:NixOS/nixpkgs/160b762eda6d139ac10ae081f8f78d640dd523eb#nodePackages.pnpm",
-      "source": "devbox-search",
-      "version": "8.14.0",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/349jy7qf0vf0i5y469hs151yd4wqx6z2-pnpm-8.14.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/349jy7qf0vf0i5y469hs151yd4wqx6z2-pnpm-8.14.0"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/0q1j1iw30kq20j3g690knr3bjx2j68qq-pnpm-8.14.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/0q1j1iw30kq20j3g690knr3bjx2j68qq-pnpm-8.14.0"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/7p7djg6zpyvbhp727wvfwyivw955f72b-pnpm-8.14.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/7p7djg6zpyvbhp727wvfwyivw955f72b-pnpm-8.14.0"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/nccby89wifbry3qan555vvqp2qa6my4l-pnpm-8.14.0",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/nccby89wifbry3qan555vvqp2qa6my4l-pnpm-8.14.0"
         }
       }
     },
@@ -143,6 +113,54 @@
             }
           ],
           "store_path": "/nix/store/nmmgwk1a0cakhmhwgf1v2b5ws3zf899h-nodejs-18.20.5"
+        }
+      }
+    },
+    "pnpm@9.15.0": {
+      "last_modified": "2024-12-08T11:15:23Z",
+      "resolved": "github:NixOS/nixpkgs/93dc9803a1ee435e590b02cde9589038d5cc3a4e#pnpm",
+      "source": "devbox-search",
+      "version": "9.15.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rxzyv00jks0r6vbgdj02n6h1x6fg3vz0-pnpm-9.15.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rxzyv00jks0r6vbgdj02n6h1x6fg3vz0-pnpm-9.15.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/x82c8bxyxrxbr6ambki8i7s9z0yvgjfv-pnpm-9.15.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/x82c8bxyxrxbr6ambki8i7s9z0yvgjfv-pnpm-9.15.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hiaxj1yqwpkmh8fvl0z8cg2vdy8bfrsn-pnpm-9.15.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/hiaxj1yqwpkmh8fvl0z8cg2vdy8bfrsn-pnpm-9.15.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/z8s3r4vwf4r26g2d7shnw5lva6ihim8f-pnpm-9.15.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/z8s3r4vwf4r26g2d7shnw5lva6ihim8f-pnpm-9.15.0"
         }
       }
     }

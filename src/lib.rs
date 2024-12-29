@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate napi_derive;
 mod container;
+mod converts;
 mod stubs;
 mod types;
 

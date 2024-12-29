@@ -39,7 +39,7 @@ pub struct Config {
 
     /// An object mapping ports to an empty object in the form:  `{\'<port>/<tcp|udp|sctp>\': {}}`
     #[napi(js_name = "ExposedPorts")]
-    #[into(~.map(|v| {v.into_iter().map(|s| (s, HashMap::<(), ()>::new())).collect::<HashMap<String, HashMap<(), ()>>>()}))]
+    #[into(crate::converts::convert_vec_to_map(~))]
     pub exposed_ports: Option<Vec<String>>,
 
     /// Attach standard streams to a TTY, including `stdin` if it is not closed.
@@ -64,7 +64,7 @@ pub struct Config {
 
     /// A TEST to perform TO Check that the container is healthy.
     #[napi(js_name = "Healthcheck")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub healthcheck: Option<HealthConfig>,
 
     /// Command is already escaped (Windows only)
@@ -77,7 +77,7 @@ pub struct Config {
 
     /// An object mapping mount point paths inside the container to empty objects.
     #[napi(js_name = "Volumes")]
-    #[into(~.map(|v| {v.into_iter().map(|s| (s, HashMap::<(), ()>::new())).collect::<HashMap<String, HashMap<(), ()>>>()}))]
+    #[into(crate::converts::convert_vec_to_map(~))]
     pub volumes: Option<Vec<String>>,
 
     /// The working directory for commands to run in.
@@ -119,12 +119,12 @@ pub struct Config {
     /// Container configuration that depends on the host we are running on.
     /// Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
     #[napi(js_name = "HostConfig")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub host_config: Option<HostConfig>,
 
     /// This container's networking configuration.
     #[napi(js_name = "NetworkingConfig")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub networking_config: Option<NetworkingConfig>,
 }
 

@@ -18,8 +18,8 @@
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
     "@types/node": "^22.10.2",
-    "ava": "^6.0.1",
-    "prettier": "^2.8.4"
+    "ava": "^6.2.0",
+    "prettier": "^2.8.8"
   },
   "ava": {
     "timeout": "3m"
@@ -53,5 +53,5 @@
       }
     ]
   },
-  "packageManager": "pnpm@8.14.0"
+  "packageManager": "pnpm@9.15.0"
 }

@@ -997,7 +997,7 @@ pub enum EndpointPortConfigPublishModeEnum {
 #[napi(object)]
 pub struct EndpointSettings {
     #[napi(js_name = "IPAMConfig")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub ipam_config: Option<EndpointIpamConfig>,
 
     #[napi(js_name = "Links")]
@@ -1433,27 +1433,27 @@ pub struct HostConfig {
 
     /// Block IO weight (relative device weight) in the form:  ``` [{ 'Path':  'device_path',  'Weight': weight}] ```
     #[napi(js_name = "BlkioWeightDevice")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub blkio_weight_device: Option<Vec<ResourcesBlkioWeightDevice>>,
 
     /// Limit read rate (bytes per second) from a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceReadBps")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub blkio_device_read_bps: Option<Vec<ThrottleDevice>>,
 
     /// Limit write rate (bytes per second) to a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceWriteBps")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub blkio_device_write_bps: Option<Vec<ThrottleDevice>>,
 
     /// Limit read rate (IO per second) from a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceReadIOps")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub blkio_device_read_iops: Option<Vec<ThrottleDevice>>,
 
     /// Limit write rate (IO per second) to a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceWriteIOps")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub blkio_device_write_iops: Option<Vec<ThrottleDevice>>,
 
     /// The length of a CPU period in microseconds.
@@ -1482,7 +1482,7 @@ pub struct HostConfig {
 
     /// A list of devices to add to the container.
     #[napi(js_name = "Devices")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub devices: Option<Vec<DeviceMapping>>,
 
     /// a list of cgroup rules to apply to the container
@@ -1491,7 +1491,7 @@ pub struct HostConfig {
 
     /// A list of requests for devices to be sent to device drivers.
     #[napi(js_name = "DeviceRequests")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub device_requests: Option<Vec<DeviceRequest>>,
 
     /// Hard limit for kernel TCP buffer memory (in bytes). Depending on the OCI runtime in use, this option may be ignored. It is no longer supported by the default (runc) runtime.  This field is omitted when empty.
@@ -1528,7 +1528,7 @@ pub struct HostConfig {
 
     /// A list of resource limits to set in the container. For example:  ``` {'Name': 'nofile', 'Soft': 1024, 'Hard': 2048} ```
     #[napi(js_name = "Ulimits")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub ulimits: Option<Vec<ResourcesUlimits>>,
 
     /// The number of usable CPUs (Windows only).  On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last.
@@ -1556,7 +1556,7 @@ pub struct HostConfig {
     pub container_id_file: Option<String>,
 
     #[napi(js_name = "LogConfig")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub log_config: Option<HostConfigLogConfig>,
 
     /// Network mode to use for this container. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to.
@@ -1568,7 +1568,7 @@ pub struct HostConfig {
     pub port_bindings: Option<HashMap<String, Option<Vec<PortBinding>>>>,
 
     #[napi(js_name = "RestartPolicy")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub restart_policy: Option<RestartPolicy>,
 
     /// Automatically remove the container when the container's process exits. This has no effect if `RestartPolicy` is set.
@@ -1585,7 +1585,7 @@ pub struct HostConfig {
 
     /// Specification for mounts to be added to the container.
     #[napi(js_name = "Mounts")]
-    #[map(~.map(|v| v.into_iter().map(|v| v.into()).collect::<Vec<_>>()))]
+    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
     pub mounts: Option<Vec<Mount>>,
 
     /// Initial console size, as an `[height, width]` array.
@@ -1606,7 +1606,7 @@ pub struct HostConfig {
 
     /// cgroup namespace mode for the container. Possible values are:  - `'private'`: the container runs in its own private cgroup namespace - `'host'`: use the host system's cgroup namespace  If not specified, the daemon default is used, which can either be `'private'` or `'host'`, depending on daemon version, kernel support and configuration.
     #[napi(js_name = "CgroupnsMode")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub cgroupns_mode: Option<HostConfigCgroupnsModeEnum>,
 
     /// A list of DNS servers for the container to use.
@@ -1695,7 +1695,7 @@ pub struct HostConfig {
 
     /// Isolation technology of the container. (Windows only)
     #[napi(js_name = "Isolation")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub isolation: Option<HostConfigIsolationEnum>,
 
     /// The list of paths to be masked inside the container (this overrides the default set of paths).
@@ -2232,7 +2232,7 @@ pub struct Mount {
 
     /// The mount type. Available types:  - `bind` Mounts a file or directory from the host into the container. Must exist prior to creating the container. - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed. - `tmpfs` Create a tmpfs with the given options. The mount source cannot be specified for tmpfs. - `npipe` Mounts a named pipe from the host into the container. Must exist prior to creating the container. - `cluster` a Swarm cluster volume
     #[napi(js_name = "Type")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub typ: Option<MountTypeEnum>,
 
     /// Whether the mount should be read-only.
@@ -2244,15 +2244,15 @@ pub struct Mount {
     pub consistency: Option<String>,
 
     #[napi(js_name = "BindOptions")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub bind_options: Option<MountBindOptions>,
 
     #[napi(js_name = "VolumeOptions")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub volume_options: Option<MountVolumeOptions>,
 
     #[napi(js_name = "TmpfsOptions")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub tmpfs_options: Option<MountTmpfsOptions>,
 }
 
@@ -2276,7 +2276,7 @@ pub enum MountTypeEnum {
 pub struct MountBindOptions {
     /// A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
     #[napi(js_name = "Propagation")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub propagation: Option<MountBindOptionsPropagationEnum>,
 
     /// Disable recursive bind mount.
@@ -2389,7 +2389,7 @@ pub struct MountVolumeOptions {
     pub labels: Option<HashMap<String, String>>,
 
     #[napi(js_name = "DriverConfig")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub driver_config: Option<MountVolumeOptionsDriverConfig>,
 
     /// Source path inside the volume. Must be relative without any back traversals.
@@ -3191,7 +3191,7 @@ fn covert_port_map(
 ) -> HashMap<String, Option<Vec<bollard::secret::PortBinding>>> {
     port_map
         .into_iter()
-        .map(|(k, v)| (k, v.map(|v| v.into_iter().map(|v| v.into()).collect())))
+        .map(|(k, v)| (k, v.map(|v| v.into_iter().map(Into::into).collect())))
         .collect()
 }
 
@@ -3456,7 +3456,7 @@ pub struct ResourcesUlimits {
 pub struct RestartPolicy {
     /// - Empty string means not to restart - `no` Do not automatically restart - `always` Always restart - `unless-stopped` Restart always except when the user has manually stopped the container - `on-failure` Restart only when the container exit code is non-zero
     #[napi(js_name = "Name")]
-    #[map(~.map(|o| o.into()))]
+    #[map(~.map(Into::into))]
     pub name: Option<RestartPolicyNameEnum>,
 
     /// If `on-failure` is used, the number of times to retry before giving up.
