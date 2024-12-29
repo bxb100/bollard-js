@@ -6,14 +6,15 @@ mod stubs;
 mod types;
 
 use crate::types::*;
-use bollard::API_DEFAULT_VERSION;
+use bollard::ClientVersion;
 use napi::bindgen_prelude::*;
 use std::path::Path;
 
+const DEFAULT_TIMEOUT: u64 = 120;
+const API_DEFAULT_VERSION: &ClientVersion = bollard::API_DEFAULT_VERSION;
+
 #[napi]
 pub struct Docker(bollard::Docker);
-
-const DEFAULT_TIMEOUT: u64 = 120;
 
 //noinspection RsCompileErrorMacro
 #[napi]

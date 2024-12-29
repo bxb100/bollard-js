@@ -2,13 +2,13 @@
 
 ### Docker[^1]
 
-- [ ] docker.createContainer(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerCreate)
+- [x] docker.createContainer(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerCreate)
 - [ ] docker.createImage([auth], options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ImageCreate)
 - [ ] docker.loadImage(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ImageLoad)
 - [ ] docker.importImage(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ImageCreate)
 - [ ] docker.buildImage(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ImageBuild)
 - [ ] docker.checkAuth(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/SystemAuth)
-- [ ] docker.getContainer(id) - Returns a Container object.
+- [x] docker.getContainer(id) - Returns a Container object.
 - [ ] docker.getImage(name) - Returns an Image object.
 - [ ] docker.getVolume(name) - Returns a Volume object.
 - [ ] docker.getPlugin(name) - Returns a Plugin object.
