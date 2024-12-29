@@ -5,6 +5,7 @@ use bytes::{Buf, Bytes};
 use futures::{AsyncRead, AsyncReadExt, Stream, StreamExt};
 use napi::bindgen_prelude::*;
 use napi::tokio::io::{AsyncWrite, AsyncWriteExt};
+use o2o::o2o;
 use std::pin::Pin;
 use std::task::{ready, Context, Poll};
 
@@ -84,6 +85,9 @@ impl AsyncRead for LogOutputReader {
     }
 }
 
+#[derive(o2o)]
+#[owned_into(bollard::container::AttachContainerOptions::<String>)]
+#[ghosts(detach_keys: {None})]
 #[napi(object)]
 pub struct AttachOptions {
     pub stdin: Option<bool>,
@@ -97,18 +101,9 @@ pub struct AttachOptions {
 impl Container {
     #[napi]
     pub async fn attach(&self, option: Option<AttachOptions>) -> Result<AttachOutput> {
-        let option = option.map(|opt| bollard::container::AttachContainerOptions::<String> {
-            stdin: opt.stdin,
-            stderr: opt.stderr,
-            stdout: opt.stdout,
-            stream: opt.stream,
-            logs: opt.logs,
-            detach_keys: None,
-        });
-
         let AttachContainerResults { output, input } = self
             .docker
-            .attach_container(&self.id, option)
+            .attach_container(&self.id, option.map(Into::into))
             .await
             .map_err(format_err)?;
 
