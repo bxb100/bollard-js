@@ -2215,7 +2215,7 @@ export interface SystemInfo {
   CgroupVersion?: SystemInfoCgroupVersionEnum
   /** Number of event listeners subscribed. */
   NEventsListener?: number
-  /** Kernel version of the host.  On Linux, this information obtained from `uname`. On Windows this information is queried from the <kbd>HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\</kbd> registry value, for example _'10.0 14393 (14393.1198.amd64fre.rs1_release_sec.170427-1353)'_. */
+  /** Kernel version of the host.  On Linux, this information obtained from `uname`. On Windows this information is queried from the <kbd>HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\</kbd> registry value, for example _'10.0 14393 (14393.1198.amd64free.rs1_release_sec.170427-1353)'_. */
   KernelVersion?: string
   /** Name of the host's operating system, for example: 'Ubuntu 24.04 LTS' or 'Windows Server 2016 Datacenter' */
   OperatingSystem?: string

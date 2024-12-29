@@ -196,3 +196,6 @@ Cargo.lock
 !.yarn/versions
 
 *.node
+
+# Nix/devbox
+.rustup/*

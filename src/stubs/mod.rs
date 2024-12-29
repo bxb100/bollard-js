@@ -1,3 +1,5 @@
+#![allow(clippy::all)]
+
 use o2o::o2o;
 use std::collections::HashMap;
 
@@ -4253,7 +4255,7 @@ pub struct SystemInfo {
     #[napi(js_name = "NEventsListener")]
     pub n_events_listener: Option<i64>,
 
-    /// Kernel version of the host.  On Linux, this information obtained from `uname`. On Windows this information is queried from the <kbd>HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\</kbd> registry value, for example _'10.0 14393 (14393.1198.amd64fre.rs1_release_sec.170427-1353)'_.
+    /// Kernel version of the host.  On Linux, this information obtained from `uname`. On Windows this information is queried from the <kbd>HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\</kbd> registry value, for example _'10.0 14393 (14393.1198.amd64free.rs1_release_sec.170427-1353)'_.
     #[napi(js_name = "KernelVersion")]
     pub kernel_version: Option<String>,
 
