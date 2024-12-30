@@ -88,6 +88,10 @@ export interface Config {
 export interface NetworkingConfig {
   endpointsConfig: Record<string, EndpointSettings>
 }
+export interface InspectContainerOptions {
+  /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
+  size: boolean
+}
 export interface RemoveContainerOptions {
   /** Remove the volumes associated with the container. */
   v: boolean
@@ -95,10 +99,6 @@ export interface RemoveContainerOptions {
   force: boolean
   /** Remove the specified link associated with the container. */
   link: boolean
-}
-export interface InspectContainerOptions {
-  /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
-  size: boolean
 }
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
@@ -2744,9 +2744,9 @@ export declare class CreateContainerResponse {
 export declare class Container {
   id: string
   attach(option?: AttachOptions | undefined | null): Promise<AttachOutput>
+  inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   start(): Promise<void>
-  inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
 }
 export declare class Docker {
   createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<CreateContainerResponse>

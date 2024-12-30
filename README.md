@@ -57,7 +57,7 @@
 
 ### Container
 
-- [ ] container.inspect(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerInspect)
+- [x] container.inspect(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerInspect)
 - [ ] container.rename(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerRename)
 - [ ] container.update(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerUpdate)
 - [ ] container.top(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerTop)
