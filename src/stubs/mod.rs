@@ -4,6 +4,8 @@ use o2o::o2o;
 use std::collections::HashMap;
 
 /// Address represents an IPv4 or IPv6 IP address.
+#[derive(o2o)]
+#[map_owned(bollard::secret::Address)]
 #[napi(object)]
 pub struct Address {
     /// IP address.
@@ -420,6 +422,8 @@ pub struct ConfigSpec {
 }
 
 /// Configuration for a container that is portable between hosts.
+#[derive(o2o)]
+#[map_owned(bollard::secret::ContainerConfig)]
 #[napi(object)]
 pub struct ContainerConfig {
     /// The hostname to use for the container, as a valid RFC 1123 hostname.
@@ -448,6 +452,8 @@ pub struct ContainerConfig {
 
     /// An object mapping ports to an empty object in the form:  `{'<port>/<tcp|udp|sctp>': {}}`
     #[napi(js_name = "ExposedPorts")]
+    #[from(crate::converts::convert_map_to_vec(~))]
+    #[into(crate::converts::convert_vec_to_map(~))]
     pub exposed_ports: Option<Vec<String>>,
 
     /// Attach standard streams to a TTY, including `stdin` if it is not closed.
@@ -471,6 +477,7 @@ pub struct ContainerConfig {
     pub cmd: Option<Vec<String>>,
 
     #[napi(js_name = "Healthcheck")]
+    #[map(~.map(Into::into))]
     pub healthcheck: Option<HealthConfig>,
 
     /// Command is already escaped (Windows only)
@@ -483,6 +490,8 @@ pub struct ContainerConfig {
 
     /// An object mapping mount point paths inside the container to empty objects.
     #[napi(js_name = "Volumes")]
+    #[from(crate::converts::convert_map_to_vec(~))]
+    #[into(crate::converts::convert_vec_to_map(~))]
     pub volumes: Option<Vec<String>>,
 
     /// The working directory for commands to run in.
@@ -532,6 +541,8 @@ pub struct ContainerConfig {
 //     pub warnings: Vec<String>,
 // }
 
+#[derive(o2o)]
+#[map_owned(bollard::secret::ContainerInspectResponse)]
 #[napi(object)]
 pub struct ContainerInspectResponse {
     /// The ID of the container
@@ -551,6 +562,7 @@ pub struct ContainerInspectResponse {
     pub args: Option<Vec<String>>,
 
     #[napi(js_name = "State")]
+    #[map(~.map(Into::into))]
     pub state: Option<ContainerState>,
 
     /// The container's image ID
@@ -595,9 +607,11 @@ pub struct ContainerInspectResponse {
     pub exec_ids: Option<Vec<String>>,
 
     #[napi(js_name = "HostConfig")]
+    #[map(~.map(Into::into))]
     pub host_config: Option<HostConfig>,
 
     #[napi(js_name = "GraphDriver")]
+    #[map(~.map(Into::into))]
     pub graph_driver: Option<DriverData>,
 
     /// The size of files that have been created or changed by this container.
@@ -609,12 +623,15 @@ pub struct ContainerInspectResponse {
     pub size_root_fs: Option<i64>,
 
     #[napi(js_name = "Mounts")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub mounts: Option<Vec<MountPoint>>,
 
     #[napi(js_name = "Config")]
+    #[map(~.map(Into::into))]
     pub config: Option<ContainerConfig>,
 
     #[napi(js_name = "NetworkSettings")]
+    #[map(~.map(Into::into))]
     pub network_settings: Option<NetworkSettings>,
 }
 
@@ -630,10 +647,13 @@ pub struct ContainerPruneResponse {
 }
 
 /// ContainerState stores container's running state. It's part of ContainerJSONBase and will be returned by the 'inspect' command.
+#[derive(o2o)]
+#[map_owned(bollard::secret::ContainerState)]
 #[napi(object)]
 pub struct ContainerState {
     /// String representation of the container state. Can be one of 'created', 'running', 'paused', 'restarting', 'removing', 'exited', or 'dead'.
     #[napi(js_name = "Status")]
+    #[map(~.map(Into::into))]
     pub status: Option<ContainerStateStatusEnum>,
 
     /// Whether this container is running.  Note that a running container can be _paused_. The `Running` and `Paused` booleans are not mutually exclusive:  When pausing a container (on Linux), the freezer cgroup is used to suspend all processes in the container. Freezing the process requires the process to be running. As a result, paused containers are both `Running` _and_ `Paused`.  Use the `Status` field instead to determine if a container's state is 'running'.
@@ -675,9 +695,12 @@ pub struct ContainerState {
     pub finished_at: Option<String>,
 
     #[napi(js_name = "Health")]
+    #[map(~.map(Into::into))]
     pub health: Option<Health>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::secret::ContainerStateStatusEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum ContainerStateStatusEnum {
@@ -865,7 +888,7 @@ pub struct CreateImageInfo {
 
 /// A device mapping between the host and container
 #[derive(o2o)]
-#[owned_into(bollard::secret::DeviceMapping)]
+#[map_owned(bollard::secret::DeviceMapping)]
 #[napi(object)]
 pub struct DeviceMapping {
     #[napi(js_name = "PathOnHost")]
@@ -880,7 +903,7 @@ pub struct DeviceMapping {
 
 /// A request for devices to be sent to device drivers
 #[derive(o2o)]
-#[owned_into(bollard::secret::DeviceRequest)]
+#[map_owned(bollard::secret::DeviceRequest)]
 #[napi(object)]
 pub struct DeviceRequest {
     #[napi(js_name = "Driver")]
@@ -925,6 +948,8 @@ pub struct Driver {
 }
 
 /// Information about the storage driver used to store the container's and image's filesystem.
+#[derive(o2o)]
+#[map_owned(bollard::secret::DriverData)]
 #[napi(object)]
 pub struct DriverData {
     /// Name of the storage driver.
@@ -938,7 +963,7 @@ pub struct DriverData {
 
 /// EndpointIPAMConfig represents an endpoint's IPAM configuration.
 #[derive(o2o)]
-#[owned_into(bollard::secret::EndpointIpamConfig)]
+#[map_owned(bollard::secret::EndpointIpamConfig)]
 #[napi(object)]
 pub struct EndpointIpamConfig {
     #[napi(js_name = "IPv4Address")]
@@ -991,7 +1016,7 @@ pub enum EndpointPortConfigPublishModeEnum {
 
 /// Configuration for a network endpoint.
 #[derive(o2o)]
-#[owned_into(bollard::secret::EndpointSettings)]
+#[map_owned(bollard::secret::EndpointSettings)]
 #[napi(object)]
 pub struct EndpointSettings {
     #[napi(js_name = "IPAMConfig")]
@@ -1311,10 +1336,13 @@ pub struct GenericResourcesInnerNamedResourceSpec {
 }
 
 /// Health stores information about the container's healthcheck results.
+#[derive(o2o)]
+#[map_owned(bollard::secret::Health)]
 #[napi(object)]
 pub struct Health {
     /// Status is one of `none`, `starting`, `healthy` or `unhealthy`  - 'none'      Indicates there is no healthcheck - 'starting'  Starting indicates that the container is not yet ready - 'healthy'   Healthy indicates that the container is running correctly - 'unhealthy' Unhealthy indicates that the container has a problem
     #[napi(js_name = "Status")]
+    #[map(~.map(Into::into))]
     pub status: Option<HealthStatusEnum>,
 
     /// FailingStreak is the number of consecutive failures
@@ -1323,9 +1351,12 @@ pub struct Health {
 
     /// Log contains the last few results (oldest first)
     #[napi(js_name = "Log")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub log: Option<Vec<HealthcheckResult>>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::secret::HealthStatusEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum HealthStatusEnum {
@@ -1338,7 +1369,7 @@ pub enum HealthStatusEnum {
 
 /// A test to perform to check that the container is healthy.
 #[derive(o2o)]
-#[owned_into(bollard::secret::HealthConfig)]
+#[map_owned(bollard::secret::HealthConfig)]
 #[napi(object)]
 pub struct HealthConfig {
     /// The test to perform. Possible values are:  - `[]` inherit healthcheck from image or parent image - `['NONE']` disable healthcheck - `['CMD', args...]` exec arguments directly - `['CMD-SHELL', command]` run command with system's default shell
@@ -1367,6 +1398,8 @@ pub struct HealthConfig {
 }
 
 /// HealthcheckResult stores information about a single run of a healthcheck probe
+#[derive(o2o)]
+#[map_owned(bollard::secret::HealthcheckResult)]
 #[napi(object)]
 pub struct HealthcheckResult {
     /// Date and time at which this check started in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
@@ -1410,7 +1443,7 @@ pub struct HistoryResponseItem {
 
 /// Container configuration that depends on the host we are running on
 #[derive(o2o)]
-#[owned_into(bollard::secret::HostConfig)]
+#[map_owned(bollard::secret::HostConfig)]
 #[napi(object)]
 pub struct HostConfig {
     /// An integer value representing this container's relative CPU weight versus other containers.
@@ -1431,27 +1464,27 @@ pub struct HostConfig {
 
     /// Block IO weight (relative device weight) in the form:  ``` [{ 'Path':  'device_path',  'Weight': weight}] ```
     #[napi(js_name = "BlkioWeightDevice")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub blkio_weight_device: Option<Vec<ResourcesBlkioWeightDevice>>,
 
     /// Limit read rate (bytes per second) from a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceReadBps")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub blkio_device_read_bps: Option<Vec<ThrottleDevice>>,
 
     /// Limit write rate (bytes per second) to a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceWriteBps")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub blkio_device_write_bps: Option<Vec<ThrottleDevice>>,
 
     /// Limit read rate (IO per second) from a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceReadIOps")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub blkio_device_read_iops: Option<Vec<ThrottleDevice>>,
 
     /// Limit write rate (IO per second) to a device, in the form:  ``` [{'Path': 'device_path', 'Rate': rate}] ```
     #[napi(js_name = "BlkioDeviceWriteIOps")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub blkio_device_write_iops: Option<Vec<ThrottleDevice>>,
 
     /// The length of a CPU period in microseconds.
@@ -1480,7 +1513,7 @@ pub struct HostConfig {
 
     /// A list of devices to add to the container.
     #[napi(js_name = "Devices")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub devices: Option<Vec<DeviceMapping>>,
 
     /// a list of cgroup rules to apply to the container
@@ -1489,7 +1522,7 @@ pub struct HostConfig {
 
     /// A list of requests for devices to be sent to device drivers.
     #[napi(js_name = "DeviceRequests")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub device_requests: Option<Vec<DeviceRequest>>,
 
     /// Hard limit for kernel TCP buffer memory (in bytes). Depending on the OCI runtime in use, this option may be ignored. It is no longer supported by the default (runc) runtime.  This field is omitted when empty.
@@ -1526,7 +1559,7 @@ pub struct HostConfig {
 
     /// A list of resource limits to set in the container. For example:  ``` {'Name': 'nofile', 'Soft': 1024, 'Hard': 2048} ```
     #[napi(js_name = "Ulimits")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub ulimits: Option<Vec<ResourcesUlimits>>,
 
     /// The number of usable CPUs (Windows only).  On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last.
@@ -1562,7 +1595,7 @@ pub struct HostConfig {
     pub network_mode: Option<String>,
 
     #[napi(js_name = "PortBindings")]
-    #[map(~.map(|o| covert_port_map(o)))]
+    #[map(crate::converts::convert_map_vec_to_map_vec(~))]
     pub port_bindings: Option<HashMap<String, Option<Vec<PortBinding>>>>,
 
     #[napi(js_name = "RestartPolicy")]
@@ -1583,7 +1616,7 @@ pub struct HostConfig {
 
     /// Specification for mounts to be added to the container.
     #[napi(js_name = "Mounts")]
-    #[map(~.map(|v| v.into_iter().map(Into::into).collect::<Vec<_>>()))]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub mounts: Option<Vec<Mount>>,
 
     /// Initial console size, as an `[height, width]` array.
@@ -1706,7 +1739,7 @@ pub struct HostConfig {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::HostConfigCgroupnsModeEnum)]
+#[map_owned(bollard::secret::HostConfigCgroupnsModeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum HostConfigCgroupnsModeEnum {
@@ -1716,7 +1749,7 @@ pub enum HostConfigCgroupnsModeEnum {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::HostConfigIsolationEnum)]
+#[map_owned(bollard::secret::HostConfigIsolationEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum HostConfigIsolationEnum {
@@ -1728,7 +1761,7 @@ pub enum HostConfigIsolationEnum {
 
 /// The logging configuration for this container
 #[derive(o2o)]
-#[owned_into(bollard::secret::HostConfigLogConfig)]
+#[map_owned(bollard::secret::HostConfigLogConfig)]
 #[napi(object)]
 pub struct HostConfigLogConfig {
     #[napi(js_name = "Type")]
@@ -2217,7 +2250,7 @@ pub struct ManagerStatus {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::Mount)]
+#[map_owned(bollard::secret::Mount)]
 #[napi(object)]
 pub struct Mount {
     /// Container path.
@@ -2255,7 +2288,7 @@ pub struct Mount {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::MountTypeEnum)]
+#[map_owned(bollard::secret::MountTypeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum MountTypeEnum {
@@ -2269,7 +2302,7 @@ pub enum MountTypeEnum {
 
 /// Optional configuration for the `bind` type.
 #[derive(o2o)]
-#[owned_into(bollard::secret::MountBindOptions)]
+#[map_owned(bollard::secret::MountBindOptions)]
 #[napi(object)]
 pub struct MountBindOptions {
     /// A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
@@ -2295,7 +2328,7 @@ pub struct MountBindOptions {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::MountBindOptionsPropagationEnum)]
+#[map_owned(bollard::secret::MountBindOptionsPropagationEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum MountBindOptionsPropagationEnum {
@@ -2309,10 +2342,13 @@ pub enum MountBindOptionsPropagationEnum {
 }
 
 /// MountPoint represents a mount point configuration inside the container. This is used for reporting the mountpoints in use by a container.
+#[derive(o2o)]
+#[map_owned(bollard::secret::MountPoint)]
 #[napi(object)]
 pub struct MountPoint {
     /// The mount type:  - `bind` a mount of a file or directory from the host into the container. - `volume` a docker volume with the given `Name`. - `tmpfs` a `tmpfs`. - `npipe` a named pipe from the host into the container. - `cluster` a Swarm cluster volume
     #[napi(js_name = "Type")]
+    #[map(~.map(Into::into))]
     pub typ: Option<MountPointTypeEnum>,
 
     /// Name is the name reference to the underlying data defined by `Source` e.g., the volume name.
@@ -2344,6 +2380,8 @@ pub struct MountPoint {
     pub propagation: Option<String>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::secret::MountPointTypeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum MountPointTypeEnum {
@@ -2357,7 +2395,7 @@ pub enum MountPointTypeEnum {
 
 /// Optional configuration for the `tmpfs` type.
 #[derive(o2o)]
-#[owned_into(bollard::secret::MountTmpfsOptions)]
+#[map_owned(bollard::secret::MountTmpfsOptions)]
 #[napi(object)]
 pub struct MountTmpfsOptions {
     /// The size for the tmpfs mount in bytes.
@@ -2375,7 +2413,7 @@ pub struct MountTmpfsOptions {
 
 /// Optional configuration for the `volume` type.
 #[derive(o2o)]
-#[owned_into(bollard::secret::MountVolumeOptions)]
+#[map_owned(bollard::secret::MountVolumeOptions)]
 #[napi(object)]
 pub struct MountVolumeOptions {
     /// Populate volume with data from the target.
@@ -2397,7 +2435,7 @@ pub struct MountVolumeOptions {
 
 /// Map of driver specific options
 #[derive(o2o)]
-#[owned_into(bollard::secret::MountVolumeOptionsDriverConfig)]
+#[map_owned(bollard::secret::MountVolumeOptionsDriverConfig)]
 #[napi(object)]
 pub struct MountVolumeOptionsDriverConfig {
     /// Name of the driver to use to create the volume.
@@ -2608,6 +2646,8 @@ pub struct NetworkPruneResponse {
 }
 
 /// NetworkSettings exposes the network settings in the API
+#[derive(o2o)]
+#[map_owned(bollard::secret::NetworkSettings)]
 #[napi(object)]
 pub struct NetworkSettings {
     /// Name of the default bridge interface when dockerd's --bridge flag is set.
@@ -2631,6 +2671,7 @@ pub struct NetworkSettings {
     pub link_local_ipv6_prefix_len: Option<i64>,
 
     #[napi(js_name = "Ports")]
+    #[map(crate::converts::convert_map_vec_to_map_vec(~))]
     pub ports: Option<HashMap<String, Option<Vec<PortBinding>>>>,
 
     /// SandboxKey is the full path of the netns handle
@@ -2639,10 +2680,12 @@ pub struct NetworkSettings {
 
     /// Deprecated: This field is never set and will be removed in a future release.
     #[napi(js_name = "SecondaryIPAddresses")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub secondary_ip_addresses: Option<Vec<Address>>,
 
     /// Deprecated: This field is never set and will be removed in a future release.
     #[napi(js_name = "SecondaryIPv6Addresses")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub secondary_ipv6_addresses: Option<Vec<Address>>,
 
     /// EndpointID uniquely represents a service endpoint in a Sandbox.  <p><br /></p>  > **Deprecated**: This field is only propagated when attached to the > default 'bridge' network. Use the information from the 'bridge' > network inside the `Networks` map instead, which contains the same > information. This field was deprecated in Docker 1.9 and is scheduled > to be removed in Docker 17.12.0
@@ -2679,6 +2722,7 @@ pub struct NetworkSettings {
 
     /// Information about all networks that the container is connected to.
     #[napi(js_name = "Networks")]
+    #[map(crate::converts::convert_map_to_map(~))]
     pub networks: Option<HashMap<String, EndpointSettings>>,
 }
 
@@ -3171,9 +3215,9 @@ pub enum PortTypeEnum {
 }
 
 /// PortBinding represents a binding between a host IP address and a host port.
-#[napi(object)]
 #[derive(o2o)]
-#[owned_into(bollard::secret::PortBinding)]
+#[map_owned(bollard::secret::PortBinding)]
+#[napi(object)]
 pub struct PortBinding {
     /// Host IP address that the container's port is mapped to.
     #[napi(js_name = "HostIp")]
@@ -3182,15 +3226,6 @@ pub struct PortBinding {
     /// Host port number that the container's port is mapped to.
     #[napi(js_name = "HostPort")]
     pub host_port: Option<String>,
-}
-
-fn covert_port_map(
-    port_map: HashMap<String, Option<Vec<PortBinding>>>,
-) -> HashMap<String, Option<Vec<bollard::secret::PortBinding>>> {
-    port_map
-        .into_iter()
-        .map(|(k, v)| (k, v.map(|v| v.into_iter().map(Into::into).collect())))
-        .collect()
 }
 
 /// represents the port status of a task's host ports whose service has published host ports
@@ -3419,19 +3454,20 @@ pub struct Resources {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::ResourcesBlkioWeightDevice)]
+#[map_owned(bollard::secret::ResourcesBlkioWeightDevice)]
 #[napi(object)]
 pub struct ResourcesBlkioWeightDevice {
     #[napi(js_name = "Path")]
     pub path: Option<String>,
 
     #[napi(js_name = "Weight")]
-    #[map(~.map(|o| o as usize))]
+    #[from(~.map(|o| o as u32))]
+    #[into(~.map(|o| o as usize))]
     pub weight: Option<u32>,
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::ResourcesUlimits)]
+#[map_owned(bollard::secret::ResourcesUlimits)]
 #[napi(object)]
 pub struct ResourcesUlimits {
     /// Name of ulimit
@@ -3449,7 +3485,7 @@ pub struct ResourcesUlimits {
 
 /// The behavior to apply when the container exits. The default is not to restart.  An ever increasing delay (double the previous delay, starting at 100ms) is added before each restart to prevent flooding the server.
 #[derive(o2o)]
-#[owned_into(bollard::secret::RestartPolicy)]
+#[map_owned(bollard::secret::RestartPolicy)]
 #[napi(object)]
 pub struct RestartPolicy {
     /// - Empty string means not to restart - `no` Do not automatically restart - `always` Always restart - `unless-stopped` Restart always except when the user has manually stopped the container - `on-failure` Restart only when the container exit code is non-zero
@@ -3463,7 +3499,7 @@ pub struct RestartPolicy {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::RestartPolicyNameEnum)]
+#[map_owned(bollard::secret::RestartPolicyNameEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum RestartPolicyNameEnum {
@@ -5031,7 +5067,7 @@ pub struct TaskStatus {
 }
 
 #[derive(o2o)]
-#[owned_into(bollard::secret::ThrottleDevice)]
+#[map_owned(bollard::secret::ThrottleDevice)]
 #[napi(object)]
 pub struct ThrottleDevice {
     /// Device path

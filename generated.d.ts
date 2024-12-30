@@ -96,6 +96,10 @@ export interface RemoveContainerOptions {
   /** Remove the specified link associated with the container. */
   link: boolean
 }
+export interface InspectContainerOptions {
+  /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
+  size: boolean
+}
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
   /** IP address. */
@@ -2742,6 +2746,7 @@ export declare class Container {
   attach(option?: AttachOptions | undefined | null): Promise<AttachOutput>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   start(): Promise<void>
+  inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
 }
 export declare class Docker {
   createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<CreateContainerResponse>

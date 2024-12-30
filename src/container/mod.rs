@@ -1,5 +1,6 @@
 mod attach;
 mod create;
+mod inspect;
 mod remove;
 mod start;
 

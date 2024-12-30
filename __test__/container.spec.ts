@@ -32,7 +32,7 @@ test('version', async (t) => {
   t.true(v.Version !== undefined)
 })
 
-test.serial("start", async (t) => {
+test.serial('start', async (t) => {
   const { container } = t.context
   await container.start()
   t.pass()
@@ -56,18 +56,28 @@ test.serial('attach', async (t) => {
   })
 
   const res: string = await new Promise((resolve) => {
-    writable.on('finish', () => {
+    writable.on('close', () => {
       resolve(data)
     })
     writable.write('echo hello world\n')
-    writable.end()
+    setTimeout(() => writable.end(), 500)
   })
 
   if (res.includes('hello world')) {
-    return t.pass()
+    t.pass()
   } else {
-    return t.fail()
+    console.log('failed:: ', res)
+    t.fail()
   }
+})
+
+test.serial('inspect', async (t) => {
+  const { container } = t.context
+  const res = await container.inspect({
+    size: true,
+  })
+  t.truthy(res.SizeRootFs)
+  t.truthy(res.SizeRw)
 })
 
 test.after('remove_container', async (t) => {
