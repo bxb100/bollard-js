@@ -100,6 +100,10 @@ export interface RemoveContainerOptions {
   /** Remove the specified link associated with the container. */
   link: boolean
 }
+export interface TopOptions {
+  /** The arguments to pass to `ps`. For example, `aux` */
+  psArgs: string
+}
 export interface UpdateContainerOptions {
   /** An integer value representing this container's relative CPU weight versus other containers. */
   CpuShares?: number
@@ -170,10 +174,6 @@ export interface UpdateContainerOptions {
    * each restart to prevent flooding the server.
    */
   restartPolicy?: RestartPolicy
-}
-export interface TopOptions {
-  /** The arguments to pass to `ps`. For example, `aux` */
-  psArgs: string
 }
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
@@ -824,7 +824,7 @@ export interface ExecStartConfig {
 export interface FilesystemChange {
   /** Path to file or directory that has changed. */
   Path: string
-  Kind: number
+  Kind: ChangeType
 }
 /** User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`). */
 export interface GenericResourcesInner {
@@ -2819,12 +2819,14 @@ export declare class CreateContainerResponse {
 export declare class Container {
   id: string
   attach(option?: AttachOptions | undefined | null): Promise<AttachOutput>
+  changes(): Promise<Array<FilesystemChange> | null>
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   rename(newName: string): Promise<void>
   start(): Promise<void>
-  update(option: UpdateContainerOptions): Promise<void>
   top(option?: TopOptions | undefined | null): Promise<ContainerTopResponse>
+  update(option: UpdateContainerOptions): Promise<void>
+  export(path: string): Promise<void>
 }
 export declare class Docker {
   createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<CreateContainerResponse>

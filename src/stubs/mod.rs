@@ -139,6 +139,8 @@ pub struct BuildPruneResponse {
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
 /// which helps with FFI.
+#[derive(o2o)]
+#[map_owned(bollard::secret::ChangeType)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum ChangeType {
@@ -1299,6 +1301,8 @@ pub struct ExecStartConfig {
 }
 
 /// Change in the container's filesystem.
+#[derive(o2o)]
+#[map_owned(bollard::secret::FilesystemChange)]
 #[napi(object)]
 pub struct FilesystemChange {
     /// Path to file or directory that has changed.
@@ -1306,7 +1310,8 @@ pub struct FilesystemChange {
     pub path: String,
 
     #[napi(js_name = "Kind")]
-    pub kind: u8,
+    #[map(~.into())]
+    pub kind: ChangeType,
 }
 
 /// User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`).

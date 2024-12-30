@@ -1,5 +1,7 @@
 mod attach;
+mod changes;
 mod create;
+mod export;
 mod inspect;
 mod remove;
 mod rename;

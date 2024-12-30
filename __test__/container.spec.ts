@@ -1,5 +1,6 @@
 import anyTest, { TestFn } from 'ava'
 import { Container, Docker } from '../index.js'
+import * as fs from 'node:fs';
 
 const test = anyTest as TestFn<{ docker: Docker; container: Container }>
 
@@ -101,6 +102,23 @@ test.serial('top', async (t) => {
   const { Titles } = await container.top()
   t.truthy(Titles?.includes("PID"))
 })
+
+test.serial('changes', async (t) => {
+  const { container } = t.context
+
+  const res = await container.changes()
+  t.truthy(res)
+})
+
+test.serial('export', async (t) => {
+  const { container } = t.context
+
+  const path = './__test__/cs.tar'
+  await container.export(path)
+  t.true(fs.existsSync(path))
+  fs.rmSync(path)
+})
+
 
 test.after('remove_container', async (t) => {
   const { container } = t.context
