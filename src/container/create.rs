@@ -181,6 +181,9 @@ impl Docker {
         })
     }
 
+    /// # Arguments
+    ///
+    /// * `id` - The id or name of container.
     #[napi]
     pub fn get_container(&self, id: String) -> Container {
         Container {

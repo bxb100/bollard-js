@@ -85,6 +85,17 @@ impl AsyncRead for LogOutputReader {
     }
 }
 
+/// ## Notice
+///
+/// I can't figure out the detach-key abilities, if I set `ctrl-c`
+/// which means
+/// ```rust
+/// self.sink.write_i8(0x03).await?;
+/// ```
+///
+/// > 0x3 means ascii `^C`
+///
+/// will work?
 #[derive(o2o)]
 #[owned_into(bollard::container::AttachContainerOptions::<String>)]
 #[ghosts(detach_keys: {None})]

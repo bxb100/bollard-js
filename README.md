@@ -63,7 +63,7 @@
 - [ ] container.top(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerTop)
 - [ ] container.changes() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerChanges)
 - [ ] container.export() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerExport)
-- [ ] container.start(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerStart)
+- [x] container.start(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerStart)
 - [ ] container.stop(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerStop)
 - [ ] container.pause(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerPause)
 - [ ] container.unpause(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerUnpause)
@@ -150,8 +150,8 @@
 - [ ] test with ssl
 - [ ] test with http
 - [ ] test with socket in windows
-- [ ] test attach
-- [ ] attach write only work with enable `stream`
+- [x] test attach
+- [ ] figure out is attached write only work with enable `stream`
 - [ ] fix CI
 
 [^1]: https://github.com/apocas/dockerode

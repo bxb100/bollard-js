@@ -1,6 +1,7 @@
 mod attach;
 mod create;
 mod remove;
+mod start;
 
 use bollard::Docker;
 

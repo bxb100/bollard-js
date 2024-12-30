@@ -32,23 +32,42 @@ test('version', async (t) => {
   t.true(v.Version !== undefined)
 })
 
-test('attach', async (t) => {
-  // todo: start then attach !!!
-  // const { container } = t.context
-  //
-  // const output = await container.attach({
-  //   stdin: true,
-  //   stdout: true,
-  //   stderr: true,
-  //   stream: true,
-  //   logs: true
-  // })
-  // const readable = output.createReadStream()
-  // const writable = output.createWriteStream()
-  //
-  // readable.pipe(process.stdout);
-  // writable.write('echo hello world\n')
+test.serial("start", async (t) => {
+  const { container } = t.context
+  await container.start()
   t.pass()
+})
+
+test.serial('attach', async (t) => {
+  const { container } = t.context
+  const output = await container.attach({
+    stdin: true,
+    stdout: true,
+    stderr: true,
+    stream: true,
+    logs: true,
+  })
+  const readable = output.createReadStream()
+  const writable = output.createWriteStream()
+
+  let data = ''
+  readable.on('data', (chunk: Buffer) => {
+    data += chunk.toString()
+  })
+
+  const res: string = await new Promise((resolve) => {
+    writable.on('finish', () => {
+      resolve(data)
+    })
+    writable.write('echo hello world\n')
+    writable.end()
+  })
+
+  if (res.includes('hello world')) {
+    return t.pass()
+  } else {
+    return t.fail()
+  }
 })
 
 test.after('remove_container', async (t) => {
