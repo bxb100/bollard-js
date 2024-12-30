@@ -805,6 +805,8 @@ pub struct ContainerSummaryNetworkSettings {
 }
 
 /// OK response to ContainerTop operation
+#[derive(o2o)]
+#[map_owned(bollard::secret::ContainerTopResponse)]
 #[napi(object)]
 pub struct ContainerTopResponse {
     /// The ps column titles

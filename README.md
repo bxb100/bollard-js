@@ -58,9 +58,9 @@
 ### Container
 
 - [x] container.inspect(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerInspect)
-- [ ] container.rename(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerRename)
-- [ ] container.update(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerUpdate)
-- [ ] container.top(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerTop)
+- [x] container.rename(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerRename)
+- [x] container.update(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerUpdate)
+- [x] container.top(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerTop)
 - [ ] container.changes() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerChanges)
 - [ ] container.export() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerExport)
 - [x] container.start(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.37/#operation/ContainerStart)

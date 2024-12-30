@@ -80,6 +80,28 @@ test.serial('inspect', async (t) => {
   t.truthy(res.SizeRw)
 })
 
+test.serial('rename', async (t) => {
+  const { container } = t.context
+  await container.rename('mycontainer_new')
+  t.pass()
+})
+
+test.serial('update', async (t) => {
+  const { container } = t.context
+  await container.update({
+    CpuShares: 512,
+    KernelMemoryTCP: 1024 * 1024,
+  })
+  t.pass()
+})
+
+test.serial('top', async (t) => {
+  const { container } = t.context
+
+  const { Titles } = await container.top()
+  t.truthy(Titles?.includes("PID"))
+})
+
 test.after('remove_container', async (t) => {
   const { container } = t.context
 

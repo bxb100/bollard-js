@@ -2,7 +2,10 @@ mod attach;
 mod create;
 mod inspect;
 mod remove;
+mod rename;
 mod start;
+mod top;
+mod update;
 
 use bollard::Docker;
 
