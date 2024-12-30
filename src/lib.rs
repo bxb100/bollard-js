@@ -2,6 +2,7 @@
 extern crate napi_derive;
 mod container;
 mod converts;
+mod exec;
 mod stubs;
 mod types;
 

@@ -52,13 +52,13 @@ class WriteStream extends Writable {
   }
 }
 
-const { Docker, AttachOutput } = require('./generated.js')
+const { Docker, Output } = require('./generated.js')
 
-AttachOutput.prototype.createReadStream = function (options) {
+Output.prototype.createReadStream = function (options) {
   return new ReadStream(this, options)
 }
 
-AttachOutput.prototype.createWriteStream = function (options) {
+Output.prototype.createWriteStream = function (options) {
   return new WriteStream(this, options)
 }
 

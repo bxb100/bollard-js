@@ -88,6 +88,34 @@ export interface Config {
 export interface NetworkingConfig {
   endpointsConfig: Record<string, EndpointSettings>
 }
+export interface CreateExecOptions {
+  /** Attach to `stdin` of the exec command. */
+  AttachStdin?: boolean
+  /** Attach to stdout of the exec command. */
+  AttachStdout?: boolean
+  /** Attach to stderr of the exec command. */
+  AttachStderr?: boolean
+  /** Allocate a pseudo-TTY. */
+  Tty?: boolean
+  /**
+   * Override the key sequence for detaching a container. Format is a single character `[a-Z]`
+   * or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.
+   */
+  DetachKeys?: string
+  /** A list of environment variables in the form `["VAR=value", ...].` */
+  Env?: Array<string>
+  /** Command to run, as a string or array of strings. */
+  Cmd?: Array<string>
+  /** Runs the exec process with extended privileges. */
+  Privileged?: boolean
+  /**
+   * The user, and optionally, group to run the exec process inside the container. Format is one
+   * of: `user`, `user:group`, `uid`, or `uid:gid`.
+   */
+  User?: string
+  /** The working directory for the exec process inside the container. */
+  WorkingDir?: string
+}
 export interface InspectContainerOptions {
   /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
   size: boolean
@@ -99,6 +127,10 @@ export interface RemoveContainerOptions {
   force: boolean
   /** Remove the specified link associated with the container. */
   link: boolean
+}
+export interface StopContainerOptions {
+  /** Number of seconds to wait before killing the container */
+  t: number
 }
 export interface TopOptions {
   /** The arguments to pass to `ps`. For example, `aux` */
@@ -174,6 +206,20 @@ export interface UpdateContainerOptions {
    * each restart to prevent flooding the server.
    */
   restartPolicy?: RestartPolicy
+}
+export interface ResizeExecOptions {
+  /** Height of the TTY session in characters */
+  h: number
+  /** Width of the TTY session in characters */
+  w: number
+}
+export interface StartExecOptions {
+  /** Detach from the command. */
+  Detach: boolean
+  /** Allocate a pseudo-TTY. */
+  Tty: boolean
+  /** The maximum size for a line of output. The default is 8 * 1024 (roughly 1024 characters). */
+  OutputCapacity?: number
 }
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
@@ -2807,26 +2853,40 @@ export interface DockerOptions {
   sslCert?: string
   sslCa?: string
 }
-export declare class AttachOutput {
-  write(buf: Buffer): Promise<bigint>
-  close(): Promise<void>
-  read(buf: Buffer): Promise<bigint>
-}
 export declare class CreateContainerResponse {
   get container(): Container
   get warnings(): Array<string>
 }
+export declare class CreateExecResults {
+  get exec(): Exec
+}
 export declare class Container {
   id: string
-  attach(option?: AttachOptions | undefined | null): Promise<AttachOutput>
+  attach(option?: AttachOptions | undefined | null): Promise<Output>
   changes(): Promise<Array<FilesystemChange> | null>
+  exec(option: CreateExecOptions): Promise<CreateExecResults>
+  export(path: string): Promise<void>
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
+  pause(): Promise<void>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   rename(newName: string): Promise<void>
   start(): Promise<void>
+  stop(option?: StopContainerOptions | undefined | null): Promise<void>
   top(option?: TopOptions | undefined | null): Promise<ContainerTopResponse>
+  unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
-  export(path: string): Promise<void>
+}
+export declare class Exec {
+  id: string
+  inspect(): Promise<ExecInspectResponse>
+  resize(option: ResizeExecOptions): Promise<void>
+  /** Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command. */
+  start(option?: StartExecOptions | undefined | null): Promise<Output | null>
+}
+export declare class Output {
+  write(buf: Buffer): Promise<void>
+  close(): Promise<void>
+  read(buf: Buffer): Promise<bigint>
 }
 export declare class Docker {
   createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<CreateContainerResponse>

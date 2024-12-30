@@ -14,7 +14,7 @@ pub struct UpdateContainerOptions {
     /// An integer value representing this container's relative CPU weight versus other containers.
     #[napi(js_name = "CpuShares")]
     #[map(~.map(|v| v as isize))]
-    pub cpu_shares: Option<i32>,
+    pub cpu_shares: Option<i64>,
 
     /// Memory limit in bytes.
     #[napi(js_name = "Memory")]

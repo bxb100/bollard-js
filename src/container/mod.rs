@@ -1,12 +1,16 @@
 mod attach;
 mod changes;
 mod create;
+mod exec;
 mod export;
 mod inspect;
+mod pause;
 mod remove;
 mod rename;
 mod start;
+mod stop;
 mod top;
+mod unpause;
 mod update;
 
 use bollard::Docker;

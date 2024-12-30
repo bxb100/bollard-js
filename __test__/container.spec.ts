@@ -1,8 +1,13 @@
 import anyTest, { TestFn } from 'ava'
 import { Container, Docker } from '../index.js'
-import * as fs from 'node:fs';
+import * as fs from 'node:fs'
 
-const test = anyTest as TestFn<{ docker: Docker; container: Container }>
+const test = anyTest as TestFn<{
+  container: {
+    docker: Docker
+    container: Container
+  }
+}>
 
 test.before('create_container', async (t) => {
   const docker = new Docker()
@@ -17,7 +22,7 @@ test.before('create_container', async (t) => {
       Tty: true,
     },
   )
-  t.context = {
+  t.context.container = {
     docker,
     container,
   }
@@ -25,7 +30,7 @@ test.before('create_container', async (t) => {
 
 // todo: move this to other test
 test('version', async (t) => {
-  const { docker } = t.context
+  const { docker } = t.context.container
   const version = await docker.version()
   const v = JSON.parse(version.toString())
   // console.log(v)
@@ -34,13 +39,13 @@ test('version', async (t) => {
 })
 
 test.serial('start', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
   await container.start()
   t.pass()
 })
 
 test.serial('attach', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
   const output = await container.attach({
     stdin: true,
     stdout: true,
@@ -73,7 +78,7 @@ test.serial('attach', async (t) => {
 })
 
 test.serial('inspect', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
   const res = await container.inspect({
     size: true,
   })
@@ -82,13 +87,13 @@ test.serial('inspect', async (t) => {
 })
 
 test.serial('rename', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
   await container.rename('mycontainer_new')
   t.pass()
 })
 
 test.serial('update', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
   await container.update({
     CpuShares: 512,
     KernelMemoryTCP: 1024 * 1024,
@@ -97,21 +102,21 @@ test.serial('update', async (t) => {
 })
 
 test.serial('top', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
 
   const { Titles } = await container.top()
-  t.truthy(Titles?.includes("PID"))
+  t.truthy(Titles?.includes('PID'))
 })
 
 test.serial('changes', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
 
   const res = await container.changes()
   t.truthy(res)
 })
 
 test.serial('export', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
 
   const path = './__test__/cs.tar'
   await container.export(path)
@@ -119,9 +124,24 @@ test.serial('export', async (t) => {
   fs.rmSync(path)
 })
 
+test.serial('stop', async (t) => {
+  const { container } = t.context.container
+
+  await container.stop()
+  await container.start()
+  t.pass()
+})
+
+test.serial('pause - unpause', async (t) => {
+  const { container } = t.context.container
+
+  await container.pause()
+  await container.unpause()
+  t.pass()
+})
 
 test.after('remove_container', async (t) => {
-  const { container } = t.context
+  const { container } = t.context.container
 
   await container.remove({
     force: true,

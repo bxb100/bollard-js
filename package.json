@@ -30,6 +30,7 @@
     "@ava/typescript": "^5.0.0"
   },
   "ava": {
+    "timeout": "30s",
     "typescript": {
       "compile": "tsc",
       "rewritePaths": {

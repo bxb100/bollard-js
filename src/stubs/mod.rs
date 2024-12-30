@@ -5,7 +5,7 @@ use std::collections::HashMap;
 
 /// Address represents an IPv4 or IPv6 IP address.
 #[derive(o2o)]
-#[map_owned(bollard::secret::Address)]
+#[map_owned(bollard::models::Address)]
 #[napi(object)]
 pub struct Address {
     /// IP address.
@@ -140,7 +140,7 @@ pub struct BuildPruneResponse {
 /// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
 /// which helps with FFI.
 #[derive(o2o)]
-#[map_owned(bollard::secret::ChangeType)]
+#[map_owned(bollard::models::ChangeType)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum ChangeType {
@@ -425,7 +425,7 @@ pub struct ConfigSpec {
 
 /// Configuration for a container that is portable between hosts.
 #[derive(o2o)]
-#[map_owned(bollard::secret::ContainerConfig)]
+#[map_owned(bollard::models::ContainerConfig)]
 #[napi(object)]
 pub struct ContainerConfig {
     /// The hostname to use for the container, as a valid RFC 1123 hostname.
@@ -544,7 +544,7 @@ pub struct ContainerConfig {
 // }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::ContainerInspectResponse)]
+#[map_owned(bollard::models::ContainerInspectResponse)]
 #[napi(object)]
 pub struct ContainerInspectResponse {
     /// The ID of the container
@@ -650,7 +650,7 @@ pub struct ContainerPruneResponse {
 
 /// ContainerState stores container's running state. It's part of ContainerJSONBase and will be returned by the 'inspect' command.
 #[derive(o2o)]
-#[map_owned(bollard::secret::ContainerState)]
+#[map_owned(bollard::models::ContainerState)]
 #[napi(object)]
 pub struct ContainerState {
     /// String representation of the container state. Can be one of 'created', 'running', 'paused', 'restarting', 'removing', 'exited', or 'dead'.
@@ -702,7 +702,7 @@ pub struct ContainerState {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::ContainerStateStatusEnum)]
+#[map_owned(bollard::models::ContainerStateStatusEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum ContainerStateStatusEnum {
@@ -808,7 +808,7 @@ pub struct ContainerSummaryNetworkSettings {
 
 /// OK response to ContainerTop operation
 #[derive(o2o)]
-#[map_owned(bollard::secret::ContainerTopResponse)]
+#[map_owned(bollard::models::ContainerTopResponse)]
 #[napi(object)]
 pub struct ContainerTopResponse {
     /// The ps column titles
@@ -892,7 +892,7 @@ pub struct CreateImageInfo {
 
 /// A device mapping between the host and container
 #[derive(o2o)]
-#[map_owned(bollard::secret::DeviceMapping)]
+#[map_owned(bollard::models::DeviceMapping)]
 #[napi(object)]
 pub struct DeviceMapping {
     #[napi(js_name = "PathOnHost")]
@@ -907,7 +907,7 @@ pub struct DeviceMapping {
 
 /// A request for devices to be sent to device drivers
 #[derive(o2o)]
-#[map_owned(bollard::secret::DeviceRequest)]
+#[map_owned(bollard::models::DeviceRequest)]
 #[napi(object)]
 pub struct DeviceRequest {
     #[napi(js_name = "Driver")]
@@ -953,7 +953,7 @@ pub struct Driver {
 
 /// Information about the storage driver used to store the container's and image's filesystem.
 #[derive(o2o)]
-#[map_owned(bollard::secret::DriverData)]
+#[map_owned(bollard::models::DriverData)]
 #[napi(object)]
 pub struct DriverData {
     /// Name of the storage driver.
@@ -967,7 +967,7 @@ pub struct DriverData {
 
 /// EndpointIPAMConfig represents an endpoint's IPAM configuration.
 #[derive(o2o)]
-#[map_owned(bollard::secret::EndpointIpamConfig)]
+#[map_owned(bollard::models::EndpointIpamConfig)]
 #[napi(object)]
 pub struct EndpointIpamConfig {
     #[napi(js_name = "IPv4Address")]
@@ -1020,7 +1020,7 @@ pub enum EndpointPortConfigPublishModeEnum {
 
 /// Configuration for a network endpoint.
 #[derive(o2o)]
-#[map_owned(bollard::secret::EndpointSettings)]
+#[map_owned(bollard::models::EndpointSettings)]
 #[napi(object)]
 pub struct EndpointSettings {
     #[napi(js_name = "IPAMConfig")]
@@ -1248,6 +1248,8 @@ pub struct ExecConfig {
     pub working_dir: Option<String>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ExecInspectResponse)]
 #[napi(object)]
 pub struct ExecInspectResponse {
     #[napi(js_name = "CanRemove")]
@@ -1266,6 +1268,7 @@ pub struct ExecInspectResponse {
     pub exit_code: Option<i64>,
 
     #[napi(js_name = "ProcessConfig")]
+    #[map(~.map(Into::into))]
     pub process_config: Option<ProcessConfig>,
 
     #[napi(js_name = "OpenStdin")]
@@ -1302,7 +1305,7 @@ pub struct ExecStartConfig {
 
 /// Change in the container's filesystem.
 #[derive(o2o)]
-#[map_owned(bollard::secret::FilesystemChange)]
+#[map_owned(bollard::models::FilesystemChange)]
 #[napi(object)]
 pub struct FilesystemChange {
     /// Path to file or directory that has changed.
@@ -1344,7 +1347,7 @@ pub struct GenericResourcesInnerNamedResourceSpec {
 
 /// Health stores information about the container's healthcheck results.
 #[derive(o2o)]
-#[map_owned(bollard::secret::Health)]
+#[map_owned(bollard::models::Health)]
 #[napi(object)]
 pub struct Health {
     /// Status is one of `none`, `starting`, `healthy` or `unhealthy`  - 'none'      Indicates there is no healthcheck - 'starting'  Starting indicates that the container is not yet ready - 'healthy'   Healthy indicates that the container is running correctly - 'unhealthy' Unhealthy indicates that the container has a problem
@@ -1363,7 +1366,7 @@ pub struct Health {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::HealthStatusEnum)]
+#[map_owned(bollard::models::HealthStatusEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum HealthStatusEnum {
@@ -1376,7 +1379,7 @@ pub enum HealthStatusEnum {
 
 /// A test to perform to check that the container is healthy.
 #[derive(o2o)]
-#[map_owned(bollard::secret::HealthConfig)]
+#[map_owned(bollard::models::HealthConfig)]
 #[napi(object)]
 pub struct HealthConfig {
     /// The test to perform. Possible values are:  - `[]` inherit healthcheck from image or parent image - `['NONE']` disable healthcheck - `['CMD', args...]` exec arguments directly - `['CMD-SHELL', command]` run command with system's default shell
@@ -1406,7 +1409,7 @@ pub struct HealthConfig {
 
 /// HealthcheckResult stores information about a single run of a healthcheck probe
 #[derive(o2o)]
-#[map_owned(bollard::secret::HealthcheckResult)]
+#[map_owned(bollard::models::HealthcheckResult)]
 #[napi(object)]
 pub struct HealthcheckResult {
     /// Date and time at which this check started in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
@@ -1450,7 +1453,7 @@ pub struct HistoryResponseItem {
 
 /// Container configuration that depends on the host we are running on
 #[derive(o2o)]
-#[map_owned(bollard::secret::HostConfig)]
+#[map_owned(bollard::models::HostConfig)]
 #[napi(object)]
 pub struct HostConfig {
     /// An integer value representing this container's relative CPU weight versus other containers.
@@ -1746,7 +1749,7 @@ pub struct HostConfig {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::HostConfigCgroupnsModeEnum)]
+#[map_owned(bollard::models::HostConfigCgroupnsModeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum HostConfigCgroupnsModeEnum {
@@ -1756,7 +1759,7 @@ pub enum HostConfigCgroupnsModeEnum {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::HostConfigIsolationEnum)]
+#[map_owned(bollard::models::HostConfigIsolationEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum HostConfigIsolationEnum {
@@ -1768,7 +1771,7 @@ pub enum HostConfigIsolationEnum {
 
 /// The logging configuration for this container
 #[derive(o2o)]
-#[map_owned(bollard::secret::HostConfigLogConfig)]
+#[map_owned(bollard::models::HostConfigLogConfig)]
 #[napi(object)]
 pub struct HostConfigLogConfig {
     #[napi(js_name = "Type")]
@@ -2257,7 +2260,7 @@ pub struct ManagerStatus {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::Mount)]
+#[map_owned(bollard::models::Mount)]
 #[napi(object)]
 pub struct Mount {
     /// Container path.
@@ -2295,7 +2298,7 @@ pub struct Mount {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountTypeEnum)]
+#[map_owned(bollard::models::MountTypeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum MountTypeEnum {
@@ -2309,7 +2312,7 @@ pub enum MountTypeEnum {
 
 /// Optional configuration for the `bind` type.
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountBindOptions)]
+#[map_owned(bollard::models::MountBindOptions)]
 #[napi(object)]
 pub struct MountBindOptions {
     /// A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.
@@ -2335,7 +2338,7 @@ pub struct MountBindOptions {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountBindOptionsPropagationEnum)]
+#[map_owned(bollard::models::MountBindOptionsPropagationEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum MountBindOptionsPropagationEnum {
@@ -2350,7 +2353,7 @@ pub enum MountBindOptionsPropagationEnum {
 
 /// MountPoint represents a mount point configuration inside the container. This is used for reporting the mountpoints in use by a container.
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountPoint)]
+#[map_owned(bollard::models::MountPoint)]
 #[napi(object)]
 pub struct MountPoint {
     /// The mount type:  - `bind` a mount of a file or directory from the host into the container. - `volume` a docker volume with the given `Name`. - `tmpfs` a `tmpfs`. - `npipe` a named pipe from the host into the container. - `cluster` a Swarm cluster volume
@@ -2388,7 +2391,7 @@ pub struct MountPoint {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountPointTypeEnum)]
+#[map_owned(bollard::models::MountPointTypeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum MountPointTypeEnum {
@@ -2402,7 +2405,7 @@ pub enum MountPointTypeEnum {
 
 /// Optional configuration for the `tmpfs` type.
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountTmpfsOptions)]
+#[map_owned(bollard::models::MountTmpfsOptions)]
 #[napi(object)]
 pub struct MountTmpfsOptions {
     /// The size for the tmpfs mount in bytes.
@@ -2420,7 +2423,7 @@ pub struct MountTmpfsOptions {
 
 /// Optional configuration for the `volume` type.
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountVolumeOptions)]
+#[map_owned(bollard::models::MountVolumeOptions)]
 #[napi(object)]
 pub struct MountVolumeOptions {
     /// Populate volume with data from the target.
@@ -2442,7 +2445,7 @@ pub struct MountVolumeOptions {
 
 /// Map of driver specific options
 #[derive(o2o)]
-#[map_owned(bollard::secret::MountVolumeOptionsDriverConfig)]
+#[map_owned(bollard::models::MountVolumeOptionsDriverConfig)]
 #[napi(object)]
 pub struct MountVolumeOptionsDriverConfig {
     /// Name of the driver to use to create the volume.
@@ -2654,7 +2657,7 @@ pub struct NetworkPruneResponse {
 
 /// NetworkSettings exposes the network settings in the API
 #[derive(o2o)]
-#[map_owned(bollard::secret::NetworkSettings)]
+#[map_owned(bollard::models::NetworkSettings)]
 #[napi(object)]
 pub struct NetworkSettings {
     /// Name of the default bridge interface when dockerd's --bridge flag is set.
@@ -3223,7 +3226,7 @@ pub enum PortTypeEnum {
 
 /// PortBinding represents a binding between a host IP address and a host port.
 #[derive(o2o)]
-#[map_owned(bollard::secret::PortBinding)]
+#[map_owned(bollard::models::PortBinding)]
 #[napi(object)]
 pub struct PortBinding {
     /// Host IP address that the container's port is mapped to.
@@ -3242,6 +3245,8 @@ pub struct PortStatus {
     pub ports: Option<Vec<EndpointPortConfig>>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ProcessConfig)]
 #[napi(object)]
 pub struct ProcessConfig {
     #[napi(js_name = "privileged")]
@@ -3461,7 +3466,7 @@ pub struct Resources {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::ResourcesBlkioWeightDevice)]
+#[map_owned(bollard::models::ResourcesBlkioWeightDevice)]
 #[napi(object)]
 pub struct ResourcesBlkioWeightDevice {
     #[napi(js_name = "Path")]
@@ -3474,7 +3479,7 @@ pub struct ResourcesBlkioWeightDevice {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::ResourcesUlimits)]
+#[map_owned(bollard::models::ResourcesUlimits)]
 #[napi(object)]
 pub struct ResourcesUlimits {
     /// Name of ulimit
@@ -3492,7 +3497,7 @@ pub struct ResourcesUlimits {
 
 /// The behavior to apply when the container exits. The default is not to restart.  An ever increasing delay (double the previous delay, starting at 100ms) is added before each restart to prevent flooding the server.
 #[derive(o2o)]
-#[map_owned(bollard::secret::RestartPolicy)]
+#[map_owned(bollard::models::RestartPolicy)]
 #[napi(object)]
 pub struct RestartPolicy {
     /// - Empty string means not to restart - `no` Do not automatically restart - `always` Always restart - `unless-stopped` Restart always except when the user has manually stopped the container - `on-failure` Restart only when the container exit code is non-zero
@@ -3506,7 +3511,7 @@ pub struct RestartPolicy {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::RestartPolicyNameEnum)]
+#[map_owned(bollard::models::RestartPolicyNameEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum RestartPolicyNameEnum {
@@ -5074,7 +5079,7 @@ pub struct TaskStatus {
 }
 
 #[derive(o2o)]
-#[map_owned(bollard::secret::ThrottleDevice)]
+#[map_owned(bollard::models::ThrottleDevice)]
 #[napi(object)]
 pub struct ThrottleDevice {
     /// Device path
