@@ -71,7 +71,7 @@
 - [x] container.commit(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageCommit)
 - [x] container.restart(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerRestart)
 - [x] container.kill(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerKill)
-- [ ] container.resize(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerResize)
+- [x] container.resize(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerResize)
 - [x] container.attach(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerAttach)
 - [ ] container.wait(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerWait)
 - [ ] container.remove(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerDelete)

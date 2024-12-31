@@ -166,6 +166,13 @@ test.serial('kill', async (t) => {
   t.pass()
 })
 
+test.serial('resize', async (t) => {
+  const { container } = t.context.container
+
+  await container.resize({ w: 50, h: 20 })
+  t.pass()
+})
+
 test.after('remove_container', async (t) => {
   const { container } = t.context.container
 

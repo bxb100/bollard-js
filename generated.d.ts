@@ -134,6 +134,10 @@ export interface InspectContainerOptions {
   /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
   size: boolean
 }
+export interface KillContainerOptions {
+  /** Signal to send to the container as an integer or string (e.g. `SIGINT`) */
+  signal: string
+}
 export interface RemoveContainerOptions {
   /** Remove the volumes associated with the container. */
   v: boolean
@@ -141,6 +145,10 @@ export interface RemoveContainerOptions {
   force: boolean
   /** Remove the specified link associated with the container. */
   link: boolean
+}
+export interface RestartContainerOptions {
+  /** Number of seconds to wait before killing the container. */
+  t: number
 }
 export interface StopContainerOptions {
   /** Number of seconds to wait before killing the container */
@@ -221,13 +229,11 @@ export interface UpdateContainerOptions {
    */
   restartPolicy?: RestartPolicy
 }
-export interface RestartContainerOptions {
-  /** Number of seconds to wait before killing the container. */
-  t: number
-}
-export interface KillContainerOptions {
-  /** Signal to send to the container as an integer or string (e.g. `SIGINT`) */
-  signal: string
+export interface ResizeContainerTtyOptions {
+  /** Width of the TTY session in characters */
+  w: number
+  /** Height of the TTY session in characters */
+  h: number
 }
 export interface ResizeExecOptions {
   /** Height of the TTY session in characters */
@@ -2890,16 +2896,17 @@ export declare class Container {
   exec(option: CreateExecOptions): Promise<CreateExecResults>
   export(path: string): Promise<void>
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
+  kill(option?: KillContainerOptions | undefined | null): Promise<void>
   pause(): Promise<void>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   rename(newName: string): Promise<void>
+  restart(option?: RestartContainerOptions | undefined | null): Promise<void>
   start(): Promise<void>
   stop(option?: StopContainerOptions | undefined | null): Promise<void>
   top(option?: TopOptions | undefined | null): Promise<ContainerTopResponse>
   unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
-  restart(option?: RestartContainerOptions | undefined | null): Promise<void>
-  kill(option?: KillContainerOptions | undefined | null): Promise<void>
+  resize(option: ResizeContainerTtyOptions): Promise<void>
 }
 export declare class Exec {
   id: string

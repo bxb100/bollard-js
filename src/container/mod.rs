@@ -9,6 +9,7 @@ mod kill;
 mod pause;
 mod remove;
 mod rename;
+mod resize;
 mod restart;
 mod start;
 mod stop;
