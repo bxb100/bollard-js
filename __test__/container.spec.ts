@@ -189,10 +189,49 @@ test.serial.skip('getArchive', async (t) => {
     path: '/opt',
   })
 
-  const path = './__test__/opt.tar'
+  const path = './__test__/opt.tar.gz'
   await res.save(path)
   t.true(fs.existsSync(path))
   fs.rmSync(path)
+  t.pass()
+})
+
+test.serial('putArchive', async (t) => {
+  const { container } = t.context.container
+
+  const buffer = await fs.promises.readFile('./__test__/fixtures/tarball.tar.gz')
+
+  await container.putArchive({ path: '/opt', noOverwriteDirNonDir: '0' }, buffer)
+  // There missing decompress and check archive part
+  t.pass()
+})
+
+// fixme: skip it until https://github.com/fussybeaver/bollard/issues/492 fixed
+test.serial.skip('logs', async (t) => {
+  const { container } = t.context.container
+
+  const res = container.logs( {
+    stdout: true,
+    follow: false,
+    stderr: false,
+    since: 0,
+    until: 0,
+    timestamps: true,
+    tail: 'all',
+  })
+
+  const read = res.createReadStream()
+
+  await new Promise((resolve, reject) => {
+    read.on('data', (chunk) => {
+      console.log(chunk)
+    })
+
+    read.on('error', reject)
+
+    read.on('close', resolve)
+  })
+
   t.pass()
 })
 

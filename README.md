@@ -77,8 +77,8 @@
 - [x] container.remove(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerDelete)
 - [x] container.getArchive(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerArchive)
 - [ ] ~~container.infoArchive(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerArchiveInfo)~~
-- [ ] container.putArchive(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/PutContainerArchive)
-- [ ] container.logs(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerLogs)
+- [x] container.putArchive(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/PutContainerArchive)
+- [x] container.logs(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerLogs)
 - [ ] container.stats(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerStats)
 
 ### Exec

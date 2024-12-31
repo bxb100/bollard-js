@@ -246,6 +246,34 @@ export interface WaitContainerOptions {
    */
   condition: string
 }
+export interface UploadToContainerOptions {
+  /** Path to a directory in the container to extract the archive’s contents into. */
+  path: string
+  /**
+   * If “1”, “true”, or “True” then it will be an error if unpacking the given content would
+   * cause an existing directory to be replaced with a non-directory and vice versa.
+   */
+  noOverwriteDirNonDir: string
+}
+export interface LogsOptions {
+  /** Return the logs as a finite stream. */
+  follow: boolean
+  /** Return logs from `stdout`. */
+  stdout: boolean
+  /** Return logs from `stderr`. */
+  stderr: boolean
+  /** Only return logs since this time, as a UNIX timestamp. */
+  since: number
+  /** Only return logs before this time, as a UNIX timestamp. */
+  until: number
+  /** Add timestamps to every log line. */
+  timestamps: boolean
+  /**
+   * Only return this number of log lines from the end of the logs. Specify as an integer or all
+   * to output `all` log lines.
+   */
+  tail: string
+}
 export interface ResizeExecOptions {
   /** Height of the TTY session in characters */
   h: number
@@ -2899,6 +2927,9 @@ export declare class CreateContainerResponse {
 export declare class CreateExecResults {
   get exec(): Exec
 }
+export declare class LogsResponse {
+  read(buf: Buffer): Promise<bigint>
+}
 export declare class Container {
   id: string
   attach(option?: AttachOptions | undefined | null): Promise<Output>
@@ -2920,6 +2951,8 @@ export declare class Container {
   unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
   wait(option?: WaitContainerOptions | undefined | null): Promise<ContainerWaitResponse | null>
+  putArchive(option: UploadToContainerOptions | undefined | null, archive: Buffer): Promise<void>
+  logs(option?: LogsOptions | undefined | null): LogsResponse
 }
 export declare class ReadStream {
   read(buf: Buffer): Promise<bigint>

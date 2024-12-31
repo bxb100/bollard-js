@@ -10,6 +10,10 @@ declare module './generated' {
   interface ReadStream {
     save(path: string, options?: ReadableOptions): Promise<void>
   }
+
+  interface LogsResponse {
+    createReadStream(options?: ReadableOptions): Readable
+  }
 }
 
 export * from './generated'

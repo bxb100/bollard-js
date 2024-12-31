@@ -1,4 +1,6 @@
 const { Writable, Readable } = require('node:stream')
+const { createWriteStream } = require('node:fs')
+const { Docker, Output, ReadStream, LogsResponse } = require('./generated')
 
 class ReadableStream extends Readable {
   constructor(reader, options) {
@@ -52,9 +54,6 @@ class WritableStream extends Writable {
   }
 }
 
-const { Docker, Output, ReadStream } = require('./generated.js')
-const { createWriteStream } = require('node:fs')
-
 Output.prototype.createReadStream = function (options) {
   return new ReadableStream(this, options)
 }
@@ -65,12 +64,16 @@ Output.prototype.createWriteStream = function (options) {
 
 ReadStream.prototype.save = function (path, options) {
   const writable = createWriteStream(path)
-  const readable = new ReadStream(this, options)
+  const readable = new ReadableStream(this, options)
   const fd = readable.pipe(writable)
   return new Promise((resolve, reject) => {
     fd.on('error', reject)
     fd.on('close', resolve)
   })
+}
+
+LogsResponse.prototype.createReadStream = function (options) {
+  return new ReadableStream(this, options)
 }
 
 module.exports.Docker = Docker
