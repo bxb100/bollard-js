@@ -221,6 +221,14 @@ export interface UpdateContainerOptions {
    */
   restartPolicy?: RestartPolicy
 }
+export interface RestartContainerOptions {
+  /** Number of seconds to wait before killing the container. */
+  t: number
+}
+export interface KillContainerOptions {
+  /** Signal to send to the container as an integer or string (e.g. `SIGINT`) */
+  signal: string
+}
 export interface ResizeExecOptions {
   /** Height of the TTY session in characters */
   h: number
@@ -2890,6 +2898,8 @@ export declare class Container {
   top(option?: TopOptions | undefined | null): Promise<ContainerTopResponse>
   unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
+  restart(option?: RestartContainerOptions | undefined | null): Promise<void>
+  kill(option?: KillContainerOptions | undefined | null): Promise<void>
 }
 export declare class Exec {
   id: string

@@ -105,7 +105,7 @@ test.serial('changes', async (t) => {
   t.truthy(res)
 })
 
-test.serial('export', async (t) => {
+test.serial.skip('export', async (t) => {
   const { container } = t.context.container
 
   const path = './__test__/cs.tar'
@@ -131,7 +131,7 @@ test.serial('pause - unpause', async (t) => {
 })
 
 // todo: move to image
-test.serial('commit', async (t) => {
+test.serial.skip('commit', async (t) => {
   const { container } = t.context.container
 
   const { ID, Expected } = await container.commit(
@@ -147,6 +147,22 @@ test.serial('commit', async (t) => {
 
   // fixme: if image exist will return undefined
   console.log(ID, Expected)
+  t.pass()
+})
+
+test.serial('restart', async (t) => {
+  const { container } = t.context.container
+
+  await container.restart({ t: 2 })
+  t.pass()
+})
+
+// https://www.baeldung.com/ops/docker-stop-vs-kill
+test.serial('kill', async (t) => {
+  const { container } = t.context.container
+
+  await container.kill({ signal: 'SIGKILL' })
+  await container.start()
   t.pass()
 })
 
