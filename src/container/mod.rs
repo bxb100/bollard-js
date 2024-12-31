@@ -1,5 +1,6 @@
 mod attach;
 mod changes;
+mod commit;
 mod create;
 mod exec;
 mod export;

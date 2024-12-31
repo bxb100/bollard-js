@@ -1,5 +1,5 @@
 import anyTest, { TestFn } from 'ava'
-import { Container, Docker, Exec } from '../index.js'
+import { Container, Docker, Exec } from '../index'
 
 const test = anyTest as TestFn<{
   exec: {
@@ -70,7 +70,7 @@ test.serial('ls /tmp/execWorks', async (t) => {
   const write = output!.createWriteStream()
 
   write.write('ls /tmp/execWorks\n')
-  write.destroy()
+  write.end()
 
   const chunks: Buffer[] = []
 
@@ -86,7 +86,7 @@ test.serial('ls /tmp/execWorks', async (t) => {
   })
 
   await new Promise((resolve) => {
-    read.on('close', () => resolve(true))
+    read.on('close', resolve)
   })
 
   t.context.exec.exec = exec

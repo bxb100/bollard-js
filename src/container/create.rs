@@ -16,7 +16,7 @@ pub struct CreateContainerOptions {
 #[derive(o2o)]
 #[owned_into(bollard::container::Config::<String>)]
 #[napi(object)]
-pub struct Config {
+pub struct CrateContainerConfig {
     #[napi(js_name = "Hostname")]
     pub hostname: Option<String>,
 
@@ -164,7 +164,7 @@ impl Docker {
     pub async fn create_container(
         &self,
         options: Option<CreateContainerOptions>,
-        config: Config,
+        config: CrateContainerConfig,
     ) -> Result<CreateContainerResponse> {
         let res = self
             .0

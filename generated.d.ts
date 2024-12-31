@@ -23,11 +23,25 @@ export interface AttachOptions {
   stream?: boolean
   logs?: boolean
 }
+export interface CommitContainerOptions {
+  /** Repository name for the created image. */
+  repo: string
+  /** Tag name for the create image. */
+  tag: string
+  /** Commit message. */
+  comment: string
+  /** Author of the image. */
+  author: string
+  /** Whether to pause the container before committing. */
+  pause: boolean
+  /** `Dockerfile` instructions to apply while committing */
+  changes?: string
+}
 export interface CreateContainerOptions {
   name: string
   platform?: string
 }
-export interface Config {
+export interface CrateContainerConfig {
   Hostname?: string
   /** The domain name to use for the container. */
   Domainname?: string
@@ -2864,6 +2878,7 @@ export declare class Container {
   id: string
   attach(option?: AttachOptions | undefined | null): Promise<Output>
   changes(): Promise<Array<FilesystemChange> | null>
+  commit(option: CommitContainerOptions, config: CrateContainerConfig): Promise<Commit>
   exec(option: CreateExecOptions): Promise<CreateExecResults>
   export(path: string): Promise<void>
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
@@ -2889,7 +2904,7 @@ export declare class Output {
   read(buf: Buffer): Promise<bigint>
 }
 export declare class Docker {
-  createContainer(options: CreateContainerOptions | undefined | null, config: Config): Promise<CreateContainerResponse>
+  createContainer(options: CreateContainerOptions | undefined | null, config: CrateContainerConfig): Promise<CreateContainerResponse>
   /**
    * # Arguments
    *

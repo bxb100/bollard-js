@@ -367,6 +367,8 @@ pub struct ClusterVolumeSpecAccessModeSecrets {
 }
 
 /// Commit holds the Git-commit (SHA1) that a binary was built from, as reported in the version-string of external tools, such as `containerd`, or `runC`.
+#[derive(o2o)]
+#[map_owned(bollard::models::Commit)]
 #[napi(object)]
 pub struct Commit {
     /// Actual commit ID of external tool.

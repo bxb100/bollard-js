@@ -1,5 +1,5 @@
 import anyTest, { TestFn } from 'ava'
-import { Container, Docker } from '../index.js'
+import { Container, Docker } from '../index'
 import * as fs from 'node:fs'
 
 const test = anyTest as TestFn<{
@@ -26,16 +26,6 @@ test.before('create_container', async (t) => {
     docker,
     container,
   }
-})
-
-// todo: move this to other test
-test('version', async (t) => {
-  const { docker } = t.context.container
-  const version = await docker.version()
-  const v = JSON.parse(version.toString())
-  // console.log(v)
-  t.true(v !== null && v !== undefined)
-  t.true(v.Version !== undefined)
 })
 
 test.serial('start', async (t) => {
@@ -137,6 +127,26 @@ test.serial('pause - unpause', async (t) => {
 
   await container.pause()
   await container.unpause()
+  t.pass()
+})
+
+// todo: move to image
+test.serial('commit', async (t) => {
+  const { container } = t.context.container
+
+  const { ID, Expected } = await container.commit(
+    {
+      repo: 'alpine',
+      tag: 'version1',
+      comment: 'build for test',
+      author: 'test',
+      pause: true,
+    },
+    {},
+  )
+
+  // fixme: if image exist will return undefined
+  console.log(ID, Expected)
   t.pass()
 })
 
