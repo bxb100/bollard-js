@@ -73,7 +73,7 @@
 - [x] container.kill(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerKill)
 - [x] container.resize(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerResize)
 - [x] container.attach(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerAttach)
-- [ ] container.wait(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerWait)
+- [x] container.wait(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerWait)
 - [ ] container.remove(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerDelete)
 - [ ] container.getArchive(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerArchive)
 - [ ] container.infoArchive(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerArchiveInfo)

@@ -16,6 +16,7 @@ mod stop;
 mod top;
 mod unpause;
 mod update;
+mod wait;
 
 use bollard::Docker;
 

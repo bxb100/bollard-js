@@ -830,6 +830,8 @@ pub struct ContainerUpdateResponse {
 }
 
 /// container waiting error, if any
+#[derive(o2o)]
+#[map_owned(bollard::models::ContainerWaitExitError)]
 #[napi(object)]
 pub struct ContainerWaitExitError {
     /// Details of an error
@@ -838,6 +840,8 @@ pub struct ContainerWaitExitError {
 }
 
 /// OK response to ContainerWait operation
+#[derive(o2o)]
+#[map_owned(bollard::models::ContainerWaitResponse)]
 #[napi(object)]
 pub struct ContainerWaitResponse {
     /// Exit code of the container
@@ -845,6 +849,7 @@ pub struct ContainerWaitResponse {
     pub status_code: i64,
 
     #[napi(js_name = "Error")]
+    #[map(~.map(Into::into))]
     pub error: Option<ContainerWaitExitError>,
 }
 

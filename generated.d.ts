@@ -146,6 +146,12 @@ export interface RemoveContainerOptions {
   /** Remove the specified link associated with the container. */
   link: boolean
 }
+export interface ResizeContainerTtyOptions {
+  /** Width of the TTY session in characters */
+  w: number
+  /** Height of the TTY session in characters */
+  h: number
+}
 export interface RestartContainerOptions {
   /** Number of seconds to wait before killing the container. */
   t: number
@@ -229,11 +235,12 @@ export interface UpdateContainerOptions {
    */
   restartPolicy?: RestartPolicy
 }
-export interface ResizeContainerTtyOptions {
-  /** Width of the TTY session in characters */
-  w: number
-  /** Height of the TTY session in characters */
-  h: number
+export interface WaitContainerOptions {
+  /**
+   * Wait until a container state reaches the given condition, either 'not-running' (default),
+   * 'next-exit', or 'removed'.
+   */
+  condition: string
 }
 export interface ResizeExecOptions {
   /** Height of the TTY session in characters */
@@ -2900,13 +2907,14 @@ export declare class Container {
   pause(): Promise<void>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   rename(newName: string): Promise<void>
+  resize(option: ResizeContainerTtyOptions): Promise<void>
   restart(option?: RestartContainerOptions | undefined | null): Promise<void>
   start(): Promise<void>
   stop(option?: StopContainerOptions | undefined | null): Promise<void>
   top(option?: TopOptions | undefined | null): Promise<ContainerTopResponse>
   unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
-  resize(option: ResizeContainerTtyOptions): Promise<void>
+  wait(option?: WaitContainerOptions | undefined | null): Promise<ContainerWaitResponse | null>
 }
 export declare class Exec {
   id: string

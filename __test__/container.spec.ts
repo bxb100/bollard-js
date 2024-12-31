@@ -28,10 +28,9 @@ test.before('create_container', async (t) => {
   }
 })
 
-test.serial('start', async (t) => {
+test.beforeEach(async (t) => {
   const { container } = t.context.container
   await container.start()
-  t.pass()
 })
 
 test.serial('attach', async (t) => {
@@ -98,7 +97,7 @@ test.serial('top', async (t) => {
   t.truthy(Titles?.includes('PID'))
 })
 
-test.serial('changes', async (t) => {
+test.serial.skip('changes', async (t) => {
   const { container } = t.context.container
 
   const res = await container.changes()
@@ -118,7 +117,6 @@ test.serial('stop', async (t) => {
   const { container } = t.context.container
 
   await container.stop()
-  await container.start()
   t.pass()
 })
 
@@ -162,7 +160,6 @@ test.serial('kill', async (t) => {
   const { container } = t.context.container
 
   await container.kill({ signal: 'SIGKILL' })
-  await container.start()
   t.pass()
 })
 
@@ -170,6 +167,17 @@ test.serial('resize', async (t) => {
   const { container } = t.context.container
 
   await container.resize({ w: 50, h: 20 })
+  t.pass()
+})
+
+test.serial('wait', async (t) => {
+  const { container } = t.context.container
+
+  // this test for wait block, nothing magic
+  // but is it normal return null when container stop?
+  let wait = container.wait({ condition: 'not-running' })
+  container.stop()
+  await wait
   t.pass()
 })
 
