@@ -52,7 +52,8 @@ class WriteStream extends Writable {
   }
 }
 
-const { Docker, Output } = require('./generated.js')
+const { Docker, Output, DownloadStream } = require('./generated.js')
+const { createWriteStream } = require('node:fs')
 
 Output.prototype.createReadStream = function (options) {
   return new ReadStream(this, options)
@@ -60,6 +61,16 @@ Output.prototype.createReadStream = function (options) {
 
 Output.prototype.createWriteStream = function (options) {
   return new WriteStream(this, options)
+}
+
+DownloadStream.prototype.save = function (path, options) {
+  const writable = createWriteStream(path)
+  const readable = new ReadStream(this, options)
+  const fd = readable.pipe(writable)
+  return new Promise((resolve, reject) => {
+    fd.on('error', reject)
+    fd.on('close', resolve)
+  })
 }
 
 module.exports.Docker = Docker

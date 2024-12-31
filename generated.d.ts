@@ -130,6 +130,10 @@ export interface CreateExecOptions {
   /** The working directory for the exec process inside the container. */
   WorkingDir?: string
 }
+export interface DownloadFromContainerOptions {
+  /** Resource in the container’s filesystem to archive. */
+  path: string
+}
 export interface InspectContainerOptions {
   /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
   size: boolean
@@ -2901,7 +2905,8 @@ export declare class Container {
   changes(): Promise<Array<FilesystemChange> | null>
   commit(option: CommitContainerOptions, config: CrateContainerConfig): Promise<Commit>
   exec(option: CreateExecOptions): Promise<CreateExecResults>
-  export(path: string): Promise<void>
+  export(): DownloadStream
+  getArchive(option?: DownloadFromContainerOptions | undefined | null): DownloadStream
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
   kill(option?: KillContainerOptions | undefined | null): Promise<void>
   pause(): Promise<void>
@@ -2915,6 +2920,9 @@ export declare class Container {
   unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
   wait(option?: WaitContainerOptions | undefined | null): Promise<ContainerWaitResponse | null>
+}
+export declare class DownloadStream {
+  read(buf: Buffer): Promise<bigint>
 }
 export declare class Exec {
   id: string

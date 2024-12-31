@@ -1,21 +1,19 @@
-use crate::container::Container;
-use futures::StreamExt;
+use crate::container::{Container, DownloadStream, FutureBytesRead};
+use bytes::Bytes;
 use napi::bindgen_prelude::*;
-use std::fs;
-use std::io::Write;
 
 #[napi]
 impl Container {
     #[napi]
-    pub async fn export(&self, path: String) -> Result<()> {
-        let mut stream = self.docker.export_container(&self.id);
+    pub fn export(&self) -> Result<DownloadStream> {
+        let stream = self.docker.export_container(&self.id);
 
-        let mut f = fs::File::create(path)?;
-
-        while let Some(Ok(bytes)) = stream.next().await {
-            f.write_all(&bytes)?
-        }
-
-        Ok(())
+        Ok(DownloadStream {
+            inner: FutureBytesRead {
+                inner: Box::pin(stream),
+                pos: 0,
+                buf: Bytes::new(),
+            },
+        })
     }
 }

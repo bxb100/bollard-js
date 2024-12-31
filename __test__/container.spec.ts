@@ -9,7 +9,7 @@ const test = anyTest as TestFn<{
   }
 }>
 
-test.before('create_container', async (t) => {
+test.before('create', async (t) => {
   const docker = new Docker()
   // docker container create -i -t --name mycontainer alpine
   const { container } = await docker.createContainer(
@@ -28,7 +28,7 @@ test.before('create_container', async (t) => {
   }
 })
 
-test.beforeEach(async (t) => {
+test.beforeEach('start', async (t) => {
   const { container } = t.context.container
   await container.start()
 })
@@ -107,8 +107,9 @@ test.serial.skip('changes', async (t) => {
 test.serial.skip('export', async (t) => {
   const { container } = t.context.container
 
-  const path = './__test__/cs.tar'
-  await container.export(path)
+  const path = './__test__/export.tar'
+  const res = container.export()
+  await res.save(path)
   t.true(fs.existsSync(path))
   fs.rmSync(path)
 })
@@ -181,7 +182,21 @@ test.serial('wait', async (t) => {
   t.pass()
 })
 
-test.after('remove_container', async (t) => {
+test.serial.skip('getArchive', async (t) => {
+  const { container } = t.context.container
+
+  const res = container.getArchive({
+    path: '/opt',
+  })
+
+  const path = './__test__/opt.tar'
+  await res.save(path)
+  t.true(fs.existsSync(path))
+  fs.rmSync(path)
+  t.pass()
+})
+
+test.after('remove', async (t) => {
   const { container } = t.context.container
 
   await container.remove({

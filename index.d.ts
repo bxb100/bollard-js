@@ -6,6 +6,10 @@ declare module './generated' {
 
     createWriteStream(options?: WritableOptions): Writable
   }
+
+  interface DownloadStream {
+    save(path: string, options?: ReadableOptions): Promise<void>
+  }
 }
 
 export * from './generated'

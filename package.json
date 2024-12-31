@@ -46,7 +46,7 @@
     "build": "napi build --platform --release --js generated.js --dts generated.d.ts",
     "build:debug": "napi build --platform --js generated.js --dts generated.d.ts",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "ava",
+    "test": "ava --fail-fast",
     "universal": "napi universal",
     "version": "napi version",
     "format": "prettier --write ."

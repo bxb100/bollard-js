@@ -66,6 +66,7 @@ pub struct FutureRead {
 }
 
 impl AsyncRead for FutureRead {
+    //noinspection DuplicatedCode
     fn poll_read(
         self: Pin<&mut Self>,
         cx: &mut Context<'_>,
