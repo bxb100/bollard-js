@@ -35,12 +35,12 @@ pub struct Container {
 }
 
 #[napi]
-pub struct DownloadStream {
+pub struct ReadStream {
     inner: FutureBytesRead,
 }
 
 #[napi]
-impl DownloadStream {
+impl ReadStream {
     #[napi]
     pub async unsafe fn read(&mut self, mut buf: Buffer) -> napi::Result<usize> {
         let buf = buf.as_mut();

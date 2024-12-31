@@ -1,14 +1,14 @@
-use crate::container::{Container, DownloadStream, FutureBytesRead};
+use crate::container::{Container, FutureBytesRead, ReadStream};
 use bytes::Bytes;
 use napi::bindgen_prelude::*;
 
 #[napi]
 impl Container {
     #[napi]
-    pub fn export(&self) -> Result<DownloadStream> {
+    pub fn export(&self) -> Result<ReadStream> {
         let stream = self.docker.export_container(&self.id);
 
-        Ok(DownloadStream {
+        Ok(ReadStream {
             inner: FutureBytesRead {
                 inner: Box::pin(stream),
                 pos: 0,

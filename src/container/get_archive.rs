@@ -1,4 +1,4 @@
-use crate::container::{Container, DownloadStream, FutureBytesRead};
+use crate::container::{Container, FutureBytesRead, ReadStream};
 use bytes::Bytes;
 use napi::bindgen_prelude::*;
 use o2o::o2o;
@@ -14,15 +14,12 @@ pub struct DownloadFromContainerOptions {
 #[napi]
 impl Container {
     #[napi]
-    pub fn get_archive(
-        &self,
-        option: Option<DownloadFromContainerOptions>,
-    ) -> Result<DownloadStream> {
+    pub fn get_archive(&self, option: Option<DownloadFromContainerOptions>) -> Result<ReadStream> {
         let stream = self
             .docker
             .download_from_container(&self.id, option.map(Into::into));
 
-        Ok(DownloadStream {
+        Ok(ReadStream {
             inner: FutureBytesRead {
                 inner: Box::pin(stream),
                 pos: 0,

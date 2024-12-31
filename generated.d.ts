@@ -2905,8 +2905,8 @@ export declare class Container {
   changes(): Promise<Array<FilesystemChange> | null>
   commit(option: CommitContainerOptions, config: CrateContainerConfig): Promise<Commit>
   exec(option: CreateExecOptions): Promise<CreateExecResults>
-  export(): DownloadStream
-  getArchive(option?: DownloadFromContainerOptions | undefined | null): DownloadStream
+  export(): ReadStream
+  getArchive(option?: DownloadFromContainerOptions | undefined | null): ReadStream
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
   kill(option?: KillContainerOptions | undefined | null): Promise<void>
   pause(): Promise<void>
@@ -2921,7 +2921,7 @@ export declare class Container {
   update(option: UpdateContainerOptions): Promise<void>
   wait(option?: WaitContainerOptions | undefined | null): Promise<ContainerWaitResponse | null>
 }
-export declare class DownloadStream {
+export declare class ReadStream {
   read(buf: Buffer): Promise<bigint>
 }
 export declare class Exec {
