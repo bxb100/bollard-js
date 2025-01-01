@@ -14,6 +14,10 @@ declare module './generated' {
   interface LogsResponse {
     createReadStream(options?: ReadableOptions): Readable
   }
+
+  interface StatsStream {
+    createReadStream(options?: ReadableOptions): Readable
+  }
 }
 
 export * from './generated'

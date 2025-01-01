@@ -22,12 +22,12 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@ava/typescript": "^5.0.0",
     "@napi-rs/cli": "^2.18.4",
     "@types/node": "^22.10.2",
     "ava": "^6.2.0",
     "prettier": "^2.8.8",
-    "typescript": "^5.7.2",
-    "@ava/typescript": "^5.0.0"
+    "typescript": "^5.7.2"
   },
   "ava": {
     "timeout": "30s",

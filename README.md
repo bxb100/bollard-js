@@ -79,7 +79,7 @@
 - [ ] ~~container.infoArchive(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerArchiveInfo)~~
 - [x] container.putArchive(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/PutContainerArchive)
 - [x] container.logs(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerLogs)
-- [ ] container.stats(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerStats)
+- [x] container.stats(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerStats)
 
 ### Exec
 

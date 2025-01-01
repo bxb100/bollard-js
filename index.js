@@ -1,6 +1,6 @@
 const { Writable, Readable } = require('node:stream')
 const { createWriteStream } = require('node:fs')
-const { Docker, Output, ReadStream, LogsResponse } = require('./generated')
+const { Docker, Output, ReadStream, LogsResponse, StatsStream } = require('./generated')
 
 class ReadableStream extends Readable {
   constructor(reader, options) {
@@ -73,6 +73,10 @@ ReadStream.prototype.save = function (path, options) {
 }
 
 LogsResponse.prototype.createReadStream = function (options) {
+  return new ReadableStream(this, options)
+}
+
+StatsStream.prototype.createReadStream = function (options) {
   return new ReadableStream(this, options)
 }
 

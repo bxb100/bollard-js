@@ -15,6 +15,7 @@ mod rename;
 mod resize;
 mod restart;
 mod start;
+mod stats;
 mod stop;
 mod top;
 mod unpause;

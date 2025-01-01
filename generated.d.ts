@@ -142,6 +142,34 @@ export interface KillContainerOptions {
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`) */
   signal: string
 }
+export interface LogsOptions {
+  /** Return the logs as a finite stream. */
+  follow: boolean
+  /** Return logs from `stdout`. */
+  stdout: boolean
+  /** Return logs from `stderr`. */
+  stderr: boolean
+  /** Only return logs since this time, as a UNIX timestamp. */
+  since: number
+  /** Only return logs before this time, as a UNIX timestamp. */
+  until: number
+  /** Add timestamps to every log line. */
+  timestamps: boolean
+  /**
+   * Only return this number of log lines from the end of the logs. Specify as an integer or all
+   * to output `all` log lines.
+   */
+  tail: string
+}
+export interface UploadToContainerOptions {
+  /** Path to a directory in the container to extract the archive’s contents into. */
+  path: string
+  /**
+   * If “1”, “true”, or “True” then it will be an error if unpacking the given content would
+   * cause an existing directory to be replaced with a non-directory and vice versa.
+   */
+  noOverwriteDirNonDir: string
+}
 export interface RemoveContainerOptions {
   /** Remove the volumes associated with the container. */
   v: boolean
@@ -159,6 +187,12 @@ export interface ResizeContainerTtyOptions {
 export interface RestartContainerOptions {
   /** Number of seconds to wait before killing the container. */
   t: number
+}
+export interface StatsOptions {
+  /** Stream the output. If false, the stats will be output once and then it will disconnect. */
+  stream: boolean
+  /** Only get a single stat instead of waiting for 2 cycles. Must be used with `stream = false`. */
+  oneShot: boolean
 }
 export interface StopContainerOptions {
   /** Number of seconds to wait before killing the container */
@@ -245,34 +279,6 @@ export interface WaitContainerOptions {
    * 'next-exit', or 'removed'.
    */
   condition: string
-}
-export interface UploadToContainerOptions {
-  /** Path to a directory in the container to extract the archive’s contents into. */
-  path: string
-  /**
-   * If “1”, “true”, or “True” then it will be an error if unpacking the given content would
-   * cause an existing directory to be replaced with a non-directory and vice versa.
-   */
-  noOverwriteDirNonDir: string
-}
-export interface LogsOptions {
-  /** Return the logs as a finite stream. */
-  follow: boolean
-  /** Return logs from `stdout`. */
-  stdout: boolean
-  /** Return logs from `stderr`. */
-  stderr: boolean
-  /** Only return logs since this time, as a UNIX timestamp. */
-  since: number
-  /** Only return logs before this time, as a UNIX timestamp. */
-  until: number
-  /** Add timestamps to every log line. */
-  timestamps: boolean
-  /**
-   * Only return this number of log lines from the end of the logs. Specify as an integer or all
-   * to output `all` log lines.
-   */
-  tail: string
 }
 export interface ResizeExecOptions {
   /** Height of the TTY session in characters */
@@ -2930,6 +2936,9 @@ export declare class CreateExecResults {
 export declare class LogsResponse {
   read(buf: Buffer): Promise<bigint>
 }
+export declare class StatsStream {
+  read(buf: Buffer): Promise<bigint>
+}
 export declare class Container {
   id: string
   attach(option?: AttachOptions | undefined | null): Promise<Output>
@@ -2940,19 +2949,20 @@ export declare class Container {
   getArchive(option?: DownloadFromContainerOptions | undefined | null): ReadStream
   inspect(option?: InspectContainerOptions | undefined | null): Promise<ContainerInspectResponse>
   kill(option?: KillContainerOptions | undefined | null): Promise<void>
+  logs(option?: LogsOptions | undefined | null): LogsResponse
   pause(): Promise<void>
+  putArchive(option: UploadToContainerOptions | undefined | null, archive: Buffer): Promise<void>
   remove(option?: RemoveContainerOptions | undefined | null): Promise<void>
   rename(newName: string): Promise<void>
   resize(option: ResizeContainerTtyOptions): Promise<void>
   restart(option?: RestartContainerOptions | undefined | null): Promise<void>
   start(): Promise<void>
+  stats(option?: StatsOptions | undefined | null): StatsStream
   stop(option?: StopContainerOptions | undefined | null): Promise<void>
   top(option?: TopOptions | undefined | null): Promise<ContainerTopResponse>
   unpause(): Promise<void>
   update(option: UpdateContainerOptions): Promise<void>
   wait(option?: WaitContainerOptions | undefined | null): Promise<ContainerWaitResponse | null>
-  putArchive(option: UploadToContainerOptions | undefined | null, archive: Buffer): Promise<void>
-  logs(option?: LogsOptions | undefined | null): LogsResponse
 }
 export declare class ReadStream {
   read(buf: Buffer): Promise<bigint>

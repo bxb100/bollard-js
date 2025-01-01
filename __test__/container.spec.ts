@@ -1,5 +1,6 @@
 import anyTest, { TestFn } from 'ava'
 import { Container, Docker } from '../index'
+import { LineDecoder } from './common'
 import * as fs from 'node:fs'
 
 const test = anyTest as TestFn<{
@@ -210,7 +211,7 @@ test.serial('putArchive', async (t) => {
 test.serial.skip('logs', async (t) => {
   const { container } = t.context.container
 
-  const res = container.logs( {
+  const res = container.logs({
     stdout: true,
     follow: false,
     stderr: false,
@@ -233,6 +234,39 @@ test.serial.skip('logs', async (t) => {
   })
 
   t.pass()
+})
+
+test.serial('stats', async (t) => {
+  const { container } = t.context.container
+
+  const output = container.stats({
+    stream: false,
+    oneShot: true,
+  })
+
+  const lineDecoder = new LineDecoder()
+  const reader = output.createReadStream()
+
+  let result: object
+  reader.on('data', (chunk) => {
+    const item = lineDecoder.decode(chunk)
+    if (item.length > 0) {
+      result = JSON.parse(item.join(''))
+    }
+  })
+
+  const res = await new Promise((resolve, reject) => {
+    reader.on('close', () => {
+      const remain = lineDecoder.flush()
+      if (remain.length > 0) {
+        result = JSON.parse(remain.join(''))
+      }
+      resolve(result)
+    })
+    reader.on('error', reject)
+  })
+
+  t.truthy(res)
 })
 
 test.after('remove', async (t) => {
