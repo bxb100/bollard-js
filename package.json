@@ -1,8 +1,10 @@
 {
-  "name": "bollard-js",
+  "name": "bollard",
   "version": "0.0.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "description": "Rust bollard Javascript binding",
+  "repository": "https://github.com/bxb100/bollard-js",
   "files": [
     "generated.d.ts",
     "generated.js",
@@ -10,7 +12,10 @@
     "index.js"
   ],
   "napi": {
-    "name": "bollard-js",
+    "name": "bollard",
+    "package": {
+      "name": "@bollard/lib"
+    },
     "triples": {
       "additional": [
         "aarch64-apple-darwin",
@@ -24,9 +29,9 @@
   "devDependencies": {
     "@ava/typescript": "^5.0.0",
     "@napi-rs/cli": "^2.18.4",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.3",
     "ava": "^6.2.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.4.2",
     "typescript": "^5.7.2"
   },
   "ava": {
@@ -66,6 +71,10 @@
         }
       }
     ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "packageManager": "pnpm@9.15.0"
 }

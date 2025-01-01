@@ -3,7 +3,8 @@ fail_fast: true
 exclude: |
   (?x)(
     ^generated |
-    stubs/mod.rs$
+    stubs/mod.rs$ |
+    ^npm/.*$
   )
 
 repos:

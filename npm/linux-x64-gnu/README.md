@@ -1,3 +1,3 @@
-# `bollard-js-linux-x64-gnu`
+# `@bollard/lib-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `bollard-js`
+This is the **x86_64-unknown-linux-gnu** binary for `bollard`

@@ -1,5 +1,5 @@
 {
-  "name": "bollard-js-linux-arm64-gnu",
+  "name": "@bollard/lib-linux-arm64-gnu",
   "version": "0.0.0",
   "os": [
     "linux"
@@ -11,10 +11,12 @@
   "files": [
     "bollard-js.linux-arm64-gnu.node"
   ],
+  "description": "Rust bollard Javascript binding",
   "license": "MIT",
   "engines": {
     "node": ">= 10"
   },
+  "repository": "https://github.com/bxb100/bollard-js",
   "libc": [
     "glibc"
   ]
