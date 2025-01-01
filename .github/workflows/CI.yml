@@ -6,7 +6,7 @@ env:
 permissions:
   contents: write
   id-token: write
-'on':
+on:
   push:
     branches:
       - main
@@ -20,7 +20,33 @@ permissions:
       - docs/**
   pull_request: null
 jobs:
+  check:
+    name: Check is publish
+    runs-on: ubuntu-latest
+    outputs:
+      is_publish: ${{ steps.shell.outputs.is_publish }}
+      exclude: ${{ steps.exclude.outputs.json }}
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        id: shell
+        run: |
+          if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
+          then
+            echo "is_publish=true" >> "$GITHUB_OUTPUT"
+          elif git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+";
+          then
+            echo "is_publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_publish=false" >> "$GITHUB_OUTPUT"
+          fi
+      - id: exclude
+        if: ${{ !fromJSON(steps.shell.outputs.is_publish) }}
+        run: |
+          echo "json=[{\"settings\":{\"host\":\"macos-latest\"}},{\"settings\":{\"host\":\"windows-latest\"}},{\"settings\":{\"host\":\"ubuntu-latest\",\"target\":\"aarch64-unknown-linux-gnu\"}},{\"settings\":{\"host\":\"ubuntu-latest\",\"target\":\"aarch64-unknown-linux-musl\"}}]" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: check
     strategy:
       fail-fast: false
       matrix:
@@ -52,6 +78,7 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: pnpm build --target aarch64-pc-windows-msvc
+        exclude: ${{ fromJSON(needs.check.outputs.exclude || '[]') }}
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -152,8 +179,10 @@ jobs:
         run: pnpm test
   publish:
     name: Publish
+    if: ${{ fromJSON(needs.check.outputs.is_publish) }}
     runs-on: ubuntu-latest
     needs:
+      - check
       - test-linux-x64-gnu-binding
     steps:
       - uses: actions/checkout@v4
