@@ -198,3 +198,5 @@ Cargo.lock
 
 # Nix/devbox
 .rustup/*
+
+__test__/fixtures/*.tar.gz

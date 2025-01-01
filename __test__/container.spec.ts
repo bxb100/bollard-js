@@ -2,6 +2,8 @@ import anyTest, { TestFn } from 'ava'
 import { Container, Docker } from '../index'
 import { LineDecoder } from './common'
 import * as fs from 'node:fs'
+import { exec } from 'node:child_process'
+import * as util from 'node:util';
 
 const test = anyTest as TestFn<{
   container: {
@@ -199,6 +201,9 @@ test.serial.skip('getArchive', async (t) => {
 
 test.serial('putArchive', async (t) => {
   const { container } = t.context.container
+
+  const exec2 = util.promisify(exec);
+  await exec2('/usr/bin/tar -czf ./__test__/fixtures/tarball.tar.gz ./__test__/fixtures/cs.md')
 
   const buffer = await fs.promises.readFile('./__test__/fixtures/tarball.tar.gz')
 

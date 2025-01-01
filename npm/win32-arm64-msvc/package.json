@@ -1,5 +1,6 @@
 {
   "name": "bollard-js-win32-arm64-msvc",
+  "repository": "https://github.com/bxb100/bollard-js",
   "version": "0.0.0",
   "os": [
     "win32"

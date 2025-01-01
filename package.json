@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "repository": "https://github.com/bxb100/bollard-js",
   "files": [
     "generated.d.ts",
     "generated.js",
@@ -24,7 +25,7 @@
   "devDependencies": {
     "@ava/typescript": "^5.0.0",
     "@napi-rs/cli": "^2.18.4",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.3",
     "ava": "^6.2.0",
     "prettier": "^2.8.8",
     "typescript": "^5.7.2"

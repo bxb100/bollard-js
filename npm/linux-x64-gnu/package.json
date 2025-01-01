@@ -1,5 +1,6 @@
 {
   "name": "bollard-js-linux-x64-gnu",
+  "repository": "https://github.com/bxb100/bollard-js",
   "version": "0.0.0",
   "os": [
     "linux"
