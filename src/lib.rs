@@ -61,11 +61,14 @@ impl Docker {
         Ok(Self(docker))
     }
 
-    #[napi]
+    #[napi(js_name = "_version")]
     pub async fn version(&self) -> Result<Buffer> {
-        let v = self.0.version().await.map_err(format_err)?;
-        serde_json::to_string(&v)
-            .map(|s| s.into())
+        self.0
+            .version()
+            .await
+            .map(|v| serde_json::to_string(&v))
+            .map_err(format_err)?
+            .map(Into::into)
             .map_err(format_err)
     }
 }

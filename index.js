@@ -80,4 +80,10 @@ StatsStream.prototype.createReadStream = function (options) {
   return new ReadableStream(this, options)
 }
 
+const json = (buffer) => JSON.parse(buffer.toString())
+
+Docker.prototype.version = function () {
+  return this._version().then(json)
+}
+
 module.exports.Docker = Docker

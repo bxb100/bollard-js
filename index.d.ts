@@ -18,6 +18,10 @@ declare module './generated' {
   interface StatsStream {
     createReadStream(options?: ReadableOptions): Readable
   }
+
+  interface Docker {
+    version(): Promise<any>
+  }
 }
 
 export * from './generated'

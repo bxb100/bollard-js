@@ -2988,5 +2988,5 @@ export declare class Docker {
    */
   getContainer(id: string): Container
   constructor(options?: DockerOptions | undefined | null)
-  version(): Promise<Buffer>
+  _version(): Promise<Buffer>
 }
