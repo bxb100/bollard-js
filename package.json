@@ -1,5 +1,5 @@
 {
-  "name": "bollard-js",
+  "name": "bollard",
   "version": "0.0.0",
   "main": "index.js",
   "types": "index.d.ts",
@@ -68,5 +68,6 @@
       }
     ]
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "description": "Rust bollard Javascript binding"
 }
