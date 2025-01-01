@@ -1,15 +1,15 @@
 {
   "name": "@bollard/lib-linux-arm64-musl",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "os": [
     "linux"
   ],
   "cpu": [
     "arm64"
   ],
-  "main": "bollard-js.linux-arm64-musl.node",
+  "main": "bollard.linux-arm64-musl.node",
   "files": [
-    "bollard-js.linux-arm64-musl.node"
+    "bollard.linux-arm64-musl.node"
   ],
   "description": "Rust bollard Javascript binding",
   "license": "MIT",

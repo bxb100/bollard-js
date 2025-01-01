@@ -1,10 +1,13 @@
 {
   "name": "bollard",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "types": "index.d.ts",
   "description": "Rust bollard Javascript binding",
-  "repository": "https://github.com/bxb100/bollard-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bxb100/bollard-js.git"
+  },
   "files": [
     "generated.d.ts",
     "generated.js",

@@ -1,15 +1,15 @@
 {
   "name": "@bollard/lib-darwin-arm64",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "os": [
     "darwin"
   ],
   "cpu": [
     "arm64"
   ],
-  "main": "bollard-js.darwin-arm64.node",
+  "main": "bollard.darwin-arm64.node",
   "files": [
-    "bollard-js.darwin-arm64.node"
+    "bollard.darwin-arm64.node"
   ],
   "description": "Rust bollard Javascript binding",
   "license": "MIT",

@@ -32,24 +32,24 @@ switch (platform) {
   case 'android':
     switch (arch) {
       case 'arm64':
-        localFileExisted = existsSync(join(__dirname, 'bollard-js.android-arm64.node'))
+        localFileExisted = existsSync(join(__dirname, 'bollard.android-arm64.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.android-arm64.node')
+            nativeBinding = require('./bollard.android-arm64.node')
           } else {
-            nativeBinding = require('bollard-js-android-arm64')
+            nativeBinding = require('@bollard/lib-android-arm64')
           }
         } catch (e) {
           loadError = e
         }
         break
       case 'arm':
-        localFileExisted = existsSync(join(__dirname, 'bollard-js.android-arm-eabi.node'))
+        localFileExisted = existsSync(join(__dirname, 'bollard.android-arm-eabi.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.android-arm-eabi.node')
+            nativeBinding = require('./bollard.android-arm-eabi.node')
           } else {
-            nativeBinding = require('bollard-js-android-arm-eabi')
+            nativeBinding = require('@bollard/lib-android-arm-eabi')
           }
         } catch (e) {
           loadError = e
@@ -63,13 +63,13 @@ switch (platform) {
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(
-          join(__dirname, 'bollard-js.win32-x64-msvc.node')
+          join(__dirname, 'bollard.win32-x64-msvc.node')
         )
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.win32-x64-msvc.node')
+            nativeBinding = require('./bollard.win32-x64-msvc.node')
           } else {
-            nativeBinding = require('bollard-js-win32-x64-msvc')
+            nativeBinding = require('@bollard/lib-win32-x64-msvc')
           }
         } catch (e) {
           loadError = e
@@ -77,13 +77,13 @@ switch (platform) {
         break
       case 'ia32':
         localFileExisted = existsSync(
-          join(__dirname, 'bollard-js.win32-ia32-msvc.node')
+          join(__dirname, 'bollard.win32-ia32-msvc.node')
         )
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.win32-ia32-msvc.node')
+            nativeBinding = require('./bollard.win32-ia32-msvc.node')
           } else {
-            nativeBinding = require('bollard-js-win32-ia32-msvc')
+            nativeBinding = require('@bollard/lib-win32-ia32-msvc')
           }
         } catch (e) {
           loadError = e
@@ -91,13 +91,13 @@ switch (platform) {
         break
       case 'arm64':
         localFileExisted = existsSync(
-          join(__dirname, 'bollard-js.win32-arm64-msvc.node')
+          join(__dirname, 'bollard.win32-arm64-msvc.node')
         )
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.win32-arm64-msvc.node')
+            nativeBinding = require('./bollard.win32-arm64-msvc.node')
           } else {
-            nativeBinding = require('bollard-js-win32-arm64-msvc')
+            nativeBinding = require('@bollard/lib-win32-arm64-msvc')
           }
         } catch (e) {
           loadError = e
@@ -108,23 +108,23 @@ switch (platform) {
     }
     break
   case 'darwin':
-    localFileExisted = existsSync(join(__dirname, 'bollard-js.darwin-universal.node'))
+    localFileExisted = existsSync(join(__dirname, 'bollard.darwin-universal.node'))
     try {
       if (localFileExisted) {
-        nativeBinding = require('./bollard-js.darwin-universal.node')
+        nativeBinding = require('./bollard.darwin-universal.node')
       } else {
-        nativeBinding = require('bollard-js-darwin-universal')
+        nativeBinding = require('@bollard/lib-darwin-universal')
       }
       break
     } catch {}
     switch (arch) {
       case 'x64':
-        localFileExisted = existsSync(join(__dirname, 'bollard-js.darwin-x64.node'))
+        localFileExisted = existsSync(join(__dirname, 'bollard.darwin-x64.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.darwin-x64.node')
+            nativeBinding = require('./bollard.darwin-x64.node')
           } else {
-            nativeBinding = require('bollard-js-darwin-x64')
+            nativeBinding = require('@bollard/lib-darwin-x64')
           }
         } catch (e) {
           loadError = e
@@ -132,13 +132,13 @@ switch (platform) {
         break
       case 'arm64':
         localFileExisted = existsSync(
-          join(__dirname, 'bollard-js.darwin-arm64.node')
+          join(__dirname, 'bollard.darwin-arm64.node')
         )
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.darwin-arm64.node')
+            nativeBinding = require('./bollard.darwin-arm64.node')
           } else {
-            nativeBinding = require('bollard-js-darwin-arm64')
+            nativeBinding = require('@bollard/lib-darwin-arm64')
           }
         } catch (e) {
           loadError = e
@@ -152,12 +152,12 @@ switch (platform) {
     if (arch !== 'x64') {
       throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
     }
-    localFileExisted = existsSync(join(__dirname, 'bollard-js.freebsd-x64.node'))
+    localFileExisted = existsSync(join(__dirname, 'bollard.freebsd-x64.node'))
     try {
       if (localFileExisted) {
-        nativeBinding = require('./bollard-js.freebsd-x64.node')
+        nativeBinding = require('./bollard.freebsd-x64.node')
       } else {
-        nativeBinding = require('bollard-js-freebsd-x64')
+        nativeBinding = require('@bollard/lib-freebsd-x64')
       }
     } catch (e) {
       loadError = e
@@ -168,26 +168,26 @@ switch (platform) {
       case 'x64':
         if (isMusl()) {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-x64-musl.node')
+            join(__dirname, 'bollard.linux-x64-musl.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-x64-musl.node')
+              nativeBinding = require('./bollard.linux-x64-musl.node')
             } else {
-              nativeBinding = require('bollard-js-linux-x64-musl')
+              nativeBinding = require('@bollard/lib-linux-x64-musl')
             }
           } catch (e) {
             loadError = e
           }
         } else {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-x64-gnu.node')
+            join(__dirname, 'bollard.linux-x64-gnu.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-x64-gnu.node')
+              nativeBinding = require('./bollard.linux-x64-gnu.node')
             } else {
-              nativeBinding = require('bollard-js-linux-x64-gnu')
+              nativeBinding = require('@bollard/lib-linux-x64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -197,26 +197,26 @@ switch (platform) {
       case 'arm64':
         if (isMusl()) {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-arm64-musl.node')
+            join(__dirname, 'bollard.linux-arm64-musl.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-arm64-musl.node')
+              nativeBinding = require('./bollard.linux-arm64-musl.node')
             } else {
-              nativeBinding = require('bollard-js-linux-arm64-musl')
+              nativeBinding = require('@bollard/lib-linux-arm64-musl')
             }
           } catch (e) {
             loadError = e
           }
         } else {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-arm64-gnu.node')
+            join(__dirname, 'bollard.linux-arm64-gnu.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-arm64-gnu.node')
+              nativeBinding = require('./bollard.linux-arm64-gnu.node')
             } else {
-              nativeBinding = require('bollard-js-linux-arm64-gnu')
+              nativeBinding = require('@bollard/lib-linux-arm64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -226,26 +226,26 @@ switch (platform) {
       case 'arm':
         if (isMusl()) {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-arm-musleabihf.node')
+            join(__dirname, 'bollard.linux-arm-musleabihf.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-arm-musleabihf.node')
+              nativeBinding = require('./bollard.linux-arm-musleabihf.node')
             } else {
-              nativeBinding = require('bollard-js-linux-arm-musleabihf')
+              nativeBinding = require('@bollard/lib-linux-arm-musleabihf')
             }
           } catch (e) {
             loadError = e
           }
         } else {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-arm-gnueabihf.node')
+            join(__dirname, 'bollard.linux-arm-gnueabihf.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-arm-gnueabihf.node')
+              nativeBinding = require('./bollard.linux-arm-gnueabihf.node')
             } else {
-              nativeBinding = require('bollard-js-linux-arm-gnueabihf')
+              nativeBinding = require('@bollard/lib-linux-arm-gnueabihf')
             }
           } catch (e) {
             loadError = e
@@ -255,26 +255,26 @@ switch (platform) {
       case 'riscv64':
         if (isMusl()) {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-riscv64-musl.node')
+            join(__dirname, 'bollard.linux-riscv64-musl.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-riscv64-musl.node')
+              nativeBinding = require('./bollard.linux-riscv64-musl.node')
             } else {
-              nativeBinding = require('bollard-js-linux-riscv64-musl')
+              nativeBinding = require('@bollard/lib-linux-riscv64-musl')
             }
           } catch (e) {
             loadError = e
           }
         } else {
           localFileExisted = existsSync(
-            join(__dirname, 'bollard-js.linux-riscv64-gnu.node')
+            join(__dirname, 'bollard.linux-riscv64-gnu.node')
           )
           try {
             if (localFileExisted) {
-              nativeBinding = require('./bollard-js.linux-riscv64-gnu.node')
+              nativeBinding = require('./bollard.linux-riscv64-gnu.node')
             } else {
-              nativeBinding = require('bollard-js-linux-riscv64-gnu')
+              nativeBinding = require('@bollard/lib-linux-riscv64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -283,13 +283,13 @@ switch (platform) {
         break
       case 's390x':
         localFileExisted = existsSync(
-          join(__dirname, 'bollard-js.linux-s390x-gnu.node')
+          join(__dirname, 'bollard.linux-s390x-gnu.node')
         )
         try {
           if (localFileExisted) {
-            nativeBinding = require('./bollard-js.linux-s390x-gnu.node')
+            nativeBinding = require('./bollard.linux-s390x-gnu.node')
           } else {
-            nativeBinding = require('bollard-js-linux-s390x-gnu')
+            nativeBinding = require('@bollard/lib-linux-s390x-gnu')
           }
         } catch (e) {
           loadError = e
