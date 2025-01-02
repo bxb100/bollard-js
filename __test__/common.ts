@@ -1,4 +1,4 @@
-//! This copy from https://github.com/openai/openai-node/blob/master/src/internal/decoders/line.ts
+//! copy from https://github.com/openai/openai-node/blob/master/src/internal/decoders/line.ts
 
 type Bytes = string | ArrayBuffer | Uint8Array | Buffer | null | undefined
 
@@ -109,6 +109,8 @@ export class LineDecoder {
   }
 }
 
+//! copy from https://github.com/openai/openai-node/blob/master/src/streaming.ts
+
 /**
  * Most browsers don't yet have async iterable support for ReadableStream,
  * and Node has a very different way of reading bytes from its "ReadableStream".
@@ -116,6 +118,8 @@ export class LineDecoder {
  * This polyfill was pulled from https://github.com/MattiasBuelens/web-streams-polyfill/pull/122#issuecomment-1627354490
  */
 export function readableStreamAsyncIterable(stream: any): AsyncIterableIterator<Bytes> {
+  if (stream[Symbol.asyncIterator]) return stream;
+
   return {
     async next() {
       try {
