@@ -1796,6 +1796,8 @@ pub struct IdResponse {
 }
 
 /// Configuration of the image. These fields are used as defaults when starting a container from the image.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageConfig)]
 #[napi(object)]
 pub struct ImageConfig {
     /// The hostname to use for the container, as a valid RFC 1123 hostname.  <p><br /></p>  > **Deprecated**: this field is not part of the image specification and is > always empty. It must not be used, and will be removed in API v1.48.
@@ -1824,6 +1826,8 @@ pub struct ImageConfig {
 
     /// An object mapping ports to an empty object in the form:  `{'<port>/<tcp|udp|sctp>': {}}`
     #[napi(js_name = "ExposedPorts")]
+    #[from(crate::converts::convert_map_to_vec(~))]
+    #[into(crate::converts::convert_vec_to_map(~))]
     pub exposed_ports: Option<Vec<String>>,
 
     /// Attach standard streams to a TTY, including `stdin` if it is not closed.  <p><br /></p>  > **Deprecated**: this field is not part of the image specification and is > always false. It must not be used, and will be removed in API v1.48.
@@ -1847,6 +1851,7 @@ pub struct ImageConfig {
     pub cmd: Option<Vec<String>>,
 
     #[napi(js_name = "Healthcheck")]
+    #[map(~.map(Into::into))]
     pub healthcheck: Option<HealthConfig>,
 
     /// Command is already escaped (Windows only)
@@ -1859,6 +1864,8 @@ pub struct ImageConfig {
 
     /// An object mapping mount point paths inside the container to empty objects.
     #[napi(js_name = "Volumes")]
+    #[from(crate::converts::convert_map_to_vec(~))]
+    #[into(crate::converts::convert_vec_to_map(~))]
     pub volumes: Option<Vec<String>>,
 
     /// The working directory for commands to run in.
@@ -1917,6 +1924,8 @@ pub struct ImageId {
 }
 
 /// Information about an image in the local image cache.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageInspect)]
 #[napi(object)]
 pub struct ImageInspect {
     /// ID is the content-addressable ID of an image.  This identifier is a content-addressable digest calculated from the image's configuration (which includes the digests of layers used by the image).  Note that this digest differs from the `RepoDigests` below, which holds digests of image manifests that reference the image.
@@ -1952,6 +1961,7 @@ pub struct ImageInspect {
     pub author: Option<String>,
 
     #[napi(js_name = "Config")]
+    #[map(~.map(Into::into))]
     pub config: Option<ImageConfig>,
 
     /// Hardware CPU architecture that the image runs on.
@@ -1979,16 +1989,21 @@ pub struct ImageInspect {
     pub virtual_size: Option<i64>,
 
     #[napi(js_name = "GraphDriver")]
+    #[map(~.map(Into::into))]
     pub graph_driver: Option<DriverData>,
 
     #[napi(js_name = "RootFS")]
+    #[map(~.map(Into::into))]
     pub root_fs: Option<ImageInspectRootFs>,
 
     #[napi(js_name = "Metadata")]
+    #[map(~.map(Into::into))]
     pub metadata: Option<ImageInspectMetadata>,
 }
 
 /// Additional metadata of the image in the local cache. This information is local to the daemon, and not part of the image itself.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageInspectMetadata)]
 #[napi(object)]
 pub struct ImageInspectMetadata {
     /// Date and time at which the image was last tagged in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.  This information is only available if the image was tagged locally, and omitted otherwise.
@@ -1997,6 +2012,8 @@ pub struct ImageInspectMetadata {
 }
 
 /// Information about the image's RootFS, including the layer IDs.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageInspectRootFs)]
 #[napi(object)]
 pub struct ImageInspectRootFs {
     #[napi(js_name = "Type")]

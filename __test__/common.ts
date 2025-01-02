@@ -1,4 +1,4 @@
-//!  This copy from https://github.com/openai/openai-node/blob/master/src/internal/decoders/line.ts
+//! This copy from https://github.com/openai/openai-node/blob/master/src/internal/decoders/line.ts
 
 type Bytes = string | ArrayBuffer | Uint8Array | Buffer | null | undefined
 

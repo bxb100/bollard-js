@@ -3030,6 +3030,7 @@ export declare class Docker {
    */
   getContainer(id: string): Container
   createImage(option?: CreateImageOptions | undefined | null, rootFs?: Buffer | undefined | null, credentials?: DockerCredentials | undefined | null): CreateImageOutput
+  inspectImage(imageName: string): Promise<ImageInspect>
   constructor(options?: DockerOptions | undefined | null)
   _version(): Promise<Buffer>
 }
