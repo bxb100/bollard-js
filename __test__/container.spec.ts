@@ -100,14 +100,14 @@ test.serial('top', async (t) => {
   t.truthy(Titles?.includes('PID'))
 })
 
-test.serial.skip('changes', async (t) => {
+test.serial('changes', async (t) => {
   const { container } = t.context.container
 
   const res = await container.changes()
   t.truthy(res)
 })
 
-test.serial.skip('export', async (t) => {
+test.serial('export', async (t) => {
   const { container } = t.context.container
 
   const path = './__test__/export.tar'
@@ -133,7 +133,7 @@ test.serial('pause - unpause', async (t) => {
 })
 
 // todo: move to image
-test.serial.skip('commit', async (t) => {
+test.serial('commit', async (t) => {
   const { container } = t.context.container
 
   const { ID, Expected } = await container.commit(
@@ -185,7 +185,7 @@ test.serial('wait', async (t) => {
   t.pass()
 })
 
-test.serial.skip('getArchive', async (t) => {
+test.serial('getArchive', async (t) => {
   const { container } = t.context.container
 
   const res = container.getArchive({

@@ -1,4 +1,5 @@
-use crate::container::{Container, FutureBytesRead, ReadStream};
+use crate::container::{Container, ReadStream};
+use crate::types::CommonFutureRead;
 use bytes::Bytes;
 use napi::bindgen_prelude::*;
 
@@ -9,8 +10,8 @@ impl Container {
         let stream = self.docker.export_container(&self.id);
 
         Ok(ReadStream {
-            inner: FutureBytesRead {
-                inner: Box::pin(stream),
+            inner: CommonFutureRead {
+                stream: Box::pin(stream),
                 pos: 0,
                 buf: Bytes::new(),
             },

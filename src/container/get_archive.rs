@@ -1,4 +1,5 @@
-use crate::container::{Container, FutureBytesRead, ReadStream};
+use crate::container::{Container, ReadStream};
+use crate::types::CommonFutureRead;
 use bytes::Bytes;
 use napi::bindgen_prelude::*;
 use o2o::o2o;
@@ -20,8 +21,8 @@ impl Container {
             .download_from_container(&self.id, option.map(Into::into));
 
         Ok(ReadStream {
-            inner: FutureBytesRead {
-                inner: Box::pin(stream),
+            inner: CommonFutureRead {
+                stream: Box::pin(stream),
                 pos: 0,
                 buf: Bytes::new(),
             },

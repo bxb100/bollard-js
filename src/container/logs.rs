@@ -1,6 +1,7 @@
 use crate::container::Container;
 use crate::format_err;
-use crate::types::FutureRead;
+use crate::types::CommonFutureRead;
+use bollard::container::LogOutput;
 use bytes::Bytes;
 use futures::AsyncReadExt;
 use napi::bindgen_prelude::*;
@@ -35,7 +36,7 @@ impl Container {
         let stream = self.docker.logs(&self.id, option.map(Into::into));
 
         Ok(LogsResponse {
-            inner: FutureRead {
+            inner: CommonFutureRead {
                 stream: Box::pin(stream),
                 pos: 0,
                 buf: Bytes::new(),
@@ -46,7 +47,7 @@ impl Container {
 
 #[napi]
 pub struct LogsResponse {
-    inner: FutureRead,
+    inner: CommonFutureRead<LogOutput>,
 }
 
 #[napi]

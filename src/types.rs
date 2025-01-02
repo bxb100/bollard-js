@@ -4,6 +4,7 @@ use bytes::{Buf, Bytes};
 use futures::{AsyncRead, AsyncReadExt, Stream, StreamExt};
 use napi::bindgen_prelude::Buffer;
 use napi::tokio::io::{AsyncWrite, AsyncWriteExt};
+use o2o::o2o;
 use std::pin::Pin;
 use std::task::{ready, Context, Poll};
 
@@ -21,15 +22,25 @@ type Sink = Pin<Box<dyn AsyncWrite + Send>>;
 
 #[napi]
 pub struct Output {
-    source: FutureRead,
+    source: CommonFutureRead<LogOutput>,
     sink: Sink,
+}
+
+impl ToBytes for LogOutput {
+    fn with_eol() -> bool {
+        false
+    }
+
+    fn to_bytes(self) -> std::io::Result<Bytes> {
+        Ok(self.into_bytes())
+    }
 }
 
 #[napi]
 impl Output {
     pub fn new(output: Source, input: Sink) -> Self {
         Self {
-            source: FutureRead {
+            source: CommonFutureRead {
                 stream: output,
                 pos: 0,
                 buf: Bytes::new(),
@@ -59,14 +70,18 @@ impl Output {
     }
 }
 
-pub struct FutureRead {
-    pub stream: Source,
-    pub pos: usize,
-    pub buf: Bytes,
+pub struct CommonFutureRead<T: ToBytes> {
+    pub(crate) stream: Pin<Box<dyn Stream<Item = Result<T, bollard::errors::Error>> + Send>>,
+    pub(crate) pos: usize,
+    pub(crate) buf: Bytes,
 }
 
-impl AsyncRead for FutureRead {
-    //noinspection DuplicatedCode
+pub trait ToBytes {
+    fn with_eol() -> bool;
+    fn to_bytes(self) -> std::io::Result<Bytes>;
+}
+
+impl<T: ToBytes> AsyncRead for CommonFutureRead<T> {
     fn poll_read(
         self: Pin<&mut Self>,
         cx: &mut Context<'_>,
@@ -82,12 +97,35 @@ impl AsyncRead for FutureRead {
             }
 
             this.buf = match ready!(this.stream.poll_next_unpin(cx)) {
-                Some(Ok(item)) => item.into_bytes(),
+                Some(Ok(item)) => match item.to_bytes() {
+                    Ok(bytes) => bytes,
+                    Err(err) => return Poll::Ready(Err(err)),
+                },
                 Some(Err(err)) => {
                     return Poll::Ready(Err(std::io::Error::new(std::io::ErrorKind::Other, err)));
                 }
                 None => return Poll::Ready(Ok(0)),
+            };
+
+            // -, - ugly hack
+            if T::with_eol() && this.pos > 0 {
+                buf[0] = b'\r';
+                buf[1] = b'\n';
+                return Poll::Ready(Ok(2));
             }
         }
     }
+}
+
+#[derive(o2o)]
+#[owned_into(bollard::auth::DockerCredentials)]
+#[napi(object)]
+pub struct DockerCredentials {
+    pub username: Option<String>,
+    pub password: Option<String>,
+    pub auth: Option<String>,
+    pub email: Option<String>,
+    pub serveraddress: Option<String>,
+    pub identitytoken: Option<String>,
+    pub registrytoken: Option<String>,
 }
