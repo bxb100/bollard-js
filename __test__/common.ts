@@ -90,9 +90,7 @@ export class LineDecoder {
       }
 
       throw new Error(
-        `Unexpected: received non-Uint8Array/ArrayBuffer (${
-          (bytes as any).constructor.name
-        }) in a web platform. Please report this error.`,
+        `Unexpected: received non-Uint8Array/ArrayBuffer (${(bytes as any).constructor.name}) in a web platform. Please report this error.`,
       )
     }
 
@@ -108,5 +106,47 @@ export class LineDecoder {
     this.buffer = []
     this.trailingCR = false
     return lines
+  }
+}
+
+/**
+ * Most browsers don't yet have async iterable support for ReadableStream,
+ * and Node has a very different way of reading bytes from its "ReadableStream".
+ *
+ * This polyfill was pulled from https://github.com/MattiasBuelens/web-streams-polyfill/pull/122#issuecomment-1627354490
+ */
+export function readableStreamAsyncIterable(stream: any): AsyncIterableIterator<Bytes> {
+  return {
+    async next() {
+      try {
+        const buf = Buffer.alloc(65536)
+        let s: bigint = await stream.read(buf)
+        if (s === 0n) {
+          return { done: true, value: undefined }
+        }
+        return { done: false, value: buf.subarray(0, Number(s)) }
+      } catch (e) {
+        throw e
+      }
+    },
+    [Symbol.asyncIterator]() {
+      return this
+    },
+  }
+}
+
+export async function* iterLine(read: any): AsyncGenerator<string> {
+  const lineDecoder = new LineDecoder()
+  const iter = readableStreamAsyncIterable(read)
+  for await (const chunk of iter) {
+    for (const line of lineDecoder.decode(chunk)) {
+      if (line) {
+        yield line
+      }
+    }
+  }
+
+  for (const line of lineDecoder.flush()) {
+    yield line
   }
 }

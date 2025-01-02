@@ -17,7 +17,7 @@ Another Docker client for Node.js.
 ### Docker[^1]
 
 - [x] docker.createContainer(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerCreate)
-- [ ] docker.createImage([auth], options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageCreate)
+- [x] docker.createImage([auth], options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageCreate)
 - [ ] docker.loadImage(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageLoad)
 - [ ] docker.importImage(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageCreate)
 - [ ] docker.buildImage(file, options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageBuild)

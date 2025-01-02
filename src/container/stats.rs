@@ -1,8 +1,7 @@
 use crate::container::Container;
-use crate::format_err;
+use crate::impl_async_read;
 use crate::types::{CommonFutureRead, ToBytes};
 use bytes::Bytes;
-use futures::AsyncReadExt;
 use napi::bindgen_prelude::*;
 use o2o::o2o;
 
@@ -47,12 +46,4 @@ impl ToBytes for bollard::container::Stats {
     }
 }
 
-#[napi]
-impl StatsStream {
-    #[napi]
-    pub async unsafe fn read(&mut self, mut buf: Buffer) -> Result<usize> {
-        let buf = buf.as_mut();
-        let n = self.inner.read(buf).await.map_err(format_err)?;
-        Ok(n)
-    }
-}
+impl_async_read!(StatsStream);

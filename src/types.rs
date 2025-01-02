@@ -20,6 +20,23 @@ pub struct DockerOptions {
 type Source = Pin<Box<dyn Stream<Item = Result<LogOutput, bollard::errors::Error>> + Send>>;
 type Sink = Pin<Box<dyn AsyncWrite + Send>>;
 
+#[macro_export]
+macro_rules! impl_async_read {
+    ($name:ident) => {
+        #[napi]
+        impl $name {
+            #[napi]
+            pub async unsafe fn read(&mut self, mut buf: Buffer) -> napi::Result<usize> {
+                let buf = buf.as_mut();
+                let n = futures::AsyncReadExt::read(&mut self.inner, buf)
+                    .await
+                    .map_err($crate::format_err)?;
+                Ok(n)
+            }
+        }
+    };
+}
+
 #[napi]
 pub struct Output {
     source: CommonFutureRead<LogOutput>,

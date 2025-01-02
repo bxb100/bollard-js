@@ -22,11 +22,10 @@ mod unpause;
 mod update;
 mod wait;
 
-use crate::format_err;
+use crate::impl_async_read;
 use crate::types::{CommonFutureRead, ToBytes};
 use bollard::Docker;
 use bytes::Bytes;
-use futures::AsyncReadExt;
 use napi::bindgen_prelude::Buffer;
 
 #[napi]
@@ -51,12 +50,4 @@ impl ToBytes for Bytes {
     }
 }
 
-#[napi]
-impl ReadStream {
-    #[napi]
-    pub async unsafe fn read(&mut self, mut buf: Buffer) -> napi::Result<usize> {
-        let buf = buf.as_mut();
-        let n = self.inner.read(buf).await.map_err(format_err)?;
-        Ok(n)
-    }
-}
+impl_async_read!(ReadStream);

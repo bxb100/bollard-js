@@ -294,6 +294,36 @@ export interface StartExecOptions {
   /** The maximum size for a line of output. The default is 8 * 1024 (roughly 1024 characters). */
   OutputCapacity?: number
 }
+export interface CreateImageOptions {
+  /**
+   * Name of the image to pull. The name may include a tag or digest. This parameter may only be
+   * used when pulling an image. The pull is cancelled if the HTTP connection is closed.
+   */
+  fromImage: string
+  /**
+   * Source to import. The value may be a URL from which the image can be retrieved or `-` to
+   * read the image from the request body. This parameter may only be used when importing an
+   * image.
+   */
+  fromSrc: string
+  /**
+   * Repository name given to an image when it is imported. The repo may include a tag. This
+   * parameter may only be used when importing an image.
+   */
+  repo: string
+  /**
+   * Tag or digest. If empty when pulling an image, this causes all tags for the given image to
+   * be pulled.
+   */
+  tag: string
+  /** Platform in the format `os[/arch[/variant]]` */
+  platform: string
+  /**
+   * A list of Dockerfile instructions to be applied to the image being created. Changes must be
+   * URL-encoded! This parameter may only be used when importing an image.
+   */
+  changes: Array<string>
+}
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
   /** IP address. */
@@ -2926,6 +2956,15 @@ export interface DockerOptions {
   sslCert?: string
   sslCa?: string
 }
+export interface DockerCredentials {
+  username?: string
+  password?: string
+  auth?: string
+  email?: string
+  serveraddress?: string
+  identitytoken?: string
+  registrytoken?: string
+}
 export declare class CreateContainerResponse {
   get container(): Container
   get warnings(): Array<string>
@@ -2974,6 +3013,9 @@ export declare class Exec {
   /** Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command. */
   start(option?: StartExecOptions | undefined | null): Promise<Output | null>
 }
+export declare class CreateImageOutput {
+  read(buf: Buffer): Promise<bigint>
+}
 export declare class Output {
   write(buf: Buffer): Promise<void>
   close(): Promise<void>
@@ -2987,6 +3029,7 @@ export declare class Docker {
    * * `id` - The id or name of container.
    */
   getContainer(id: string): Container
+  createImage(option?: CreateImageOptions | undefined | null, rootFs?: Buffer | undefined | null, credentials?: DockerCredentials | undefined | null): CreateImageOutput
   constructor(options?: DockerOptions | undefined | null)
   _version(): Promise<Buffer>
 }

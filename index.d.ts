@@ -19,6 +19,10 @@ declare module './generated' {
     createReadStream(options?: ReadableOptions): Readable
   }
 
+  interface CreateImageOutput {
+    createReadStream(options?: ReadableOptions): Readable
+  }
+
   interface Docker {
     version(): Promise<any>
   }
