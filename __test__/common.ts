@@ -118,7 +118,7 @@ export class LineDecoder {
  * This polyfill was pulled from https://github.com/MattiasBuelens/web-streams-polyfill/pull/122#issuecomment-1627354490
  */
 export function readableStreamAsyncIterable(stream: any): AsyncIterableIterator<Bytes> {
-  if (stream[Symbol.asyncIterator]) return stream;
+  if (stream[Symbol.asyncIterator]) return stream
 
   return {
     async next() {

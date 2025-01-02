@@ -11,7 +11,6 @@ Another Docker client for Node.js.
 </a>
 </p>
 
-
 ## TODO
 
 ### Docker[^1]
