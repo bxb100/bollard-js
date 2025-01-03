@@ -21,11 +21,7 @@ impl Container {
     pub fn stats(&self, option: Option<StatsOptions>) -> Result<StatsStream> {
         let output = self.docker.stats(&self.id, option.map(Into::into));
         Ok(StatsStream {
-            inner: CommonFutureRead {
-                stream: Box::pin(output),
-                pos: 0,
-                buf: Bytes::new(),
-            },
+            inner: CommonFutureRead::new(output),
         })
     }
 }

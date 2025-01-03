@@ -324,6 +324,16 @@ export interface CreateImageOptions {
    */
   changes: Array<string>
 }
+export interface PushImageOptions {
+  /** The tag to associate with the image on the registry. */
+  tag: string
+}
+export interface TagImageOptions {
+  /** The repository to tag in. For example, `someuser/someimage`. */
+  repo: string
+  /** The name of the new tag. */
+  tag: string
+}
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
   /** IP address. */
@@ -3016,10 +3026,15 @@ export declare class Exec {
 export declare class CreateImageOutput {
   read(buf: Buffer): Promise<bigint>
 }
+export declare class PushImageInfoStream {
+  read(buf: Buffer): Promise<bigint>
+}
 export declare class Image {
   id: string
   history(): Promise<Array<HistoryResponseItem>>
   inspect(): Promise<ImageInspect>
+  push(option?: PushImageOptions | undefined | null, credentials?: DockerCredentials | undefined | null): PushImageInfoStream
+  tag(option?: TagImageOptions | undefined | null): Promise<void>
 }
 export declare class Output {
   write(buf: Buffer): Promise<void>

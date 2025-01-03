@@ -5,7 +5,7 @@ import * as fs from 'node:fs'
 
 const IMAGE = 'hello-world'
 
-test.serial('create_image', async (t) => {
+test.serial('image create', async (t) => {
   const docker = new Docker()
   // build by `docker export hello-world > hello-world.tar`
   // official image see https://hub.docker.com/_/hello-world
@@ -31,7 +31,7 @@ test.serial('create_image', async (t) => {
   t.truthy(res)
 })
 
-test.serial('inspect_image', async (t) => {
+test.serial('image inspect', async (t) => {
   const docker = new Docker()
   const image = docker.getImage(IMAGE)
   const inspect = await image.inspect()
@@ -39,11 +39,40 @@ test.serial('inspect_image', async (t) => {
   t.truthy(inspect.Id)
 })
 
-test.serial('image_history', async (t) => {
+test.serial('image history', async (t) => {
   const docker = new Docker()
   const image = docker.getImage(IMAGE)
   const history = await image.history()
 
   // at least one have Imported from -
   t.true(history.length > 0)
+})
+
+test.serial('image tag', async (t) => {
+  const docker = new Docker()
+  const image = docker.getImage(IMAGE)
+
+  await image.tag({
+    repo: 'localhost:5000/hello-world',
+    tag: 'latest',
+  })
+
+  t.pass()
+})
+
+test.serial('image push', async (t) => {
+  const docker = new Docker()
+  const image = docker.getImage('localhost:5000/hello-world')
+
+  const pushImageInfoStream = image.push({
+    tag: 'latest',
+  })
+
+  let res: object | undefined
+  for await (const line of iterLine(pushImageInfoStream)) {
+    res = JSON.parse(line)
+    // console.log(res)
+  }
+
+  t.truthy(res)
 })

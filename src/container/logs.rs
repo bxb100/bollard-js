@@ -2,7 +2,6 @@ use crate::container::Container;
 use crate::impl_async_read;
 use crate::types::CommonFutureRead;
 use bollard::container::LogOutput;
-use bytes::Bytes;
 use napi::bindgen_prelude::*;
 use o2o::o2o;
 
@@ -35,11 +34,7 @@ impl Container {
         let stream = self.docker.logs(&self.id, option.map(Into::into));
 
         Ok(LogsResponse {
-            inner: CommonFutureRead {
-                stream: Box::pin(stream),
-                pos: 0,
-                buf: Bytes::new(),
-            },
+            inner: CommonFutureRead::new(stream),
         })
     }
 }

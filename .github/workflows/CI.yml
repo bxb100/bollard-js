@@ -146,6 +146,11 @@ jobs:
           if-no-files-found: error
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     needs:
       - build
     strategy:
@@ -156,6 +161,8 @@ jobs:
           - '20'
     runs-on: ubuntu-latest
     steps:
+      - name: Pull alpine image
+        run: docker pull alpine:latest
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - name: Setup node
@@ -173,10 +180,9 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-      - name: Pull alpine image
-        run: docker pull alpine:latest
       - name: Test bindings
         run: pnpm test
+
   publish:
     name: Publish
     if: ${{ fromJSON(needs.check.outputs.is_publish) }}

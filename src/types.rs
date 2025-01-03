@@ -93,6 +93,18 @@ pub struct CommonFutureRead<T: ToBytes> {
     pub(crate) buf: Bytes,
 }
 
+impl<T: ToBytes> CommonFutureRead<T> {
+    pub fn new(
+        stream: impl Stream<Item = Result<T, bollard::errors::Error>> + Send + 'static,
+    ) -> Self {
+        Self {
+            stream: Box::pin(stream),
+            pos: 0,
+            buf: Bytes::new(),
+        }
+    }
+}
+
 pub trait ToBytes {
     fn with_eol() -> bool;
     fn to_bytes(self) -> std::io::Result<Bytes>;
