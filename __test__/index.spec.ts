@@ -8,3 +8,19 @@ test('version', async (t) => {
   t.truthy(v)
   t.truthy(v.Version)
 })
+
+test('list containers', async (t) => {
+  const docker = new Docker()
+  const res = await docker.listContainers()
+
+  // console.log(JSON.stringify(res))
+  t.truthy(res)
+})
+
+test('list images', async (t) => {
+  const docker = new Docker()
+  const res = await docker.listImages()
+
+  // console.log(JSON.stringify(res))
+  t.truthy(res)
+})

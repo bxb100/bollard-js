@@ -7,6 +7,7 @@ mod export;
 mod get_archive;
 mod inspect;
 mod kill;
+mod list;
 mod logs;
 mod pause;
 mod put_archive;

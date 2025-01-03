@@ -32,8 +32,8 @@ Another Docker client for Node.js.
 - [ ] docker.getSecret(id) - Returns a Secret object.
 - [ ] docker.getConfig(id) - Returns a Config object.
 - [ ] docker.getExec(id) - Returns a Exec object.
-- [ ] docker.listContainers(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerList)
-- [ ] docker.listImages(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageList)
+- [x] docker.listContainers(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ContainerList)
+- [x] docker.listImages(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageList)
 - [ ] docker.listServices(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ServiceList)
 - [ ] docker.listNodes(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/NodeList)
 - [ ] docker.listTasks(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/TaskList)

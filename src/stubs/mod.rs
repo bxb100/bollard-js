@@ -731,6 +731,8 @@ pub struct ContainerStatus {
     pub exit_code: Option<i64>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ContainerSummary)]
 #[napi(object)]
 pub struct ContainerSummary {
     /// The ID of this container
@@ -759,6 +761,7 @@ pub struct ContainerSummary {
 
     /// The ports exposed by this container
     #[napi(js_name = "Ports")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub ports: Option<Vec<Port>>,
 
     /// The size of files that have been created or changed by this container
@@ -782,15 +785,20 @@ pub struct ContainerSummary {
     pub status: Option<String>,
 
     #[napi(js_name = "HostConfig")]
+    #[map(~.map(Into::into))]
     pub host_config: Option<ContainerSummaryHostConfig>,
 
     #[napi(js_name = "NetworkSettings")]
+    #[map(~.map(Into::into))]
     pub network_settings: Option<ContainerSummaryNetworkSettings>,
 
     #[napi(js_name = "Mounts")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub mounts: Option<Vec<MountPoint>>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ContainerSummaryHostConfig)]
 #[napi(object)]
 pub struct ContainerSummaryHostConfig {
     #[napi(js_name = "NetworkMode")]
@@ -802,9 +810,12 @@ pub struct ContainerSummaryHostConfig {
 }
 
 /// A summary of the container's network settings
+#[derive(o2o)]
+#[map_owned(bollard::models::ContainerSummaryNetworkSettings)]
 #[napi(object)]
 pub struct ContainerSummaryNetworkSettings {
     #[napi(js_name = "Networks")]
+    #[map(crate::converts::convert_map_to_map(~))]
     pub networks: Option<HashMap<String, EndpointSettings>>,
 }
 
@@ -2028,6 +2039,8 @@ pub struct ImageInspectRootFs {
 }
 
 /// ImageManifestSummary represents a summary of an image manifest.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageManifestSummary)]
 #[napi(object)]
 pub struct ImageManifestSummary {
     /// ID is the content-addressable ID of an image and is the same as the digest of the image manifest.
@@ -2035,6 +2048,7 @@ pub struct ImageManifestSummary {
     pub id: String,
 
     #[napi(js_name = "Descriptor")]
+    #[map(~.into())]
     pub descriptor: OciDescriptor,
 
     /// Indicates whether all the child content (image config, layers) is fully available locally.
@@ -2042,19 +2056,25 @@ pub struct ImageManifestSummary {
     pub available: bool,
 
     #[napi(js_name = "Size")]
+    #[map(~.into())]
     pub size: ImageManifestSummarySize,
 
     /// The kind of the manifest.  kind         | description -------------|----------------------------------------------------------- image        | Image manifest that can be used to start a container. attestation  | Attestation manifest produced by the Buildkit builder for a specific image manifest.
     #[napi(js_name = "Kind")]
+    #[map(~.map(Into::into))]
     pub kind: Option<ImageManifestSummaryKindEnum>,
 
     #[napi(js_name = "ImageData")]
+    #[map(~.map(Into::into))]
     pub image_data: Option<ImageManifestSummaryImageData>,
 
     #[napi(js_name = "AttestationData")]
+    #[map(~.map(Into::into))]
     pub attestation_data: Option<ImageManifestSummaryAttestationData>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageManifestSummaryKindEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum ImageManifestSummaryKindEnum {
@@ -2065,6 +2085,8 @@ pub enum ImageManifestSummaryKindEnum {
 }
 
 /// The image data for the attestation manifest. This field is only populated when Kind is 'attestation'.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageManifestSummaryAttestationData)]
 #[napi(object)]
 pub struct ImageManifestSummaryAttestationData {
     /// The digest of the image manifest that this attestation is for.
@@ -2073,10 +2095,13 @@ pub struct ImageManifestSummaryAttestationData {
 }
 
 /// The image data for the image manifest. This field is only populated when Kind is 'image'.
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageManifestSummaryImageData)]
 #[napi(object)]
 pub struct ImageManifestSummaryImageData {
     /// OCI platform of the image. This will be the platform specified in the manifest descriptor from the index/manifest list. If it's not available, it will be obtained from the image config.
     #[napi(js_name = "Platform")]
+    #[map(~.into())]
     pub platform: OciPlatform,
 
     /// The IDs of the containers that are using this image.
@@ -2084,9 +2109,12 @@ pub struct ImageManifestSummaryImageData {
     pub containers: Vec<String>,
 
     #[napi(js_name = "Size")]
+    #[map(~.into())]
     pub size: ImageManifestSummaryImageDataSize,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageManifestSummaryImageDataSize)]
 #[napi(object)]
 pub struct ImageManifestSummaryImageDataSize {
     /// Unpacked is the size (in bytes) of the locally unpacked (uncompressed) image content that's directly usable by the containers running this image. It's independent of the distributable content - e.g. the image might still have an unpacked data that's still used by some container even when the distributable/compressed content is already gone.
@@ -2094,6 +2122,8 @@ pub struct ImageManifestSummaryImageDataSize {
     pub unpacked: i64,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageManifestSummarySize)]
 #[napi(object)]
 pub struct ImageManifestSummarySize {
     /// Total is the total size (in bytes) of all the locally present data (both distributable and non-distributable) that's related to this manifest and its children. This equal to the sum of [Content] size AND all the sizes in the [Size] struct present in the Kind-specific data struct. For example, for an image kind (Kind == 'image') this would include the size of the image content and unpacked image snapshots ([Size.Content] + [ImageData.Size.Unpacked]).
@@ -2135,6 +2165,8 @@ pub struct ImageSearchResponseItem {
     pub star_count: Option<i64>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageSummary)]
 #[napi(object)]
 pub struct ImageSummary {
     /// ID is the content-addressable ID of an image.  This identifier is a content-addressable digest calculated from the image's configuration (which includes the digests of layers used by the image).  Note that this digest differs from the `RepoDigests` below, which holds digests of image manifests that reference the image.
@@ -2179,6 +2211,7 @@ pub struct ImageSummary {
 
     /// Manifests is a list of manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations.  WARNING: This is experimental and may change at any time without any backward compatibility.
     #[napi(js_name = "Manifests")]
+    #[map(crate::converts::convert_vec_to_vec(~))]
     pub manifests: Option<Vec<ImageManifestSummary>>,
 }
 
@@ -2888,6 +2921,8 @@ pub struct ObjectVersion {
 }
 
 /// A descriptor struct containing digest, media type, and size, as defined in the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md).
+#[derive(o2o)]
+#[map_owned(bollard::models::OciDescriptor)]
 #[napi(object)]
 pub struct OciDescriptor {
     /// The media type of the object this schema refers to.
@@ -2904,6 +2939,8 @@ pub struct OciDescriptor {
 }
 
 /// Describes the platform which the image in the manifest runs on, as defined in the [OCI Image Index Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md).
+#[derive(o2o)]
+#[map_owned(bollard::models::OciPlatform)]
 #[napi(object)]
 pub struct OciPlatform {
     /// The CPU architecture, for example `amd64` or `ppc64`.
@@ -3225,6 +3262,8 @@ pub struct PluginsInfo {
 }
 
 /// An open port on a container
+#[derive(o2o)]
+#[map_owned(bollard::models::Port)]
 #[napi(object)]
 pub struct Port {
     /// Host IP address that the container's port is mapped to
@@ -3240,9 +3279,12 @@ pub struct Port {
     pub public_port: Option<u16>,
 
     #[napi(js_name = "Type")]
+    #[map(~.map(Into::into))]
     pub typ: Option<PortTypeEnum>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::PortTypeEnum)]
 #[allow(non_camel_case_types)]
 #[napi]
 pub enum PortTypeEnum {

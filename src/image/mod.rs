@@ -4,6 +4,7 @@ mod create;
 mod get;
 mod history;
 mod inspect;
+mod list;
 mod push;
 mod remove;
 mod tag;
