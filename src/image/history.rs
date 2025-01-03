@@ -1,18 +1,18 @@
 use crate::format_err;
 use crate::image::Image;
-use crate::stubs::ImageInspect;
+use crate::stubs::HistoryResponseItem;
 use napi::bindgen_prelude::*;
 
 #[napi]
 impl Image {
     #[napi]
-    pub async fn inspect(&self) -> Result<ImageInspect> {
+    pub async fn history(&self) -> Result<Vec<HistoryResponseItem>> {
         let res = self
             .docker
-            .inspect_image(&self.id)
+            .image_history(&self.id)
             .await
             .map_err(format_err)?;
 
-        Ok(res.into())
+        Ok(res.into_iter().map(Into::into).collect())
     }
 }

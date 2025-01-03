@@ -3016,6 +3016,11 @@ export declare class Exec {
 export declare class CreateImageOutput {
   read(buf: Buffer): Promise<bigint>
 }
+export declare class Image {
+  id: string
+  history(): Promise<Array<HistoryResponseItem>>
+  inspect(): Promise<ImageInspect>
+}
 export declare class Output {
   write(buf: Buffer): Promise<void>
   close(): Promise<void>
@@ -3030,7 +3035,7 @@ export declare class Docker {
    */
   getContainer(id: string): Container
   createImage(option?: CreateImageOptions | undefined | null, rootFs?: Buffer | undefined | null, credentials?: DockerCredentials | undefined | null): CreateImageOutput
-  inspectImage(imageName: string): Promise<ImageInspect>
+  getImage(id: string): Image
   constructor(options?: DockerOptions | undefined | null)
   _version(): Promise<Buffer>
 }

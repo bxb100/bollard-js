@@ -1437,6 +1437,8 @@ pub struct HealthcheckResult {
 }
 
 /// individual image layer information in response to ImageHistory operation
+#[derive(o2o)]
+#[map_owned(bollard::models::HistoryResponseItem)]
 #[napi(object)]
 pub struct HistoryResponseItem {
     #[napi(js_name = "Id")]

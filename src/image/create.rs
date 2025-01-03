@@ -2,6 +2,7 @@ use crate::types::{CommonFutureRead, DockerCredentials, ToBytes};
 use crate::{impl_async_read, Docker};
 use bytes::Bytes;
 
+use crate::image::Image;
 use napi::bindgen_prelude::*;
 
 #[napi(object)]
@@ -56,6 +57,14 @@ impl Docker {
                 buf: Bytes::new(),
             },
         })
+    }
+
+    #[napi]
+    pub fn get_image(&self, id: String) -> Image {
+        Image {
+            id,
+            docker: self.0.to_owned(),
+        }
     }
 }
 

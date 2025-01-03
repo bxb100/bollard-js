@@ -103,7 +103,7 @@ Another Docker client for Node.js.
 ### Image
 
 - [x] image.inspect() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageInspect)
-- [ ] image.history() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageHistory)
+- [x] image.history() - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageHistory)
 - [ ] image.push(options, callback, auth) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImagePush)
 - [ ] image.tag(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageTag)
 - [ ] image.remove(options) - [Docker API Endpoint](https://docs.docker.com/engine/api/v1.47/#operation/ImageDelete)

@@ -310,7 +310,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { CreateContainerResponse, CreateExecResults, LogsResponse, StatsStream, Container, ReadStream, Exec, CreateImageOutput, BuildCacheTypeEnum, ChangeType, ClusterVolumePublishStatusStateEnum, ClusterVolumeSpecAccessModeScopeEnum, ClusterVolumeSpecAccessModeSharingEnum, ClusterVolumeSpecAccessModeAvailabilityEnum, ContainerStateStatusEnum, EndpointPortConfigProtocolEnum, EndpointPortConfigPublishModeEnum, EndpointSpecModeEnum, EventMessageTypeEnum, EventMessageScopeEnum, HealthStatusEnum, HostConfigCgroupnsModeEnum, HostConfigIsolationEnum, ImageManifestSummaryKindEnum, LocalNodeState, MountTypeEnum, MountBindOptionsPropagationEnum, MountPointTypeEnum, NodeSpecRoleEnum, NodeSpecAvailabilityEnum, NodeState, PluginConfigInterfaceProtocolSchemeEnum, PortTypeEnum, Reachability, RestartPolicyNameEnum, ServiceSpecRollbackConfigFailureActionEnum, ServiceSpecRollbackConfigOrderEnum, ServiceSpecUpdateConfigFailureActionEnum, ServiceSpecUpdateConfigOrderEnum, ServiceUpdateStatusStateEnum, SwarmSpecCaConfigExternalCasProtocolEnum, SystemInfoCgroupDriverEnum, SystemInfoCgroupVersionEnum, SystemInfoIsolationEnum, TaskSpecContainerSpecIsolationEnum, TaskSpecContainerSpecPrivilegesAppArmorModeEnum, TaskSpecContainerSpecPrivilegesSeccompModeEnum, TaskSpecRestartPolicyConditionEnum, TaskState, VolumeScopeEnum, Output, Docker } = nativeBinding
+const { CreateContainerResponse, CreateExecResults, LogsResponse, StatsStream, Container, ReadStream, Exec, CreateImageOutput, Image, BuildCacheTypeEnum, ChangeType, ClusterVolumePublishStatusStateEnum, ClusterVolumeSpecAccessModeScopeEnum, ClusterVolumeSpecAccessModeSharingEnum, ClusterVolumeSpecAccessModeAvailabilityEnum, ContainerStateStatusEnum, EndpointPortConfigProtocolEnum, EndpointPortConfigPublishModeEnum, EndpointSpecModeEnum, EventMessageTypeEnum, EventMessageScopeEnum, HealthStatusEnum, HostConfigCgroupnsModeEnum, HostConfigIsolationEnum, ImageManifestSummaryKindEnum, LocalNodeState, MountTypeEnum, MountBindOptionsPropagationEnum, MountPointTypeEnum, NodeSpecRoleEnum, NodeSpecAvailabilityEnum, NodeState, PluginConfigInterfaceProtocolSchemeEnum, PortTypeEnum, Reachability, RestartPolicyNameEnum, ServiceSpecRollbackConfigFailureActionEnum, ServiceSpecRollbackConfigOrderEnum, ServiceSpecUpdateConfigFailureActionEnum, ServiceSpecUpdateConfigOrderEnum, ServiceUpdateStatusStateEnum, SwarmSpecCaConfigExternalCasProtocolEnum, SystemInfoCgroupDriverEnum, SystemInfoCgroupVersionEnum, SystemInfoIsolationEnum, TaskSpecContainerSpecIsolationEnum, TaskSpecContainerSpecPrivilegesAppArmorModeEnum, TaskSpecContainerSpecPrivilegesSeccompModeEnum, TaskSpecRestartPolicyConditionEnum, TaskState, VolumeScopeEnum, Output, Docker } = nativeBinding
 
 module.exports.CreateContainerResponse = CreateContainerResponse
 module.exports.CreateExecResults = CreateExecResults
@@ -320,6 +320,7 @@ module.exports.Container = Container
 module.exports.ReadStream = ReadStream
 module.exports.Exec = Exec
 module.exports.CreateImageOutput = CreateImageOutput
+module.exports.Image = Image
 module.exports.BuildCacheTypeEnum = BuildCacheTypeEnum
 module.exports.ChangeType = ChangeType
 module.exports.ClusterVolumePublishStatusStateEnum = ClusterVolumePublishStatusStateEnum

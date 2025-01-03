@@ -33,7 +33,17 @@ test.serial('create_image', async (t) => {
 
 test.serial('inspect_image', async (t) => {
   const docker = new Docker()
-  const inspect = await docker.inspectImage(IMAGE)
+  const image = docker.getImage(IMAGE)
+  const inspect = await image.inspect()
 
   t.truthy(inspect.Id)
+})
+
+test.serial('image_history', async (t) => {
+  const docker = new Docker()
+  const image = docker.getImage(IMAGE)
+  const history = await image.history()
+
+  // at least one have Imported from -
+  t.true(history.length > 0)
 })
