@@ -1,4 +1,4 @@
-use crate::types::{CommonFutureRead, DockerCredentials, ToBytes};
+use crate::types::{CommonFutureRead, DockerCredentials};
 use crate::{impl_async_read, Docker};
 use bytes::Bytes;
 
@@ -71,17 +71,6 @@ impl Docker {
 #[napi]
 pub struct CreateImageOutput {
     inner: CommonFutureRead<bollard::models::CreateImageInfo>,
-}
-
-impl ToBytes for bollard::models::CreateImageInfo {
-    fn with_eol() -> bool {
-        true
-    }
-
-    fn to_bytes(self) -> std::io::Result<Bytes> {
-        let bytes = serde_json::to_vec(&self).map(Bytes::from)?;
-        Ok(bytes)
-    }
 }
 
 impl_async_read!(CreateImageOutput);

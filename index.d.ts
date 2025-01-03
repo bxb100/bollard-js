@@ -1,31 +1,31 @@
 import { Readable, ReadableOptions, Writable, WritableOptions } from 'node:stream'
 
 declare module './generated' {
-  interface Output {
+  interface CommonRead {
     createReadStream(options?: ReadableOptions): Readable
+  }
 
+  interface CommonWrite {
     createWriteStream(options?: WritableOptions): Writable
   }
 
-  interface ReadStream {
+  interface CommonSave {
     save(path: string, options?: ReadableOptions): Promise<void>
   }
 
-  interface LogsResponse {
-    createReadStream(options?: ReadableOptions): Readable
-  }
+  interface Output extends CommonRead, CommonWrite {}
 
-  interface StatsStream {
-    createReadStream(options?: ReadableOptions): Readable
-  }
+  interface ReadStream extends CommonSave {}
 
-  interface CreateImageOutput {
-    createReadStream(options?: ReadableOptions): Readable
-  }
+  interface LogsResponse extends CommonRead {}
 
-  interface PushImageInfoStream {
-    createReadStream(options?: ReadableOptions): Readable
-  }
+  interface StatsStream extends CommonRead {}
+
+  interface CreateImageOutput extends CommonRead {}
+
+  interface PushImageInfoStream extends CommonRead {}
+
+  interface ExportImageStream extends CommonSave {}
 
   interface Docker {
     version(): Promise<any>

@@ -1,7 +1,14 @@
 const { Writable, Readable } = require('node:stream')
 const { createWriteStream } = require('node:fs')
-const { Docker, Output, ReadStream, LogsResponse, StatsStream, CreateImageOutput,
-  PushImageInfoStream
+const {
+  Docker,
+  Output,
+  ReadStream,
+  LogsResponse,
+  StatsStream,
+  CreateImageOutput,
+  PushImageInfoStream,
+  ExportImageStream,
 } = require('./generated')
 
 class ReadableStream extends Readable {
@@ -64,16 +71,6 @@ Output.prototype.createWriteStream = function (options) {
   return new WritableStream(this, options)
 }
 
-ReadStream.prototype.save = function (path, options) {
-  const writable = createWriteStream(path)
-  const readable = new ReadableStream(this, options)
-  const fd = readable.pipe(writable)
-  return new Promise((resolve, reject) => {
-    fd.on('error', reject)
-    fd.on('close', resolve)
-  })
-}
-
 LogsResponse.prototype.createReadStream = function (options) {
   return new ReadableStream(this, options)
 }
@@ -88,6 +85,26 @@ CreateImageOutput.prototype.createReadStream = function (options) {
 
 PushImageInfoStream.prototype.createReadStream = function (options) {
   return new ReadableStream(this, options)
+}
+
+ReadStream.prototype.save = function (path, options) {
+  const readable = new ReadableStream(this, options)
+  const writable = createWriteStream(path)
+  const fd = readable.pipe(writable)
+  return new Promise((resolve, reject) => {
+    fd.on('error', reject)
+    fd.on('close', resolve)
+  })
+}
+
+ExportImageStream.prototype.save = function (path, options) {
+  const readable = new ReadableStream(this, options)
+  const writable = createWriteStream(path)
+  const fd = readable.pipe(writable)
+  return new Promise((resolve, reject) => {
+    fd.on('error', reject)
+    fd.on('close', resolve)
+  })
 }
 
 const json = (buffer) => JSON.parse(buffer.toString())

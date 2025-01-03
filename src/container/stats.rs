@@ -1,7 +1,6 @@
 use crate::container::Container;
 use crate::impl_async_read;
-use crate::types::{CommonFutureRead, ToBytes};
-use bytes::Bytes;
+use crate::types::CommonFutureRead;
 use napi::bindgen_prelude::*;
 use o2o::o2o;
 
@@ -29,17 +28,6 @@ impl Container {
 #[napi]
 pub struct StatsStream {
     inner: CommonFutureRead<bollard::container::Stats>,
-}
-
-impl ToBytes for bollard::container::Stats {
-    fn with_eol() -> bool {
-        true
-    }
-
-    fn to_bytes(self) -> std::io::Result<Bytes> {
-        let bytes = serde_json::to_vec(&self).map(Bytes::from)?;
-        Ok(bytes)
-    }
 }
 
 impl_async_read!(StatsStream);

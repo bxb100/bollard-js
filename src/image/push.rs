@@ -1,7 +1,6 @@
 use crate::image::Image;
 use crate::impl_async_read;
-use crate::types::{CommonFutureRead, DockerCredentials, ToBytes};
-use bytes::Bytes;
+use crate::types::{CommonFutureRead, DockerCredentials};
 use napi::bindgen_prelude::*;
 use o2o::o2o;
 
@@ -36,17 +35,6 @@ impl Image {
 #[napi]
 pub struct PushImageInfoStream {
     inner: CommonFutureRead<bollard::models::PushImageInfo>,
-}
-
-impl ToBytes for bollard::models::PushImageInfo {
-    fn with_eol() -> bool {
-        true
-    }
-
-    fn to_bytes(self) -> std::io::Result<Bytes> {
-        let bytes = serde_json::to_vec(&self).map(Bytes::from)?;
-        Ok(bytes)
-    }
 }
 
 impl_async_read!(PushImageInfoStream);

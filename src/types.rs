@@ -43,16 +43,6 @@ pub struct Output {
     sink: Sink,
 }
 
-impl ToBytes for LogOutput {
-    fn with_eol() -> bool {
-        false
-    }
-
-    fn to_bytes(self) -> std::io::Result<Bytes> {
-        Ok(self.into_bytes())
-    }
-}
-
 #[napi]
 impl Output {
     pub fn new(output: Source, input: Sink) -> Self {
@@ -105,11 +95,6 @@ impl<T: ToBytes> CommonFutureRead<T> {
     }
 }
 
-pub trait ToBytes {
-    fn with_eol() -> bool;
-    fn to_bytes(self) -> std::io::Result<Bytes>;
-}
-
 impl<T: ToBytes> AsyncRead for CommonFutureRead<T> {
     fn poll_read(
         self: Pin<&mut Self>,
@@ -143,6 +128,64 @@ impl<T: ToBytes> AsyncRead for CommonFutureRead<T> {
                 return Poll::Ready(Ok(2));
             }
         }
+    }
+}
+
+pub trait ToBytes {
+    fn with_eol() -> bool;
+    fn to_bytes(self) -> std::io::Result<Bytes>;
+}
+
+impl ToBytes for Bytes {
+    fn with_eol() -> bool {
+        false
+    }
+
+    fn to_bytes(self) -> std::io::Result<Bytes> {
+        Ok(self)
+    }
+}
+
+impl ToBytes for LogOutput {
+    fn with_eol() -> bool {
+        false
+    }
+
+    fn to_bytes(self) -> std::io::Result<Bytes> {
+        Ok(self.into_bytes())
+    }
+}
+
+impl ToBytes for bollard::container::Stats {
+    fn with_eol() -> bool {
+        true
+    }
+
+    fn to_bytes(self) -> std::io::Result<Bytes> {
+        let bytes = serde_json::to_vec(&self).map(Bytes::from)?;
+        Ok(bytes)
+    }
+}
+
+impl ToBytes for bollard::models::CreateImageInfo {
+    fn with_eol() -> bool {
+        true
+    }
+
+    fn to_bytes(self) -> std::io::Result<Bytes> {
+        let bytes = serde_json::to_vec(&self).map(Bytes::from)?;
+        Ok(bytes)
+    }
+}
+
+impl ToBytes for bollard::models::PushImageInfo {
+    fn with_eol() -> bool {
+        true
+    }
+
+    fn to_bytes(self) -> std::io::Result<Bytes> {
+        let bytes = serde_json::to_vec(&self).map(Bytes::from)?;
+        Ok(bytes)
     }
 }
 

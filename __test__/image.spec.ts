@@ -51,7 +51,7 @@ test.serial('image history', async (t) => {
 test.serial('image tag', async (t) => {
   const docker = new Docker()
   const image = docker.getImage(IMAGE)
-
+  // Run `docker run -d --restart always --name registry -p 5000:5000 registry:2` first
   await image.tag({
     repo: 'localhost:5000/hello-world',
     tag: 'latest',
@@ -75,4 +75,23 @@ test.serial('image push', async (t) => {
   }
 
   t.truthy(res)
+})
+
+test.serial('image get', async (t) => {
+  const docker = new Docker()
+  const image = docker.getImage('localhost:5000/hello-world')
+
+  const stream = image.get()
+  const file = './__test__/fixtures/test-img-hello-world.tar'
+  await stream.save(file)
+  t.true(fs.existsSync(file))
+  fs.rmSync(file)
+})
+
+test.serial('image remove', async (t) => {
+  const docker = new Docker()
+  const image = docker.getImage(IMAGE)
+
+  await image.remove()
+  t.pass()
 })

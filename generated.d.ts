@@ -328,6 +328,12 @@ export interface PushImageOptions {
   /** The tag to associate with the image on the registry. */
   tag: string
 }
+export interface RemoveImageOptions {
+  /** Remove the image even if it is being used by stopped containers or has other tags. */
+  force: boolean
+  /** Do not delete untagged parent images. */
+  noprune: boolean
+}
 export interface TagImageOptions {
   /** The repository to tag in. For example, `someuser/someimage`. */
   repo: string
@@ -3026,14 +3032,19 @@ export declare class Exec {
 export declare class CreateImageOutput {
   read(buf: Buffer): Promise<bigint>
 }
+export declare class ExportImageStream {
+  read(buf: Buffer): Promise<bigint>
+}
 export declare class PushImageInfoStream {
   read(buf: Buffer): Promise<bigint>
 }
 export declare class Image {
   id: string
+  get(): ExportImageStream
   history(): Promise<Array<HistoryResponseItem>>
   inspect(): Promise<ImageInspect>
   push(option?: PushImageOptions | undefined | null, credentials?: DockerCredentials | undefined | null): PushImageInfoStream
+  remove(option?: RemoveImageOptions | undefined | null, credentials?: DockerCredentials | undefined | null): Promise<Array<ImageDeleteResponseItem>>
   tag(option?: TagImageOptions | undefined | null): Promise<void>
 }
 export declare class Output {

@@ -23,7 +23,7 @@ mod update;
 mod wait;
 
 use crate::impl_async_read;
-use crate::types::{CommonFutureRead, ToBytes};
+use crate::types::CommonFutureRead;
 use bollard::Docker;
 use bytes::Bytes;
 use napi::bindgen_prelude::Buffer;
@@ -38,16 +38,6 @@ pub struct Container {
 #[napi]
 pub struct ReadStream {
     inner: CommonFutureRead<Bytes>,
-}
-
-impl ToBytes for Bytes {
-    fn with_eol() -> bool {
-        false
-    }
-
-    fn to_bytes(self) -> std::io::Result<Bytes> {
-        Ok(self)
-    }
 }
 
 impl_async_read!(ReadStream);

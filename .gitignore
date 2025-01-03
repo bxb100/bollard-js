@@ -199,4 +199,6 @@ Cargo.lock
 # Nix/devbox
 .rustup/*
 
-__test__/fixtures/*.tar.gz
+__test__/fixtures/**
+!__test__/fixtures/cs.md
+!__test__/fixtures/hello-world.tar

@@ -209,6 +209,7 @@ test.serial('putArchive', async (t) => {
 
   await container.putArchive({ path: '/opt', noOverwriteDirNonDir: '0' }, buffer)
   // There missing decompress and check archive part
+  fs.rmSync('./__test__/fixtures/tarball.tar.gz')
   t.pass()
 })
 

@@ -1907,6 +1907,8 @@ pub struct ImageConfig {
     pub shell: Option<Vec<String>>,
 }
 
+#[derive(o2o)]
+#[map_owned(bollard::models::ImageDeleteResponseItem)]
 #[napi(object)]
 pub struct ImageDeleteResponseItem {
     /// The image ID of an image that was untagged
