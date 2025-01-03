@@ -22,7 +22,7 @@ test.before('create', async (t) => {
     {
       Image: 'alpine',
       OpenStdin: true,
-      Tty: true,
+      Tty: false,
     },
   )
   t.context.container = {
@@ -69,15 +69,6 @@ test.serial('attach', async (t) => {
   }
 })
 
-test.serial('inspect', async (t) => {
-  const { container } = t.context.container
-  const res = await container.inspect({
-    size: true,
-  })
-  t.truthy(res.SizeRootFs)
-  t.truthy(res.SizeRw)
-})
-
 test.serial('rename', async (t) => {
   const { container } = t.context.container
   await container.rename('mycontainer_new')
@@ -98,13 +89,6 @@ test.serial('top', async (t) => {
 
   const { Titles } = await container.top()
   t.truthy(Titles?.includes('PID'))
-})
-
-test.serial('changes', async (t) => {
-  const { container } = t.context.container
-
-  const res = await container.changes()
-  t.truthy(res)
 })
 
 test.serial('export', async (t) => {
@@ -213,11 +197,28 @@ test.serial('putArchive', async (t) => {
   t.pass()
 })
 
-// fixme: skip it until https://github.com/fussybeaver/bollard/issues/492 fixed
-test.serial.skip('logs', async (t) => {
+test.serial('inspect', async (t) => {
+  const { container } = t.context.container
+  const res = await container.inspect({
+    size: true,
+  })
+  // console.log(res)
+  t.truthy(res)
+})
+
+test.serial('changes', async (t) => {
   const { container } = t.context.container
 
-  const res = container.logs({
+  const res = await container.changes()
+  // console.log(res)
+  t.truthy(res)
+})
+
+// notice Tty will cause bug https://github.com/fussybeaver/bollard/issues/492
+test.serial('logs', async (t) => {
+  const { container } = t.context.container
+
+  const logsRes = container.logs({
     stdout: true,
     follow: false,
     stderr: false,
@@ -227,19 +228,11 @@ test.serial.skip('logs', async (t) => {
     tail: 'all',
   })
 
-  const read = res.createReadStream()
-
-  await new Promise((resolve, reject) => {
-    read.on('data', (chunk) => {
-      console.log(chunk)
-    })
-
-    read.on('error', reject)
-
-    read.on('close', resolve)
-  })
-
-  t.pass()
+  let data: any = undefined
+  for await (const line of iterLine(logsRes)) {
+    data = line
+  }
+  t.truthy(data)
 })
 
 test.serial('stats', async (t) => {

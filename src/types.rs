@@ -148,7 +148,7 @@ impl ToBytes for Bytes {
 
 impl ToBytes for LogOutput {
     fn with_eol() -> bool {
-        false
+        true
     }
 
     fn to_bytes(self) -> std::io::Result<Bytes> {

@@ -166,5 +166,6 @@ Another Docker client for Node.js.
 - [x] test attach
 - [ ] figure out is attached write only work with enable `stream`
 - [ ] fix CI
+- [ ] make test suits separately
 
 [^1]: https://github.com/apocas/dockerode
