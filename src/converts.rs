@@ -47,3 +47,13 @@ where
             .collect::<HashMap<_, _>>()
     })
 }
+
+pub fn convert_vec_string_to_static_str(strings: Vec<String>) -> Vec<&'static str> {
+    let mut dest = Vec::with_capacity(strings.len());
+
+    for s in strings {
+        dest.push(s.leak() as &str)
+    }
+
+    dest
+}

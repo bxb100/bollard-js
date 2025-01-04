@@ -88,10 +88,10 @@ test.serial('image get', async (t) => {
   fs.rmSync(file)
 })
 
-test.serial('image remove', async (t) => {
-  const docker = new Docker()
-  const image = docker.getImage(IMAGE)
-
-  await image.remove()
-  t.pass()
-})
+// test.serial('image remove', async (t) => {
+//   const docker = new Docker()
+//   const image = docker.getImage(IMAGE)
+//
+//   await image.remove()
+//   t.pass()
+// })

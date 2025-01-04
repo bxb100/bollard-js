@@ -4,7 +4,10 @@ use bytes::Bytes;
 
 use crate::image::Image;
 use napi::bindgen_prelude::*;
+use o2o::o2o;
 
+#[derive(o2o)]
+#[owned_into(bollard::image::CreateImageOptions<'a, String>)]
 #[napi(object)]
 pub struct CreateImageOptions {
     /// Name of the image to pull. The name may include a tag or digest. This parameter may only be
@@ -24,6 +27,7 @@ pub struct CreateImageOptions {
     pub platform: String,
     /// A list of Dockerfile instructions to be applied to the image being created. Changes must be
     /// URL-encoded! This parameter may only be used when importing an image.
+    #[into(crate::converts::convert_vec_string_to_static_str(~))]
     pub changes: Vec<String>,
 }
 
@@ -37,15 +41,7 @@ impl Docker {
         credentials: Option<DockerCredentials>,
     ) -> Result<CreateImageOutput> {
         let stream = self.0.create_image(
-            option.map(|opt| bollard::image::CreateImageOptions {
-                from_image: opt.from_image,
-                from_src: opt.from_src,
-                repo: opt.repo,
-                tag: opt.tag,
-                platform: opt.platform,
-                // Is safe to do this?
-                changes: opt.changes.into_iter().map(|s| s.leak() as &str).collect(),
-            }),
+            option.map(Into::into),
             root_fs.map(|buf| Bytes::from(buf.to_vec())),
             credentials.map(Into::into),
         );

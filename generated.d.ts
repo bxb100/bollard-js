@@ -142,6 +142,33 @@ export interface KillContainerOptions {
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`) */
   signal: string
 }
+export interface ListContainersOptions {
+  /** Return all containers. By default, only running containers are shown */
+  all: boolean
+  /** Return this number of most recently created containers, including non-running ones */
+  limit?: number
+  /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
+  size: boolean
+  /**
+   * Filters to process on the container list, encoded as JSON. Available filters:
+   *  - `ancestor`=`(<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`)
+   *  - `before`=(`<container id>` or `<container name>`)
+   *  - `expose`=(`<port>[/<proto>]`|`<startport-endport>`/`[<proto>]`)
+   *  - `exited`=`<int>` containers with exit code of `<int>`
+   *  - `health`=(`starting`|`healthy`|`unhealthy`|`none`)
+   *  - `id`=`<ID>` a container's ID
+   *  - `isolation`=(`default`|`process`|`hyperv`) (Windows daemon only)
+   *  - `is-task`=`(true`|`false`)
+   *  - `label`=`key` or `label`=`"key=value"` of a container label
+   *  - `name`=`<name>` a container's name
+   *  - `network`=(`<network id>` or `<network name>`)
+   *  - `publish`=(`<port>[/<proto>]`|`<startport-endport>`/`[<proto>]`)
+   *  - `since`=(`<container id>` or `<container name>`)
+   *  - `status`=(`created`|`restarting`|`running`|`removing`|`paused`|`exited`|`dead`)
+   *  - `volume`=(`<volume name>` or `<mount point destination>`)
+   */
+  filters: Record<string, Array<string>>
+}
 export interface LogsOptions {
   /** Return the logs as a finite stream. */
   follow: boolean
@@ -280,33 +307,6 @@ export interface WaitContainerOptions {
    */
   condition: string
 }
-export interface ListContainersOptions {
-  /** Return all containers. By default, only running containers are shown */
-  all: boolean
-  /** Return this number of most recently created containers, including non-running ones */
-  limit?: number
-  /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
-  size: boolean
-  /**
-   * Filters to process on the container list, encoded as JSON. Available filters:
-   *  - `ancestor`=`(<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`)
-   *  - `before`=(`<container id>` or `<container name>`)
-   *  - `expose`=(`<port>[/<proto>]`|`<startport-endport>`/`[<proto>]`)
-   *  - `exited`=`<int>` containers with exit code of `<int>`
-   *  - `health`=(`starting`|`healthy`|`unhealthy`|`none`)
-   *  - `id`=`<ID>` a container's ID
-   *  - `isolation`=(`default`|`process`|`hyperv`) (Windows daemon only)
-   *  - `is-task`=`(true`|`false`)
-   *  - `label`=`key` or `label`=`"key=value"` of a container label
-   *  - `name`=`<name>` a container's name
-   *  - `network`=(`<network id>` or `<network name>`)
-   *  - `publish`=(`<port>[/<proto>]`|`<startport-endport>`/`[<proto>]`)
-   *  - `since`=(`<container id>` or `<container name>`)
-   *  - `status`=(`created`|`restarting`|`running`|`removing`|`paused`|`exited`|`dead`)
-   *  - `volume`=(`<volume name>` or `<mount point destination>`)
-   */
-  filters: Record<string, Array<string>>
-}
 export interface ResizeExecOptions {
   /** Height of the TTY session in characters */
   h: number
@@ -351,6 +351,21 @@ export interface CreateImageOptions {
    */
   changes: Array<string>
 }
+export interface ListImagesOptions {
+  /** Show all images. Only images from a final layer (no children) are shown by default. */
+  all: boolean
+  /**
+   * A JSON encoded value of the filters to process on the images list. Available filters:
+   *  - `before`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`)
+   *  - `dangling`=`true`
+   *  - `label`=`key` or `label`=`"key=value"` of an image label
+   *  - `reference`=(`<image-name>[:<tag>]`)
+   *  - `since`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`)
+   */
+  filters: Record<string, Array<string>>
+  /** Show digest information as a RepoDigests field on each image. */
+  digests: boolean
+}
 export interface PushImageOptions {
   /** The tag to associate with the image on the registry. */
   tag: string
@@ -366,21 +381,6 @@ export interface TagImageOptions {
   repo: string
   /** The name of the new tag. */
   tag: string
-}
-export interface ListImagesOptions {
-  /** Show all images. Only images from a final layer (no children) are shown by default. */
-  all: boolean
-  /**
-   * A JSON encoded value of the filters to process on the images list. Available filters:
-   *  - `before`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`)
-   *  - `dangling`=`true`
-   *  - `label`=`key` or `label`=`"key=value"` of an image label
-   *  - `reference`=(`<image-name>[:<tag>]`)
-   *  - `since`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`)
-   */
-  filters: Record<string, Array<string>>
-  /** Show digest information as a RepoDigests field on each image. */
-  digests: boolean
 }
 /** Address represents an IPv4 or IPv6 IP address. */
 export interface Address {
