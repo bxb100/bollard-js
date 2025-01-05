@@ -11,6 +11,30 @@ Another Docker client for Node.js.
 </a>
 </p>
 
+## Drawback
+
+currently:
+
+```mermaid
+flowchart LR
+    nodejs -- de --> napi-rs
+    napi-rs -- into --> bollard-rs
+    bollard-rs -- set --> socket
+    socket -- de --> bollard-rs
+    bollard-rs -- into --> napi-rs
+    napi-rs -- set --> nodejs
+```
+
+minimal cost should:
+
+```mermaid
+flowchart LR
+    socket -- de --> bollard-rs
+    socket -- or --> napi-rs
+    bollard-rs -- set-json --> napi-rs[napi buffer]
+    napi-rs --> nodejs
+```
+
 ## TODO
 
 ### Docker[^1]
