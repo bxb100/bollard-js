@@ -31,6 +31,7 @@ minimal cost should:
 flowchart LR
     socket -- de --> bollard-rs
     socket -- or --> napi-rs
+    socket -- or --> nodejs
     bollard-rs -- set-json --> napi-rs[napi buffer]
     napi-rs --> nodejs
 ```
